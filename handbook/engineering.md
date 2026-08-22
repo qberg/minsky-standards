@@ -87,6 +87,11 @@ Every fact has exactly one home; it lands there the moment it's born.
 - Proven traps: `docs/agents/gotchas/`. State of play: `docs/agents/NOTES.md`,
   updated at session end (the wrap skill), pruned same-day when things ship.
 - Third-party mechanism facts are never stored, always looked up.
+- Shared code promotion bar: a mechanism becomes an @minsky-org package only after
+  proving its shape in production in at least one repo. Until then it lives in its
+  project. Once packaged, projects diverge via config seams and semver pinning, never
+  by editing package source per project; a true divergence is a loud, ADR-recorded
+  eject.
 - Code outranks every doc on current behavior. A note contradicting the observable is
   stale; fix the note.
 
