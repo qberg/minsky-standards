@@ -1,4 +1,4 @@
-# @minsky/cache-aside
+# @minsky-org/cache-aside
 
 Read-through cache-aside over ioredis, with schema-validated entries and prefix
 invalidation. No key namespace of its own: the consumer owns every key string.
@@ -7,8 +7,8 @@ invalidation. No key namespace of its own: the consumer owns every key string.
 source of truth calls `invalidatePrefix` for the keys it just falsified.
 
 ```ts
-import { createCache } from "@minsky/cache-aside";
-import { bindRegistry, defineCacheNode } from "@minsky/cache-aside/registry";
+import { createCache } from "@minsky-org/cache-aside";
+import { bindRegistry, defineCacheNode } from "@minsky-org/cache-aside/registry";
 
 const cache = createCache({ client: redis, logger: toPino(logger) });
 

@@ -1,4 +1,4 @@
-# @minsky/depcruise-rules
+# @minsky-org/depcruise-rules
 
 The eleven portable dependency-cruiser rules of a domain-oriented modular monolith with
 hexagonal segments: `domain/` pure, `query/` reads, `repo/` writes, `commands/`
@@ -11,7 +11,7 @@ ESM config works. Name the file `.dependency-cruiser.mjs`.
 
 ```js
 // .dependency-cruiser.mjs
-import { defineDepcruiseConfig } from "@minsky/depcruise-rules";
+import { defineDepcruiseConfig } from "@minsky-org/depcruise-rules";
 
 export default defineDepcruiseConfig({
   srcRoot: "^src",

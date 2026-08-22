@@ -1,4 +1,4 @@
-import { err, isErr, ok, type Result } from "@minsky/result";
+import { err, isErr, ok, type Result } from "@minsky-org/result";
 import {
   type Condition,
   type FilterAst,

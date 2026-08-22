@@ -1,4 +1,4 @@
-# @minsky/tsconfig
+# @minsky-org/tsconfig
 
 Four configs. `base` carries the strictness the org treats as non-negotiable, and the
 other three only add an environment.
@@ -12,7 +12,7 @@ other three only add an environment.
 
 ```json
 {
-  "extends": "@minsky/tsconfig/library.json",
+  "extends": "@minsky-org/tsconfig/library.json",
   "include": ["src"],
   "exclude": ["src/**/*.test.ts"]
 }

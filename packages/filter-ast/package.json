@@ -1,5 +1,5 @@
 {
-  "name": "@minsky/filter-ast",
+  "name": "@minsky-org/filter-ast",
   "version": "0.1.0",
   "license": "MIT",
   "type": "module",
@@ -45,7 +45,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@minsky/result": "workspace:*"
+    "@minsky-org/result": "workspace:*"
   },
   "peerDependencies": {
     "drizzle-orm": "^0.45.1",

@@ -1,13 +1,13 @@
-# @minsky/filter-ast
+# @minsky-org/filter-ast
 
 One filter AST, three executors. A validated tree compiles to a drizzle `WHERE`, to a
 Meilisearch filter string, or to an in-memory predicate, and all three agree. The
 golden suite is what proves they agree.
 
 ```ts
-import { toDrizzleWhere } from "@minsky/filter-ast/drizzle";
-import { toMeiliFilter } from "@minsky/filter-ast/meili";
-import { validateAst } from "@minsky/filter-ast/validate";
+import { toDrizzleWhere } from "@minsky-org/filter-ast/drizzle";
+import { toMeiliFilter } from "@minsky-org/filter-ast/meili";
+import { validateAst } from "@minsky-org/filter-ast/validate";
 
 const registry: FieldRegistry = {
   status: { type: "enum", enumValues: ["open", "closed"], operators: ["is"] },

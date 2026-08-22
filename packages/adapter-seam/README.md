@@ -1,4 +1,4 @@
-# @minsky/adapter-seam
+# @minsky-org/adapter-seam
 
 One fail-closed policy for every "real adapter or in-memory Fake" seam. Couples to
 nothing but `NODE_ENV`.
@@ -8,7 +8,7 @@ nothing but `NODE_ENV`.
 - creds absent elsewhere, warn once per seam and use the Fake
 
 ```ts
-import { resolveAdapter } from "@minsky/adapter-seam";
+import { resolveAdapter } from "@minsky-org/adapter-seam";
 
 export const getSearch = () =>
   resolveAdapter({

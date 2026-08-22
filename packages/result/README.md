@@ -1,11 +1,11 @@
-# @minsky/result
+# @minsky-org/result
 
 Tagged-union `Result<T, E>` with `ok` / `err` / `isOk` / `isErr`. Zero dependencies.
 
 Convention: runtime errors travel as a `Result`; programmer errors throw.
 
 ```ts
-import { err, isErr, ok, type Result } from "@minsky/result";
+import { err, isErr, ok, type Result } from "@minsky-org/result";
 
 const parsePort = (raw: string): Result<number, string> => {
   const port = Number(raw);

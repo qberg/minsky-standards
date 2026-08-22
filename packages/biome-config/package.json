@@ -1,5 +1,5 @@
 {
-  "name": "@minsky/biome-config",
+  "name": "@minsky-org/biome-config",
   "version": "0.1.0",
   "license": "MIT",
   "publishConfig": {

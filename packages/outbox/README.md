@@ -1,4 +1,4 @@
-# @minsky/outbox
+# @minsky-org/outbox
 
 Transactional outbox for Postgres (drizzle) plus a BullMQ dispatcher. The job row is
 written inside the business transaction, so "the state changed" and "the side effect

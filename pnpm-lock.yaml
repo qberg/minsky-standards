@@ -65,7 +65,7 @@ importers:
 
   packages/filter-ast:
     dependencies:
-      '@minsky/result':
+      '@minsky-org/result':
         specifier: workspace:*
         version: link:../result
     devDependencies:

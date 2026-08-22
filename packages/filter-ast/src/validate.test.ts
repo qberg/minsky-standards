@@ -1,4 +1,4 @@
-import { isErr, isOk } from "@minsky/result";
+import { isErr, isOk } from "@minsky-org/result";
 import { describe, expect, it } from "vitest";
 import type { FilterAst } from "./ast";
 import { MAX_FILTER_DEPTH } from "./ast";

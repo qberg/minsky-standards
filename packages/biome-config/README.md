@@ -1,11 +1,11 @@
-# @minsky/biome-config
+# @minsky-org/biome-config
 
 The org's biome layer on top of ultracite.
 
 ```jsonc
 // biome.jsonc at the repo root
 {
-  "extends": ["@minsky/biome-config/biome.jsonc"]
+  "extends": ["@minsky-org/biome-config/biome.jsonc"]
 }
 ```
 

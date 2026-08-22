@@ -1,11 +1,11 @@
-# @minsky/fsm-oracle
+# @minsky-org/fsm-oracle
 
 Ask an xstate machine "is this edge legal, and where does it land" without spawning an
 actor. The machine is the single source of truth for a lifecycle; every guard, every
 permission check, every UI affordance asks it the same way.
 
 ```ts
-import { assertTransition } from "@minsky/fsm-oracle";
+import { assertTransition } from "@minsky-org/fsm-oracle";
 
 const next = assertTransition(orderMachine, current, { type: "SHIP" });
 if (next === null) {
