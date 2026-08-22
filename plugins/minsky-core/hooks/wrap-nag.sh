@@ -24,7 +24,11 @@ case "$last" in (*[!0-9]*|"") last=0;; esac
 age=$(( now - last ))
 [ "$age" -lt 10800 ] && exit 0
 
-changed=$(find apps packages src 2>/dev/null \
+scan_dirs=""
+for d in apps packages src; do [ -d "$d" ] && scan_dirs="$scan_dirs $d"; done
+[ -z "$scan_dirs" ] && exit 0
+
+changed=$(find $scan_dirs \
   -name node_modules -prune -o \
   -type f \( -name '*.ts' -o -name '*.tsx' -o -name '*.css' -o -name '*.sql' \) \
   -newer "$stamp" -print -quit)

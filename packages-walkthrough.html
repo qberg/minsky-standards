@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The nine @minsky-org packages</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'IBM Plex Sans', sans-serif; }
+  code, pre, .font-mono { font-family: 'IBM Plex Mono', monospace; }
+  p, li { max-width: 72ch; }
+  .page { display: flex; gap: 3rem; max-width: 1180px; margin: 0 auto; padding: 2rem 1.5rem 6rem; align-items: flex-start; }
+  .toc { width: 230px; flex-shrink: 0; position: sticky; top: 1.5rem; height: calc(100vh - 3rem); overflow-y: auto; }
+  .content { flex: 1; max-width: 760px; }
+  .toc a { display: block; padding: .3rem 0; font-size: .8rem; color: rgba(28,25,23,.5); border-left: 2px solid transparent; padding-left: .6rem; }
+  .toc a:hover { color: rgba(28,25,23,.9); }
+  section:target { animation: flash 900ms ease-out; }
+  @keyframes flash { from { background: #fff7f7; } to { background: transparent; } }
+  .callout-note { border-left: 4px solid #3b82f6; background: #eff6ff; padding: 1rem 1.25rem; }
+  .callout-warn { border-left: 4px solid #f59e0b; background: #fffbeb; padding: 1rem 1.25rem; }
+  .callout-invariant { border-left: 4px solid #C8102E; background: #fef2f2; padding: 1rem 1.25rem; }
+  .callout-tip { border-left: 4px solid #10b981; background: #f0fdf4; padding: 1rem 1.25rem; }
+  table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+  th { text-align: left; text-transform: uppercase; letter-spacing: .05em; font-size: .7rem; color: rgba(28,25,23,.5); padding: .5rem .6rem; border-bottom: 1px solid #e7e5e4; }
+  td { padding: .55rem .6rem; border-bottom: 1px solid #f0efee; vertical-align: top; }
+  tr:hover td { background: #fafaf9; }
+  .pkg-anchor { scroll-margin-top: 1.5rem; }
+  figure { margin: 1rem 0; }
+  pre { position: relative; }
+  .copy-btn { position: absolute; top: .5rem; right: .5rem; font-size: .7rem; padding: .2rem .5rem; background: rgba(255,255,255,.1); color: #e7e5e4; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; cursor: pointer; }
+  .copy-btn:hover { background: rgba(255,255,255,.2); }
+  details summary { cursor: pointer; }
+  abbr[title] { text-decoration: underline dotted; cursor: help; }
+</style>
+</head>
+<body class="bg-stone-50 text-stone-900">
+
+<header class="bg-white border-b border-stone-200 py-6">
+  <div class="max-w-[1180px] mx-auto px-6">
+    <code class="text-xs bg-stone-100 px-2 py-1 rounded text-stone-600">minsky-standards/packages/*</code>
+    <h1 class="font-sans text-4xl font-light tracking-tight text-stone-900 mt-2">The nine @minsky-org packages</h1>
+    <p class="text-stone-600 mt-1">Extracted from petition-management. Read as tools you plug into apm, not as petition trivia.</p>
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-5">
+      <div class="border border-stone-200 bg-white p-3">
+        <div class="text-[10px] uppercase tracking-widest text-stone-900/40">What</div>
+        <div class="text-sm text-stone-900 mt-1">9 zero-to-thin-dep TS packages, each one seam</div>
+      </div>
+      <div class="border border-stone-200 bg-white p-3">
+        <div class="text-[10px] uppercase tracking-widest text-stone-900/40">Core idea</div>
+        <div class="text-sm text-stone-900 mt-1">Each owns a MECHANISM, never a domain noun</div>
+      </div>
+      <div class="border border-stone-200 bg-white p-3">
+        <div class="text-[10px] uppercase tracking-widest text-stone-900/40">Sharpest gotcha</div>
+        <div class="text-sm text-stone-900 mt-1">filter-ast never carries authz scope</div>
+      </div>
+      <div class="border border-stone-200 bg-white p-3">
+        <div class="text-[10px] uppercase tracking-widest text-stone-900/40">Deps</div>
+        <div class="text-sm text-stone-900 mt-1">Only filter-ast &rarr; result. Rest are leaves</div>
+      </div>
+      <div class="border border-stone-200 bg-white p-3">
+        <div class="text-[10px] uppercase tracking-widest text-stone-900/40">Read time</div>
+        <div class="text-sm text-stone-900 mt-1">~14 min, one pass</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="page">
+<nav class="toc">
+  <div class="text-xs uppercase tracking-widest text-stone-900/40 mb-2">Contents</div>
+  <a href="#mental-model">Mental model</a>
+  <a href="#decision-table">Which package when</a>
+  <a href="#dependency-map">Dependency map</a>
+  <a href="#result">1. result</a>
+  <a href="#adapter-seam">2. adapter-seam</a>
+  <a href="#cache-aside">3. cache-aside</a>
+  <a href="#outbox">4. outbox</a>
+  <a href="#filter-ast">5. filter-ast</a>
+  <a href="#fsm-oracle">6. fsm-oracle</a>
+  <a href="#depcruise-rules">7. depcruise-rules</a>
+  <a href="#tsconfig">8. tsconfig</a>
+  <a href="#biome-config">9. biome-config</a>
+  <a href="#related">Related files</a>
+</nav>
+
+<main class="content">
+
+<section id="mental-model" class="pkg-anchor mb-12">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">Mental model</h2>
+  <blockquote class="text-xl font-light mt-4 text-stone-800">Every package is a seam, not a framework: it owns one mechanism completely and takes everything domain-specific as a parameter.</blockquote>
+  <div class="callout-note mt-4">
+    <p><strong>None of these know what a "petition" or an "apm project" is.</strong> That is the whole design: the consumer hands over the table schema, the queue names, the field registry, the client, or the machine, and the package supplies the correctness the mechanism needs (atomicity, fail-closed, cache invalidation, injection safety). You get to reuse the hard 20% and keep owning the domain 80%.</p>
+  </div>
+</section>
+
+<section id="decision-table" class="pkg-anchor mb-12">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">Which package, when</h2>
+  <p class="mt-3"><strong>Reach for a package the moment its trigger condition shows up in the apm design; do not wait until it hurts.</strong></p>
+  <table class="mt-4">
+    <thead><tr><th>Situation in apm</th><th>Package</th><th>Why this one</th></tr></thead>
+    <tbody>
+      <tr><td>A function can fail for a reason the caller must handle (not a bug)</td><td><a href="#result">result</a></td><td>tags success/failure so the compiler forces the branch</td></tr>
+      <tr><td>A live vendor client (search, storage, mail, LLM) needs a safe local stand-in for dev/test</td><td><a href="#adapter-seam">adapter-seam</a></td><td>one fail-closed policy for every real-vs-fake seam</td></tr>
+      <tr><td>A hot read from Postgres is expensive and the value already has a schema</td><td><a href="#cache-aside">cache-aside</a></td><td>read-through + schema-checked entries + prefix purge</td></tr>
+      <tr><td>A write must reliably trigger an async side effect (email, sync, transcode)</td><td><a href="#outbox">outbox</a></td><td>same-txn staging so the effect can never desync from the write</td></tr>
+      <tr><td>Users build ad-hoc filters (a saved-view / URL query) over a list</td><td><a href="#filter-ast">filter-ast</a></td><td>one validated tree, compiles to SQL, Meili, or in-memory, safely</td></tr>
+      <tr><td>A record has a lifecycle (draft &rarr; review &rarr; done) and many places must agree what's legal</td><td><a href="#fsm-oracle">fsm-oracle</a></td><td>ask the xstate machine itself, no interpreter needed</td></tr>
+      <tr><td>The codebase has layers (domain/query/repo/handlers) that must not import sideways</td><td><a href="#depcruise-rules">depcruise-rules</a></td><td>the eleven boundary rules of a hex-segmented modular monolith</td></tr>
+      <tr><td>Any new TS package or app needs a tsconfig</td><td><a href="#tsconfig">tsconfig</a></td><td>org strictness baseline, extend and stop arguing</td></tr>
+      <tr><td>Any repo needs lint/format</td><td><a href="#biome-config">biome-config</a></td><td>the org's biome layer over ultracite</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section id="dependency-map" class="pkg-anchor mb-12">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">Dependency map</h2>
+  <p class="mt-3"><strong>Eight of nine packages are dependency leaves; only filter-ast reaches for result, and cache-aside/outbox merely share a one-function logger shape, not code.</strong></p>
+  <svg viewBox="0 0 760 360" width="100%" height="auto" role="img" aria-label="Dependency diagram of the nine packages">
+    <style>
+      .node { font-size: 13px; font-family: 'IBM Plex Mono', monospace; fill: #1c1917; }
+      .box { fill: #ffffff; stroke: #d6d3d1; stroke-width: 1; }
+      .box-config { fill: #fafaf9; stroke: #a8a29e; stroke-dasharray: 3 2; }
+      .edge { stroke: #C8102E; stroke-width: 1.5; fill: none; marker-end: url(#arrow); }
+      .edge-soft { stroke: #a8a29e; stroke-width: 1; stroke-dasharray: 4 3; fill: none; }
+      .lbl { font-size: 10px; fill: #78716c; font-family: 'IBM Plex Sans', sans-serif; }
+      g.grp { animation: fadein 500ms ease-out both; }
+      @keyframes fadein { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: translateY(0);} }
+    </style>
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/>
+      </marker>
+    </defs>
+
+    <!-- result -->
+    <a href="#result"><g class="grp"><title>result: zero-dep Result type</title>
+      <rect class="box" x="40" y="150" width="120" height="40" rx="2"/>
+      <text class="node" x="55" y="174">① result</text>
+    </g></a>
+
+    <!-- filter-ast depends on result -->
+    <a href="#filter-ast"><g class="grp" style="animation-delay:80ms"><title>filter-ast: filter DSL, three executors</title>
+      <rect class="box" x="230" y="150" width="140" height="40" rx="2"/>
+      <text class="node" x="245" y="174">⑤ filter-ast</text>
+    </g></a>
+    <path class="edge" d="M160,170 L228,170"/>
+    <text class="lbl" x="168" y="163">imports</text>
+
+    <!-- adapter-seam -->
+    <a href="#adapter-seam"><g class="grp" style="animation-delay:120ms"><title>adapter-seam: real-vs-fake resolver</title>
+      <rect class="box" x="40" y="30" width="150" height="40" rx="2"/>
+      <text class="node" x="55" y="54">② adapter-seam</text>
+    </g></a>
+
+    <!-- cache-aside -->
+    <a href="#cache-aside"><g class="grp" style="animation-delay:160ms"><title>cache-aside: read-through cache</title>
+      <rect class="box" x="230" y="30" width="140" height="40" rx="2"/>
+      <text class="node" x="245" y="54">③ cache-aside</text>
+    </g></a>
+
+    <!-- outbox -->
+    <a href="#outbox"><g class="grp" style="animation-delay:200ms"><title>outbox: transactional outbox + relay</title>
+      <rect class="box" x="410" y="30" width="120" height="40" rx="2"/>
+      <text class="node" x="425" y="54">④ outbox</text>
+    </g></a>
+    <path class="edge-soft" d="M370,45 C390,45 390,45 408,45"/>
+    <text class="lbl" x="376" y="38">shares logger shape</text>
+
+    <!-- fsm-oracle -->
+    <a href="#fsm-oracle"><g class="grp" style="animation-delay:240ms"><title>fsm-oracle: xstate stateless oracle</title>
+      <rect class="box" x="410" y="150" width="130" height="40" rx="2"/>
+      <text class="node" x="425" y="174">⑥ fsm-oracle</text>
+    </g></a>
+
+    <!-- depcruise-rules -->
+    <a href="#depcruise-rules"><g class="grp" style="animation-delay:280ms"><title>depcruise-rules: architecture boundary rules</title>
+      <rect class="box" x="580" y="150" width="150" height="40" rx="2"/>
+      <text class="node" x="592" y="174">⑦ depcruise-rules</text>
+    </g></a>
+
+    <!-- config tier -->
+    <a href="#tsconfig"><g class="grp" style="animation-delay:320ms"><title>tsconfig: JSON config, no code</title>
+      <rect class="box-config" x="230" y="270" width="120" height="40" rx="2"/>
+      <text class="node" x="248" y="294">⑧ tsconfig</text>
+    </g></a>
+    <a href="#biome-config"><g class="grp" style="animation-delay:360ms"><title>biome-config: JSONC config, no code</title>
+      <rect class="box-config" x="390" y="270" width="140" height="40" rx="2"/>
+      <text class="node" x="404" y="294">⑨ biome-config</text>
+    </g></a>
+    <text class="lbl" x="230" y="330">config-tier: no runtime import graph, consumed via extends/exports only</text>
+  </svg>
+  <p class="text-xs text-stone-500 mt-2">Legend: ① result &middot; ② adapter-seam &middot; ③ cache-aside &middot; ④ outbox &middot; ⑤ filter-ast &middot; ⑥ fsm-oracle &middot; ⑦ depcruise-rules &middot; ⑧ tsconfig &middot; ⑨ biome-config. Solid red = real import edge. Dashed grey = convention-only similarity (both cache-aside and outbox define an identical <code>(entry) =&gt; void</code> logger type independently &mdash; no shared package).</p>
+</section>
+
+<hr class="border-stone-200 my-10">
+
+<!-- ================= 1. RESULT ================= -->
+<section id="result" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">1. @minsky-org/result</h2>
+  <p class="mt-3"><strong>A tagged union so a function that can fail forces its caller to handle both branches at compile time, instead of trusting a comment.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">API surface</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(220px,1fr));">
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">Result&lt;T, E&gt;</span>
+      <div class="text-sm text-stone-600 mt-1">the union: <code>Ok&lt;T&gt; | Err&lt;E&gt;</code></div>
+      <details class="mt-2"><summary class="text-xs text-stone-500">signature</summary>
+        <pre class="bg-stone-900 text-stone-100 text-xs p-3 mt-2 rounded overflow-x-auto"><code>type Ok&lt;T&gt; = { _tag: "Ok"; value: T }
+type Err&lt;E&gt; = { _tag: "Err"; error: E }</code></pre>
+      </details>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">ok / err</span>
+      <div class="text-sm text-stone-600 mt-1">constructors</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">isOk / isErr</span>
+      <div class="text-sm text-stone-600 mt-1">type-narrowing guards</div>
+    </div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>T (success payload), E (error payload)</td><td>the discriminant tag, the two narrowing guards</td></tr>
+    </tbody>
+  </table>
+  <p class="text-sm text-stone-600 mt-2">Zero dependencies, zero config. This is the leaf every other typed-error package (filter-ast) stands on.</p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>import { err, isErr, ok, type Result } from "@minsky-org/result";
+
+function parseProjectSlug(raw: string): Result&lt;string, string&gt; {
+  const slug = raw.trim().toLowerCase();
+  return /^[a-z0-9-]{3,40}$/.test(slug)
+    ? ok(slug)
+    : err(`invalid project slug: ${raw}`);
+}
+
+const parsed = parseProjectSlug(input);
+if (isErr(parsed)) {
+  return c.json({ error: parsed.error }, 400);
+}
+// parsed.value is now narrowed to string</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Runtime errors travel as a Result; programmer errors throw.</strong> The trap this closes: a caught exception silently swallowed by a generic <code>try/catch</code> that logs and moves on, hiding a data-integrity failure. A <code>Result</code> return type makes "did this succeed" a value the type checker forces you to inspect &mdash; you cannot forget the error path the way you can forget a catch clause.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; <code>isOk</code>/<code>isErr</code> are true type guards (<code>result is Ok&lt;T&gt;</code>) &mdash; use them for narrowing, not a manual <code>result._tag === "Ok"</code> check, or downstream code won't narrow.</li>
+    <li>&bull; The two tags are strictly disjoint (test: <code>isOk(err(x))</code> is false) &mdash; there is no third state; a pending/loading state needs its own type, not a Result.</li>
+  </ul>
+</section>
+
+<!-- ================= 2. ADAPTER-SEAM ================= -->
+<section id="adapter-seam" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">2. @minsky-org/adapter-seam</h2>
+  <p class="mt-3"><strong>One fail-closed policy for every "real vendor client or in-memory Fake" decision, so a missing API key in production throws instead of silently degrading to a fake that eats writes.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">API surface</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(220px,1fr));">
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">resolveAdapter&lt;T&gt;(args)</span>
+      <div class="text-sm text-stone-600 mt-1">the only export</div>
+      <details class="mt-2"><summary class="text-xs text-stone-500">params object</summary>
+        <pre class="bg-stone-900 text-stone-100 text-xs p-3 mt-2 rounded overflow-x-auto"><code>{ seam: string; credsPresent: boolean;
+  real: () =&gt; T; fake: () =&gt; T }</code></pre>
+      </details>
+    </div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>a seam name, a creds-present boolean, a <code>real()</code> factory, a <code>fake()</code> factory</td><td>the fail-closed branch: creds present &rarr; real; creds absent + prod &rarr; throw; creds absent + dev/test &rarr; warn once, use fake</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>import { resolveAdapter } from "@minsky-org/adapter-seam";
+
+// Resolve LAZILY at first use, not at module load time.
+export const getLlm = () =>
+  resolveAdapter({
+    seam: "llm",
+    credsPresent: Boolean(process.env.ANTHROPIC_API_KEY),
+    real: () =&gt; createAnthropicClient(),
+    fake: () =&gt; createFakeLlm(),
+  });</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Fail-closed, not fail-open.</strong> The petition-management repo routes storage, STT, search, and social-import through this exact seam (per its stack law). The trap: a hand-rolled <code>key ? real : fake</code> ternary evaluated once at import time bakes in whatever env state existed at boot, and in prod a missing key silently degrades to an in-memory fake that discards every write with no error &mdash; a P0 data-loss bug that looks like nothing happened.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; The warn is deduped <strong>per seam name</strong>, module-lifetime (a <code>Set</code>), so calling the same seam twice warns once &mdash; two different seam names each get their own warning.</li>
+    <li>&bull; Production check reads <code>process.env.NODE_ENV === "production"</code> directly at call time, so resolving lazily (not at module load) matters if env vars are injected after import.</li>
+  </ul>
+</section>
+
+<!-- ================= 3. CACHE-ASIDE ================= -->
+<section id="cache-aside" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">3. @minsky-org/cache-aside</h2>
+  <p class="mt-3"><strong>Read-through caching over ioredis where every cached entry is schema-checked on the way out, so a stale or poisoned shape self-heals as a cache miss instead of crashing or lying to a caller.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">API surface</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(230px,1fr));">
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">createCache(options)</span>
+      <div class="text-sm text-stone-600 mt-1">factory: <code>{ withCache, invalidatePrefix }</code></div>
+      <details class="mt-2"><summary class="text-xs text-stone-500">options</summary>
+        <pre class="bg-stone-900 text-stone-100 text-xs p-3 mt-2 rounded overflow-x-auto"><code>{ client: CacheClient; logger?: CacheLogger;
+  slowGetMs?: number; scanCount?: number }</code></pre>
+      </details>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">defineCacheNode / bindRegistry</span>
+      <div class="text-sm text-stone-600 mt-1">from <code>/registry</code>: typed key+ttl+schema builders</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-stone-400 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">CacheLogger</span>
+      <div class="text-sm text-stone-600 mt-1">from <code>/logger</code>: <code>(entry) =&gt; void</code>, defaults silent</div>
+    </div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>an ioredis-shaped client, a key namespace (<code>db:project:${id}</code> etc), a valibot schema per node, TTL policy</td><td>read-through fill, schema validation on read (poisoned entry = miss), SCAN+UNLINK prefix purge, in-flight request coalescing, slow-GET detection</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>import { createCache } from "@minsky-org/cache-aside";
+import { bindRegistry, defineCacheNode } from "@minsky-org/cache-aside/registry";
+
+const cache = createCache({ client: redis, logger: toPino(logger) });
+
+const nodes = bindRegistry({
+  project: defineCacheNode({
+    key: (id: string) =&gt; `db:project:${id}`,
+    ttl: 3600,
+    schema: ProjectSchema,
+  }),
+});
+
+const project = await cache.withCache(nodes.project(id), () =&gt; loadProject(id));
+
+// after the write that changed it:
+await cache.invalidatePrefix("db:project:");</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>The writer invalidates &mdash; never rely on TTL to fix a stale read.</strong> This package holds no key namespace of its own on purpose: the trap it closes is a cache layer that "owns" its own keys and expects every write path across the codebase to know how to reach in and bust them by convention. Instead the write path calls <code>invalidatePrefix</code> explicitly, right where the source of truth changed, making staleness a compile-adjacent responsibility instead of a hope.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests / source comments</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; A Redis read or write failure is <strong>logged and swallowed</strong> &mdash; only the fetcher's own throw reaches the caller. The cache can never be why a page 500s.</li>
+    <li>&bull; In-flight coalescing (the <code>Map</code> of pending promises) is <strong>process-local only</strong>. A multi-replica deploy still gets a stampede on a cold key across replicas; that needs a Redis <code>SET NX</code> lock, which this package deliberately does not provide.</li>
+    <li>&bull; A cache entry that fails its schema is treated as a miss and silently refetched &mdash; useful for a schema migration, dangerous if you expect a hard error on drift.</li>
+  </ul>
+</section>
+
+<!-- ================= 4. OUTBOX ================= -->
+<section id="outbox" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">4. @minsky-org/outbox</h2>
+  <p class="mt-3"><strong>Transactional outbox + BullMQ relay so a business write and the async side effect it triggers commit together or not at all, and a job payload is a pointer to re-read, never a snapshot that can go stale.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Data flow</h3>
+  <pre class="bg-stone-900 text-stone-100 text-xs p-4 rounded overflow-x-auto"><code><span class="d-key">business txn</span>: UPDATE orders SET status='paid' + <span class="d-proc">stageJobs(tx, table, "order.receipt", [{orderId}])</span>
+        │  (same transaction &mdash; both commit or neither does)
+        ▼
+<span class="d-key">outbox_jobs</span> row: status=pending
+        │
+        ▼  relay poll loop (setInterval)
+<span class="d-proc">drainOutbox()</span>: FOR UPDATE SKIP LOCKED claim → status=processing
+        │
+        ▼
+<span class="d-proc">registry.enqueue(job)</span> → BullMQ Queue.add(jobId = outbox row id)
+        │                                        (dedupes a re-dispatched stale row)
+   ┌────┴────┐
+ <span class="d-out">success</span>    <span class="d-err">throw</span>
+   │           │
+ completed   pending (requeue) or failed (attempts exhausted)
+        │
+        ▼
+<span class="d-key">worker</span>: startWorkers({ handlers }) → BullMQ Worker → defineJob-wrapped handler
+        │  parse (valibot) → load (re-read source of truth) → guard → act
+   ┌────┴──────────┐
+ <span class="d-err">UnrecoverableError</span>   <span class="d-err">plain throw</span>
+ (bad payload/missing row/    (transient &mdash; BullMQ retries
+  guard refused) → dead-letter  per its own attempts budget)
+</code></pre>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">API surface (7 subpath exports)</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(220px,1fr));">
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">stageJobs</span><div class="text-sm text-stone-600 mt-1">root export: insert N rows for a queue, inside the caller's own tx</div></div>
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">OutboxTable</span><div class="text-sm text-stone-600 mt-1">from <code>/table</code>: the drizzle column contract any table must satisfy</div></div>
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">drainOutbox</span><div class="text-sm text-stone-600 mt-1">from <code>/relay</code>: one claim-and-dispatch pass</div></div>
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">createQueueRegistry</span><div class="text-sm text-stone-600 mt-1">from <code>/queue</code>: BullMQ Queue wrapper with an enqueue deadline race</div></div>
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">startWorkers</span><div class="text-sm text-stone-600 mt-1">from <code>/worker-host</code>: mounts a handler registry as BullMQ Workers</div></div>
+    <div class="border border-stone-200 bg-white p-3"><span class="font-mono text-sm text-[#C8102E]">createJobFactory / rowOrThrow / isFinalAttempt</span><div class="text-sm text-stone-600 mt-1">from <code>/define-job</code>: parse&rarr;load&rarr;guard&rarr;act pipeline</div></div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>the drizzle table (any table satisfying <code>OutboxTable</code>'s columns), the queue name vocabulary, valibot payload schemas, <code>load</code>/<code>guard</code>/<code>act</code> per job</td><td><code>FOR UPDATE SKIP LOCKED</code> claim, crash-recovery via stale-lease reclaim, jobId-as-outbox-id dedupe, poison-vs-transient throw discrimination</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>// producer: inside the business txn
+await db.transaction(async (tx) =&gt; {
+  await tx.update(projects).set({ status: "archived" }).where(eq(projects.id, id));
+  await stageJobs(tx, outboxJobs, "project.search-sync", [{ entityId: id }]);
+});
+
+// consumer: the job handler
+const defineJob = createJobFactory(logger);
+export const syncProjectSearch = defineJob({
+  schema: v.object({ entityId: v.string() }),
+  invalidPayloadMessage: "project.search-sync: malformed payload",
+  load: ({ entityId }, deps) =&gt; rowOrThrow(await deps.projects.find(entityId), "gone"),
+  act: async (project, deps) =&gt; { await deps.search.upsert(project); return { entityId: project.id }; },
+  logMessage: "project search-synced",
+});
+startWorkers({ handlers: { "project.search-sync": (p, a) =&gt; syncProjectSearch(deps, p, a) }, connection });</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Payloads are claim-checks (<code>{ entityId }</code>), never snapshots.</strong> This is the exact ADR-0037/ADR-0056 pattern from petition-management: search-sync ships only <code>{index, entityId}</code>, and the worker re-reads Postgres as the sole source of truth. The trap: if a job payload snapshots the row's data at stage time, a retry that runs out of order (job A staged first but dispatched after a newer job B) silently overwrites B's fresher state with A's stale copy. Re-reading at dispatch time makes retry-reordering harmless by construction.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests / source comments</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; <code>attempts</code> in <code>ClaimedJob</code> is the value <strong>after</strong> the claim's increment, so <code>markFailure</code> compares against <code>maxDispatchAttempts</code> without a re-read &mdash; do not re-fetch attempts before deciding dead-letter vs requeue.</li>
+    <li>&bull; Relay attempts (<code>maxDispatchAttempts</code>, default 60) and BullMQ worker attempts (<code>attempts</code>, default 5) are <strong>separate budgets</strong> for two different failure classes: "cannot reach the queue" vs "the handler threw."</li>
+    <li>&bull; <code>createJobFactory</code>'s dead-letter-vs-retry split is receipt-backed: BullMQ increments <code>attemptsMade</code> only after the processor settles, so <code>isFinalAttempt</code> is <code>made + 1 &gt;= max</code>, the exact negation of BullMQ's own <code>shouldRetryJob</code> check.</li>
+    <li>&bull; The table.test.ts fixture exists specifically to prove a real drizzle table built from the README DDL satisfies <code>OutboxTable</code> &mdash; if your table is missing a column the type check catches it, not a runtime surprise.</li>
+    <li>&bull; Queue producer connections re-emit their own errors and an unlistened EventEmitter <code>'error'</code> event crashes the process &mdash; <code>createQueue</code> always attaches an <code>.on("error")</code> handler; don't bypass <code>createQueueRegistry</code> to hand-roll a <code>Queue</code>.</li>
+  </ul>
+</section>
+
+<!-- ================= 5. FILTER-AST ================= -->
+<section id="filter-ast" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">5. @minsky-org/filter-ast</h2>
+  <p class="mt-3"><strong>One validated filter tree that compiles to a drizzle WHERE clause, a Meilisearch filter string, or an in-memory predicate, with a golden test suite proving all three agree on the same inputs.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Data flow / compile targets</h3>
+  <svg viewBox="0 0 700 260" width="100%" height="auto" role="img" aria-label="filter-ast compile targets">
+    <style>
+      .fnode { font-size: 12px; font-family: 'IBM Plex Mono', monospace; fill: #1c1917; }
+      .fbox { fill: #ffffff; stroke: #d6d3d1; }
+      .farrow { stroke: #C8102E; stroke-width: 1.5; marker-end: url(#arrow2); fill: none; }
+    </style>
+    <defs><marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
+    <a href="#filter-ast"><g><title>URL query string parsed into a FilterAst</title>
+      <rect class="fbox" x="20" y="100" width="140" height="44" rx="2"/>
+      <text class="fnode" x="35" y="126">untrusted URL</text>
+    </g></a>
+    <path class="farrow" d="M160,122 L228,122"/>
+    <a href="#filter-ast"><g><title>validateAst / assertValidAst: shape + field + operator + type checks</title>
+      <rect class="fbox" x="230" y="100" width="150" height="44" rx="2"/>
+      <text class="fnode" x="245" y="122">validateAst</text>
+      <text class="fnode" x="245" y="136" font-size="10" fill="#78716c">against FieldRegistry</text>
+    </g></a>
+    <path class="farrow" d="M380,110 C420,60 440,30 460,20"/>
+    <path class="farrow" d="M380,122 L490,122"/>
+    <path class="farrow" d="M380,134 C420,180 440,210 460,220"/>
+    <a href="#filter-ast"><g><title>toDrizzleWhere: compiles to SQL</title>
+      <rect class="fbox" x="470" y="0" width="180" height="40" rx="2"/>
+      <text class="fnode" x="482" y="24">toDrizzleWhere → SQL</text>
+    </g></a>
+    <a href="#filter-ast"><g><title>toMeiliFilter: compiles to filter string</title>
+      <rect class="fbox" x="490" y="100" width="180" height="44" rx="2"/>
+      <text class="fnode" x="502" y="126">toMeiliFilter → string</text>
+    </g></a>
+    <a href="#filter-ast"><g><title>evalAst: in-memory predicate</title>
+      <rect class="fbox" x="470" y="200" width="180" height="40" rx="2"/>
+      <text class="fnode" x="482" y="224">evalAst → boolean</text>
+    </g></a>
+    <text class="fnode" x="30" y="180" font-size="10" fill="#78716c">authz scope is injected by the executor AFTER this point, never inside the AST</text>
+  </svg>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Core abstractions</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(230px,1fr));">
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">FilterAst / Group / Condition</span>
+      <div class="text-sm text-stone-600 mt-1">the tree: a Group has a connective (and/or) and children</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">FieldRegistry / FieldDef</span>
+      <div class="text-sm text-stone-600 mt-1">the consumer-supplied allowlist: type + allowed operators per field</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">validateAst / assertValidAst</span>
+      <div class="text-sm text-stone-600 mt-1">Result-returning vs throwing gate; every compiler calls assert first</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-blue-500 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">toDrizzleWhere / toMeiliFilter / evalAst</span>
+      <div class="text-sm text-stone-600 mt-1">the three compilers, one per execution target</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="inline-block w-2 h-2 rounded-full bg-stone-400 mr-1"></span>
+      <span class="font-mono text-sm text-[#C8102E]">isCalendarDate / calendarDateToIndexValue</span>
+      <div class="text-sm text-stone-600 mt-1">from <code>/calendar-date</code>: <code>YYYY-MM-DD</code> string &harr; UTC-midnight epoch-ms number</div>
+    </div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>the <code>FieldRegistry</code> (which fields exist, their type, their legal operators), the drizzle column map, the Meili index name</td><td>depth/width/array-length caps (DoS hardening), operator&harr;value shape checks, the three compilers, the drizzle-orm peer dep is optional &mdash; the Meili compiler needs no client at all</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>import { toDrizzleWhere } from "@minsky-org/filter-ast/drizzle";
+import type { FieldRegistry } from "@minsky-org/filter-ast/registry";
+
+const registry: FieldRegistry = {
+  status: { type: "enum", enumValues: ["open", "shipped"], operators: ["is", "is_any_of"] },
+  createdAt: { type: "date", operators: ["before", "after", "between"] },
+};
+
+// ast comes from the request query, already parsed by the caller
+const where = toDrizzleWhere(ast, registry, { status: issues.status, createdAt: issues.createdAt });
+
+// THEN, separately, inject the caller's own visibility scope:
+const rows = await db.select().from(issues).where(and(where, eq(issues.orgId, callerOrgId)));</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Authz scope is never in this AST &mdash; enforced by a comment at the top of ast.ts, not just convention.</strong> The trap: a saved-view or shareable filter URL is inherently attacker-controlled input. If the AST were the single place a query's WHERE clause got built, a hostile client could smuggle a clause that widens visibility (e.g. add an <code>orgId is_any_of [...]</code> condition) into what should be a caller-scoped read. Because the executor always ANDs its own scope clause in <em>after</em> compiling the AST, a hostile filter can only narrow or widen what it asks for within the caller's fixed scope, never escape it.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; <code>golden.test.ts</code> self-skips against real Postgres/Meilisearch when unreachable, but <strong>the suite body still runs even when skipped</strong> (a documented vitest quirk: <code>describe.skipIf</code> still executes the describe body, which creates indexes/tables) &mdash; any setup work inside the describe block must itself be gated on <code>if (meiliReachable)</code>, not just the <code>describe.skipIf</code> flag, or it throws before the skip takes effect.</li>
+    <li>&bull; <code>calendar-date</code> is deliberately a different field type from <code>date</code>: <code>date</code> is a finite epoch-ms instant, <code>calendar-date</code> is a bare <code>YYYY-MM-DD</code> string compared lexicographically. Mixing them up breaks ordering silently since both are "just numbers or strings" to a careless caller.</li>
+    <li>&bull; The Meili compiler stores calendar dates as UTC-midnight numbers to keep ranges/sorts timezone-free; the projection writer that populates the Meili index <strong>must apply the identical transform</strong>, or dates drift by a timezone offset between compiler and index.</li>
+    <li>&bull; <code>MAX_FILTER_DEPTH</code> (5) / <code>MAX_GROUP_CHILDREN</code> (20) / <code>MAX_VALUE_ARRAY_LENGTH</code> (50) exist purely because this AST is built from untrusted URL input &mdash; do not raise these for a trusted internal caller without re-deriving why they're there.</li>
+  </ul>
+</section>
+
+<!-- ================= 6. FSM-ORACLE ================= -->
+<section id="fsm-oracle" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">6. @minsky-org/fsm-oracle</h2>
+  <p class="mt-3"><strong>Ask an xstate machine whether a transition is legal and where it lands, without spawning an actor, so every guard/permission-check/UI-affordance in the codebase asks the lifecycle the same one question.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">FSM shape this operates on</h3>
+  <svg viewBox="0 0 480 160" width="100%" height="auto" role="img" aria-label="example lifecycle machine, zero self-loops">
+    <style>.s{fill:#fff;stroke:#d6d3d1;} .st{font-size:12px;font-family:'IBM Plex Mono',monospace;fill:#1c1917;} .et{font-size:10px;fill:#78716c;}</style>
+    <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#C8102E"/></marker></defs>
+    <circle class="s" cx="60" cy="80" r="40"/><text class="st" x="35" y="84">draft</text>
+    <circle class="s" cx="240" cy="80" r="40"/><text class="st" x="203" y="84">submitted</text>
+    <circle class="s" cx="420" cy="80" r="40"/><text class="st" x="392" y="84">approved</text>
+    <path d="M100,80 L200,80" stroke="#C8102E" stroke-width="1.5" marker-end="url(#a3)" fill="none"/>
+    <text class="et" x="122" y="70">SUBMIT</text>
+    <path d="M280,80 L380,80" stroke="#C8102E" stroke-width="1.5" marker-end="url(#a3)" fill="none"/>
+    <text class="et" x="305" y="70">APPROVE</text>
+    <path d="M225,110 C180,150 110,150 65,118" stroke="#a8a29e" stroke-width="1.5" marker-end="url(#a3)" fill="none"/>
+    <text class="et" x="120" y="150">REJECT (back to draft)</text>
+  </svg>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">API surface</h3>
+  <div class="grid gap-3 mt-3" style="grid-template-columns: repeat(auto-fit, minmax(230px,1fr));">
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="font-mono text-sm text-[#C8102E]">assertTransition(machine, from, event)</span>
+      <div class="text-sm text-stone-600 mt-1">returns the next state value, or <code>null</code> if illegal</div>
+    </div>
+    <div class="border border-stone-200 bg-white p-3">
+      <span class="font-mono text-sm text-[#C8102E]">isLegalTransition(machine, from, event)</span>
+      <div class="text-sm text-stone-600 mt-1">boolean wrapper over the same check</div>
+    </div>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td>an xstate <code>createMachine(...)</code> definition, the current state value, an event object</td><td>the stateless <code>resolveState</code> + standalone <code>transition</code> call, so no actor is ever spawned just to ask a yes/no question</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>import { assertTransition } from "@minsky-org/fsm-oracle";
+import { issueLifecycle } from "./issue.machine";
+
+// inside a handler, before mutating the row
+const next = assertTransition(issueLifecycle, issue.status, { type: "CLOSE" });
+if (next === null) {
+  return err("illegal transition: cannot CLOSE from " + issue.status);
+}
+await db.update(issues).set({ status: next }).where(eq(issues.id, issue.id));</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Sound only while the machine has zero self-loops &mdash; a legal self-loop reads as a refusal, because <code>null</code> literally means "the state value did not change."</code></strong> This is the ADR-referenced trap in petition-management's stack law: the oracle uses xstate v5's <code>transition()</code> + <code>resolveState()</code> (deliberately not the <code>.transition</code> method, which wants an actorScope, and not <code>getNextSnapshot</code>, which is deprecated). If your apm lifecycle machine ever needs a legal transition that keeps the same state value (e.g. a "SAVE_DRAFT" event that stays in "draft"), this oracle will wrongly report it as illegal &mdash; that machine needs a different oracle design, not this one.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the tests</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; An event the machine never declares for that state also returns <code>null</code>, indistinguishable from "declared but goes nowhere" &mdash; both read as "illegal," which is usually what you want but is worth knowing if you need to distinguish "unknown event" from "known but refused."</li>
+    <li>&bull; A REJECT-style edge back to an earlier state (<code>submitted &rarr; draft</code>) works fine &mdash; only same-state self-loops break the oracle, not cycles across two or more states.</li>
+  </ul>
+</section>
+
+<!-- ================= 7. DEPCRUISE-RULES ================= -->
+<section id="depcruise-rules" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">7. @minsky-org/depcruise-rules</h2>
+  <p class="mt-3"><strong>The eleven portable dependency-cruiser rules of a domain-oriented modular monolith with hexagonal segments, parameterized entirely by regex, so the architecture is enforced by a linter rather than by code review memory.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">The eleven rules, grouped</h3>
+  <table class="mt-3">
+    <thead><tr><th>Group</th><th>Rules</th><th>What it stops</th></tr></thead>
+    <tbody>
+      <tr><td>Purity</td><td><code>domain-stays-pure</code></td><td>domain/ importing drizzle, repo/query/handlers, or the wire</td></tr>
+      <tr><td>CQRS</td><td><code>query-reads-only</code>, <code>repo-writes-only</code>, <code>model-is-leaf</code>, <code>commands-no-wire</code></td><td>read/write sides crossing, orchestration leaking into transport</td></tr>
+      <tr><td>Boundary</td><td><code>handlers-are-the-sink</code>, <code>no-foreign-module-handlers</code>, <code>shared-no-modules</code>, <code>no-reach-into-composition</code></td><td>a handler being called by another handler, cross-module reach into a private wire surface, shared/ depending on one module's language</td></tr>
+      <tr><td>Hygiene</td><td><code>no-circular</code>, <code>no-orphans</code></td><td>import cycles, dead files</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Seam design</h3>
+  <table class="mt-3">
+    <thead><tr><th>Consumer supplies</th><th>Package owns</th></tr></thead>
+    <tbody>
+      <tr><td><code>srcRoot</code>, <code>buckets</code> regex (the top-level bucket alternation), <code>compositionRoot</code>, <code>transport</code>, <code>handlerMount</code>, <code>entryPoints</code>, plus any <code>extraRules</code> that name domain nouns</td><td>the eleven layout-shape rules, all regex-parameterized so they hold for any repo laid out as <code>&lt;bucket&gt;/&lt;segment&gt;/{domain,query,repo,commands,handlers}</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>// .dependency-cruiser.mjs
+import { defineDepcruiseConfig } from "@minsky-org/depcruise-rules";
+
+export default defineDepcruiseConfig({
+  srcRoot: "^apps/api/src",
+  buckets: "(modules|shared)",
+  compositionRoot: "^apps/api/src/rpc",
+  transport: "kernel/orpc",
+  extraRules: [
+    {
+      name: "handlers-no-billing-tables",
+      severity: "error",
+      comment: "A handler never reads billing storage directly; go through commands/.",
+      from: { path: "/handlers/" },
+      to: { path: "^apps/api/src/modules/billing/repo/" },
+    },
+  ],
+});</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Petition pattern &amp; trap it prevents</h3>
+  <div class="callout-invariant mt-3">
+    <p><strong>Domain-bound rules stay with the consumer; this package knows no nouns.</strong> The exact same shape as petition-management's ADR-0016 modular monolith, and the trap it closes is authz-not-in-AST's cousin: a handler that reaches directly into a grant/permission table instead of going through the capability-gate layer. Petition's own dep-cruiser config appends exactly that as an <code>extraRules</code> entry (<code>handlers-no-grant-tables</code>) on top of these eleven generic ones &mdash; the pattern to copy into apm is "generic layout rules from the package, domain rules appended locally," never forking the base eleven.</p>
+  </div>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas from the source</h3>
+  <ul class="mt-2 space-y-1 text-sm">
+    <li>&bull; <code>tsPreCompilationDeps: true</code> is on by default and matters: without it, <code>import type</code> is invisible to dependency-cruiser, so a type-only import can sneak straight through the query/repo boundary undetected. (petition-management's NOTES.md records this exact flag causing 2 circulars at warn severity when first turned on &mdash; expect the same discovery pass in apm.)</li>
+    <li>&bull; Config files load via dynamic <code>import()</code>, so the file must be named <code>.dependency-cruiser.mjs</code> (or <code>.cjs</code>) for ESM resolution to work; a plain <code>.js</code> extension under <code>"type": "module"</code> can misresolve.</li>
+    <li>&bull; <code>no-orphans</code> is <code>severity: "warn"</code>, not error &mdash; entry points must be explicitly listed in <code>entryPoints</code> or every router root flags as a false positive.</li>
+  </ul>
+</section>
+
+<!-- ================= 8. TSCONFIG ================= -->
+<section id="tsconfig" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">8. @minsky-org/tsconfig</h2>
+  <p class="mt-3"><strong>Four JSON configs, no code: one non-negotiable strictness baseline, extended by three thin environment layers, so every new package in apm starts from the same TS strictness instead of a copy-pasted config that quietly drifts.</strong></p>
+
+  <table class="mt-4">
+    <thead><tr><th>File</th><th>Adds over base</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td><code>base.json</code></td><td>strict, exactOptionalPropertyTypes, noUncheckedIndexedAccess, noUnusedLocals/Params, verbatimModuleSyntax</td><td>never used alone, always extended</td></tr>
+      <tr><td><code>node.json</code></td><td><code>types: ["node"]</code>, <code>noEmit</code></td><td>servers, workers, CLIs</td></tr>
+      <tr><td><code>react.json</code></td><td><code>jsx: "react-jsx"</code>, DOM libs, <code>noEmit</code></td><td>browser apps</td></tr>
+      <tr><td><code>library.json</code></td><td>declaration + declarationMap + sourceMap, <code>src</code>&rarr;<code>dist</code></td><td>publishable packages (like these nine themselves)</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>// packages/some-new-package/tsconfig.json
+{
+  "extends": "@minsky-org/tsconfig/library.json",
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
+}</code></pre>
+  </figure>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">Gotchas (the two flags people try to turn off)</h3>
+  <div class="callout-warn mt-3">
+    <p><strong><code>exactOptionalPropertyTypes</code>:</strong> <code>{ x: undefined }</code> does not satisfy an optional <code>x?: string</code>. Build the object with a conditional spread: <code>...(cond ? { x } : {})</code>, never assign <code>undefined</code> directly to an optional key.</p>
+  </div>
+  <div class="callout-warn mt-3">
+    <p><strong><code>noUncheckedIndexedAccess</code>:</strong> <code>arr[0]</code> and <code>record[key]</code> both type as <code>T | undefined</code>, because at runtime they can be. Narrow at the access site; don't silence with a non-null assertion out of habit.</p>
+  </div>
+</section>
+
+<!-- ================= 9. BIOME-CONFIG ================= -->
+<section id="biome-config" class="pkg-anchor mb-14">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">9. @minsky-org/biome-config</h2>
+  <p class="mt-3"><strong>The org's biome rule layer on top of ultracite, distributed as one JSONC file to <code>extends</code>, so lint config is shared instead of re-derived per repo.</strong></p>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">What it adds over ultracite defaults</h3>
+  <table class="mt-3">
+    <thead><tr><th>Rule</th><th>Setting</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>noBarrelFile</code></td><td>error</td><td>a barrel re-export hides the real import graph, defeating every dep-cruiser rule drawn on paths</td></tr>
+      <tr><td><code>noNamespaceImport</code></td><td>off</td><td><code>import * as v from "valibot"</code> is idiomatic here, not a smell</td></tr>
+      <tr><td><code>useConsistentTypeDefinitions</code></td><td>type</td><td>one way to declare a shape (never <code>interface</code>)</td></tr>
+      <tr><td><code>noConsole</code></td><td>warn</td><td>real logging goes through a logger; a stray console.log should itch, not block CI</td></tr>
+      <tr><td><code>useSortedProperties</code></td><td>off</td><td>property order carries meaning in configs and schemas</td></tr>
+    </tbody>
+  </table>
+
+  <h3 class="font-sans text-lg font-normal text-stone-800 mt-6">apm-flavored usage</h3>
+  <figure>
+    <pre class="bg-stone-900 text-stone-100 text-sm p-4 rounded overflow-x-auto"><button class="copy-btn">Copy</button><code>// biome.jsonc at the apm repo root
+{
+  "extends": ["@minsky-org/biome-config/biome.jsonc"]
+}
+// then, in the SAME file, after the extends:
+// repo-specific overrides (generated dirs, framework file-naming, restricted imports)</code></pre>
+  </figure>
+
+  <div class="callout-invariant mt-3">
+    <p><strong>Run ultracite, never raw biome.</strong> <code>pnpm exec ultracite check</code> / <code>fix</code>, never <code>npx biome</code> directly &mdash; raw biome cannot resolve the <code>ultracite/biome/core</code> extends chain, so it emits false positives (<code>useAwait</code>, <code>noEmptyBlockStatements</code>) while missing the real violations this layer is meant to catch.</p>
+  </div>
+</section>
+
+<hr class="border-stone-200 my-10">
+
+<section id="related" class="pkg-anchor mb-10">
+  <h2 class="font-sans text-2xl font-light tracking-tight text-stone-800 border-b border-stone-200 pb-2">Related files</h2>
+  <table>
+    <thead><tr><th>File</th><th>Role</th><th>Relationship</th></tr></thead>
+    <tbody>
+      <tr><td><code>packages/result/src/index.ts</code></td><td>Result&lt;T,E&gt; type</td><td>imported by filter-ast/src/validate.ts</td></tr>
+      <tr><td><code>packages/adapter-seam/src/index.ts</code></td><td>fail-closed resolver</td><td>leaf, no deps</td></tr>
+      <tr><td><code>packages/cache-aside/src/{cache,registry,logger}.ts</code></td><td>read-through cache</td><td>peers on ioredis + valibot; logger shape mirrors outbox's</td></tr>
+      <tr><td><code>packages/outbox/src/{table,stage,relay,queue,worker-host,define-job,logger}.ts</code></td><td>transactional outbox + BullMQ relay</td><td>peers on drizzle-orm + bullmq + valibot</td></tr>
+      <tr><td><code>packages/filter-ast/src/{ast,registry,validate,eval,drizzle,meili,calendar-date}.ts</code></td><td>filter DSL + 3 compilers</td><td>depends on @minsky-org/result; drizzle-orm optional peer</td></tr>
+      <tr><td><code>packages/fsm-oracle/src/index.ts</code></td><td>xstate stateless oracle</td><td>peers on xstate v5</td></tr>
+      <tr><td><code>packages/depcruise-rules/src/index.ts</code></td><td>11 architecture boundary rules</td><td>peers on dependency-cruiser</td></tr>
+      <tr><td><code>packages/tsconfig/{base,node,react,library}.json</code></td><td>TS strictness baseline</td><td>config-tier, consumed via <code>extends</code></td></tr>
+      <tr><td><code>packages/biome-config/biome.jsonc</code></td><td>biome/ultracite rule layer</td><td>config-tier, consumed via <code>extends</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    navigator.clipboard.writeText(btn.closest('figure').querySelector('code').textContent);
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+});
+</script>
+</body>
+</html>
