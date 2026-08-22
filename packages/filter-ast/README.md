@@ -39,3 +39,10 @@ TEST_DATABASE_URL=postgresql://...:5432/minsky_filter_test MEILI_URL=... pnpm te
 ```
 
 The database name must end in `_test`, since the suite creates and drops tables.
+
+## Test harness gotcha
+
+vitest `describe.skipIf` skips the tests but still EXECUTES the describe body at
+collection time. Any setup with side effects (DB connections, index creation) must be
+independently gated: `if (reachable) { describe(...) }`. The golden tests here do
+this; copy the shape when adding suites.

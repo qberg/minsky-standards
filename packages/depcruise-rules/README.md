@@ -34,3 +34,10 @@ export default defineDepcruiseConfig({
 `import type` sneaks straight through the query/repo boundary.
 
 Domain-bound rules stay with the consumer. This package knows no nouns.
+
+## First adoption note
+
+`tsPreCompilationDeps: true` counts `import type` edges, so first adoption in an
+existing codebase usually surfaces pre-existing circulars the compiler never minded
+(petition-management hit 2). Expected: ratchet those rules to "warn" with a cleanup
+note, fix, then flip back to "error".
