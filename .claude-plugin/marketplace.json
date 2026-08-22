@@ -1,0 +1,21 @@
+{
+  "name": "minsky",
+  "owner": { "name": "Minsky" },
+  "plugins": [
+    {
+      "name": "minsky-core",
+      "source": "./plugins/minsky-core",
+      "description": "Org-wide process law, org-authored: wrap, ship-issue, verify-package, watch-it-work, harden-slice + wrap-nag Stop hook. Grows only by reviewed promotion from proven repo patterns."
+    },
+    {
+      "name": "minsky-web",
+      "source": "./plugins/minsky-web",
+      "description": "Design-system and web-surface law: tribune-component two-gate authoring. For repos consuming the tribune DS."
+    },
+    {
+      "name": "minsky-vendored",
+      "source": "./plugins/minsky-vendored",
+      "description": "Third-party skills (mattpocock, vercel-labs, fallow, FSD, lavish, e2e-patterns) vendored byte-identical for one-channel distribution. UPSTREAMS.md maps each to its source."
+    }
+  ]
+}
