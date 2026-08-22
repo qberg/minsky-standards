@@ -1,0 +1,15 @@
+{
+  "name": "@minsky/tsconfig",
+  "version": "0.1.0",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "exports": {
+    "./base.json": "./base.json",
+    "./node.json": "./node.json",
+    "./react.json": "./react.json",
+    "./library.json": "./library.json"
+  },
+  "files": ["base.json", "node.json", "react.json", "library.json", "README.md"]
+}
