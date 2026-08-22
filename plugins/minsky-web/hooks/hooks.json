@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/no-jsx-ternaries.sh\"",
+            "timeout": 15,
+            "statusMessage": "Checking for JSX ternary branches"
+          }
+        ]
+      }
+    ]
+  }
+}

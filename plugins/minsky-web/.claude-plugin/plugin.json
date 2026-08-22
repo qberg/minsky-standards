@@ -1,6 +1,8 @@
 {
   "name": "minsky-web",
-  "description": "Minsky design-system and web-surface law. Skills: tribune-component (two-gate DS component authoring over the org tribune library). Install in repos that consume the tribune design system.",
-  "version": "0.1.0",
-  "author": { "name": "Minsky" }
+  "description": "Minsky design-system and web-surface law. Skills: tribune-component (two-gate DS component authoring over the org tribune library). Hooks: no-jsx-ternaries (WARN on ternaries inside JSX; hoist branches, && presence is fine). Install in repos that consume the tribune design system.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Minsky"
+  }
 }

@@ -1,5 +1,18 @@
 {
   "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/comment-length.sh\"",
+            "timeout": 15,
+            "statusMessage": "Checking comment block length"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
