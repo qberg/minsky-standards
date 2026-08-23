@@ -5,7 +5,7 @@
     {
       "name": "minsky-core",
       "source": "./plugins/minsky-core",
-      "description": "Org-wide process law, org-authored: wrap, ship-issue, verify-package, watch-it-work, harden-slice + wrap-nag Stop hook. Grows only by reviewed promotion from proven repo patterns."
+      "description": "Org-wide process law, org-authored: wrap, ship-issue, verify-package, watch-it-work, harden-slice, db-change, add-vertical, oss-ref-scout + wrap-nag Stop hook. Grows only by reviewed promotion from proven repo patterns."
     },
     {
       "name": "minsky-web",
