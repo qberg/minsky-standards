@@ -34,3 +34,34 @@ Ask: "What's the public interface, and which seams should we test?"
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
+
+## Fresh-context contract testing
+
+A complementary pattern to the red-green loop: after a feature is built and reviewed,
+spawn a **fresh agent** briefed with ONLY the contracts (input/output schemas), the
+governing ADR, and the repo's test exemplar. The agent writes integration tests with
+zero knowledge of the implementation.
+
+Why this works: the builder is blind to their own assumptions. A fresh agent tests the
+CONTRACT, not the implementation. It catches:
+- Dead error paths (error type declared but never returned)
+- Missing guards (race conditions the builder assumed away)
+- Semantic gaps (empty string passing where non-empty is required)
+
+### The brief
+
+Give the fresh agent exactly:
+1. The input/output schemas (contract package)
+2. The ADR or decision ticket (behavioral rules to test)
+3. One existing test file as the exemplar (test infra patterns, fixtures, seam shape)
+4. The handler imports (what to call)
+5. The verification command (`npx vitest run <path>`)
+
+Do NOT give it: implementation files, commands, queries, repos, domain logic. The
+agent must derive expected behavior from the contract and the ADR alone.
+
+### When to use
+
+- After ship-issue phase 6 (adversarial review) and before phase 7 (ship)
+- When the feature has 3+ endpoints or a non-trivial state machine
+- When the builder wrote zero tests during the build (skeleton-first cadence)

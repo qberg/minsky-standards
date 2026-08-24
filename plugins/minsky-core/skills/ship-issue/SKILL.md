@@ -157,6 +157,9 @@ Surface deltas to the user before planning.
   build-it-right-now, and say why when you skip one. If a fix touches shipped code,
   RE-RUN gates and RE-VERIFY live before ship. Record the review outcome in the close
   notes.
+- If the repo has integration test infra and the feature has 3+ endpoints or a state
+  machine, spawn a fresh agent to write tests from contracts only (tdd skill,
+  fresh-context pattern). Run them against the implementation before ship.
 
 ### 7. Ship
 - Follow the REPO's commit policy. Default: do NOT commit; the user owns staging and
