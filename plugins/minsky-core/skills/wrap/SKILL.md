@@ -5,7 +5,7 @@ description: Session closing ceremony. Routes everything learned or left owed th
 
 # wrap
 
-Closing ceremony. One pass, five checks, then stamp. The goal: no fact leaves the
+Closing ceremony. One pass, six checks, then stamp. The goal: no fact leaves the
 session living only in chat or in your head. Skip any check that has nothing; never
 skip the pass.
 
@@ -30,6 +30,19 @@ repo lacks them, create the missing file from its sibling's shape.
 5. **Handback**: if the tree carries uncommitted work, end the reply with what to
    stage (grouped, drift excluded) and a runbook for whatever was not proven live.
    The user owns commits unless they explicitly delegated.
+6. **Org law** (`../minsky-standards`): did this session prove a pattern worth
+   promoting to an org skill, amending an existing skill, or adding to the handbook?
+   Two triggers:
+   - **Agent-initiated**: you noticed a pattern that generalizes. Propose the change
+     to the user (which file, what to add/amend, why it generalizes beyond this repo).
+   - **User-initiated**: the user proposes generalizing a takeaway. Validate it: does
+     an existing skill already cover this? Is it genuinely org-wide or repo-specific?
+     Has the pattern proven its shape (used in production, not just theorized)? Push
+     back if the answer is no to any of these; agree and refine if yes.
+   In either case, wait for approval before editing. Only after approval: make the
+   edit in the minsky-standards sibling repo, bump the plugin version
+   (`scripts/publish.sh patch|minor`), and print the `claude plugin update` commands
+   for each consuming repo. If nothing generalizes, skip.
 
 ## Stamp
 
