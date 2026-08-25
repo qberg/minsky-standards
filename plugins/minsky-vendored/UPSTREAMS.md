@@ -2,6 +2,8 @@
 
 Vendored 2026-08-22, byte-identical at vendor time. Re-sync = diff against upstream, re-vendor here, bump version. Never re-add to a per-repo skills-lock.
 
+Some skills have since been edited locally. A re-sync silently reverts every one of them, so each edit is listed under Local divergences below and must be re-applied or consciously dropped after re-vendoring. An edit that is not listed there does not survive the next sync.
+
 | Skill | Upstream | Path |
 | --- | --- | --- |
 | codebase-design | mattpocock/skills | skills/engineering/codebase-design/SKILL.md |
@@ -24,3 +26,10 @@ Vendored 2026-08-22, byte-identical at vendor time. Re-sync = diff against upstr
 | grill-with-docs | mattpocock/skills | skills/engineering/grill-with-docs/SKILL.md |
 | domain-modeling | mattpocock/skills | skills/engineering/domain-modeling/SKILL.md |
 | wayfinder | mattpocock/skills | skills/productivity/wayfinder/SKILL.md |
+
+## Local divergences
+
+| Skill | Commit | Change | Why |
+| --- | --- | --- | --- |
+| wayfinder | 117109b | Research findings commit to the current working branch, never a `research/<name>` branch | Single shared-branch law; a findings file on a side branch is invisible to the sessions that need it |
+| wayfinder | (this commit) | Session-born artifacts (enumerations, tables, matrices, option sets) are stored whole in the resolution comment or a committed file, never compressed to counts; pointers are only written after opening the target | Petition map #227: 31 iterated use cases were recorded as "31 across 9 categories" and lost with the transcript, while two downstream tickets told builders to read a spec that did not exist |

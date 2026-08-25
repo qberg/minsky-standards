@@ -68,7 +68,9 @@ A session **claims** a ticket by assigning it to the dev driving the map, **firs
 
 Blocking uses the tracker's **native** dependency relationship: essential because it renders the frontier _visually_ in the tracker's own UI, so the human sees what's takeable without opening the map. Only a tracker that lacks native blocking falls back to a body convention. A ticket is **unblocked** when every ticket blocking it is closed; the **frontier** is the open, unblocked, unclaimed children, the edge of the known.
 
-The answer isn't part of the body; it's recorded on resolution (see [Work through the map](#work-through-the-map)). Assets created while resolving a ticket are linked from the issue, not pasted in.
+The answer isn't part of the body; it's recorded on resolution (see [Work through the map](#work-through-the-map)). An asset with a home of its own (a file, a prototype, a findings doc) is **linked** from the issue, not pasted in.
+
+An artifact **born in the session** is the opposite case, and the one that gets lost. An enumeration, a table, a matrix, a ranked list, a set of named options: if the ticket's work produced it and it lives nowhere else, the transcript is its only home and the transcript is not durable. Write it down **whole**, in the resolution comment or in a file you commit and link. Never in summary: "31 use cases across 9 categories" is a description of an artifact, not the artifact, and the counts read as a complete record long after the items are unrecoverable. The test is not "is this interesting enough to keep", it's "did we make this here": if yes, it is stored in full or it is gone.
 
 ## Ticket Types
 
@@ -122,7 +124,7 @@ User invokes with a map (URL or number). A ticket is **optional**: without one, 
 1. Load the **map**: the low-res view, not every ticket body.
 2. Choose the ticket. If the user named one, use it. Otherwise take the first frontier ticket in order. **Claim it**: assign it to yourself before any work.
 3. Resolve it. **Zoom as needed**: fetch the full body of any related or closed ticket on demand; call the Skill tool for whichever skills the `## Notes` block names. If in doubt, call the Skill tool twice, for "grilling" and "domain-modeling".
-4. Record the resolution: post the answer as a **resolution comment**, **close** the issue, and **append a context pointer** to the map's Decisions-so-far.
+4. Record the resolution: post the answer as a **resolution comment**, **close** the issue, and **append a context pointer** to the map's Decisions-so-far. Before closing, sweep the session for anything you _made_ rather than decided (see [Tickets](#tickets)) and carry it into the comment whole. Only the map's one-line gist is allowed to be a summary; the comment is the record. Where the answer belongs on a higher rung than the tracker (a decision record, a spec), put it there and let the comment point at it, but a pointer is only written after opening its target and confirming the detail is actually in it: "read #232 for the full spec" is a lie the moment #232 holds a summary, and every ticket downstream inherits it.
 5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing each graduated patch from **Not yet specified** so it lives only as its new ticket. If the answer reveals that a ticket (this one or another) sits beyond the destination, **rule it out of scope** rather than resolving it on the route. If the decision invalidates other parts of the map, update or delete those tickets.
 
 The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrently.
