@@ -1,7 +1,7 @@
 {
   "name": "minsky-vendored",
   "description": "Third-party skills vendored for org-wide distribution (mattpocock, vercel-labs, fallow-rs, feature-sliced, wshobson, lavish). Byte-identical to upstream at vendor time; see UPSTREAMS.md for re-sync.",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "author": {
     "name": "Minsky"
   }

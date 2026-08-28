@@ -12,7 +12,9 @@ anything we don't own (framework, library, browser, vendor API) is a lookup, not
 deduction. Plausible-and-wrong reads exactly like plausible-and-right.
 
 - Lookup order, stopping at the first that answers: (1) `node_modules/<pkg>` docs and
-  installed source, version-exact; (2) docs MCPs; (3) the web, last.
+  installed source, version-exact; (2) docs MCPs (context7); (3) the web, last, via
+  the exa MCP. MCP tools are deferred: a brief that wants them must name them, or the
+  agent silently falls back to plain web search (research skill holds the recipe).
 - Cite the receipt where the claim lives: doc title, `docs: <path>`, `ADR-00xx`, or
   URL. A future reader must be able to re-check without re-deriving.
 - Say which register you are in: verified (I read X) vs inferred (I reasoned) must be
