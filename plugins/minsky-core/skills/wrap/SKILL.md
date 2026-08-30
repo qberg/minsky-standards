@@ -26,7 +26,18 @@ repo lacks them, create the missing file from its sibling's shape.
    or a hook, shrink the entry to a pointer.
 4. **Decisions** (`docs/adr/`): did anything get decided this session (client word,
    grill verdict, design ruling) that has no ADR home? Write the amendment or short
-   ADR now. A decision living only in the conversation does not exist.
+   ADR now. A decision living only in the conversation does not exist. Every
+   amendment is written on both records (`amends` / `amended_by`); if the repo ships
+   an ADR lint, run it before the stamp.
+   **On a map or epic close, run the coherence audit**: fan out read-only scouts, one
+   per decision cluster (Opus for cross-module clusters, Sonnet for the law and
+   state files), each briefed to refute: same object described two ways across ADRs,
+   `amends` with no matching line, glossary term contradicting an ADR or another
+   glossary, term used but undefined, banned writing. Contract: at most 15 lines of
+   `file:line | issue | what the other file says`. Judge the findings yourself
+   (decline with a reason where the law forbids the edit), then fix in one
+   serialized pass: dated amendment lines on ADRs, in-place edits on glossaries,
+   maps, and law files. Record the pass in NOTES.
 5. **Handback**: if the tree carries uncommitted work, end the reply with what to
    stage (grouped, drift excluded) and a runbook for whatever was not proven live.
    The user owns commits unless they explicitly delegated.

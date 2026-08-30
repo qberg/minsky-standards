@@ -83,6 +83,19 @@ Every fact has exactly one home; it lands there the moment it's born.
 - Org law: this handbook. Project law: the repo CLAUDE.md (lean, domain + pointers).
 - Decisions + rationale: `docs/adr/`, append-only, superseded not edited. A decision
   living only in a conversation does not exist.
+- ADR coherence (the four rules):
+  1. Change = a new ADR or a dated amendment line, and the link is written on BOTH
+     records (`amends` here, `amended_by` there). Machine-readable frontmatter
+     (`status, resolves, amends, amended_by, supersedes, superseded_by, terms`); a
+     lint fails the commit when a link has one end.
+  2. ADRs reference registries and glossary terms by name and never restate their
+     values. Enum values, states, tiers, kinds have one home: the context glossary
+     until code exists, then the domain-types `as const` registry.
+  3. Code outranks prose, so a change that moves a registry or contract carries its
+     ADR amendment in the same change, with the reason. Contradicting an ADR
+     silently is a defect; contradicting it with a written amendment is the process.
+  4. Every map or epic close runs a refuting coherence audit (scouts by cluster,
+     file:line findings, fixes as amendments). The wrap skill holds the recipe.
 - Work items and status: the issue tracker. Owed work: `docs/agents/debts.md`.
 - Procedures: skills (the minsky marketplace). Mechanical rules: hooks/lint; a rule
   worth stating twice is worth a hook. Enforcement outranks documentation.
