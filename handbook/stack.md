@@ -63,3 +63,9 @@ packages) stays in the repo.
 - drizzle-kit emits a DESTRUCTIVE drop/recreate for an enum value rename: read the
   generated SQL, hand-write `ALTER TYPE ... RENAME VALUE`, re-generate to confirm
   clean.
+- TanStack Router form-encodes every search codec's output via URLSearchParams
+  (router-core qss), so the wire query is percent-escaped for ANY codec; judge
+  codecs on wire length and decoded-display readability, never raw-wire looks.
+- Lenient URL codecs (jsurl2: `parse("(broken~")` = `{broken:true}`, no throw) slip
+  junk OBJECTS past TR's keep-raw-string catch; every URL-sourced valibot key wraps
+  `v.fallback`, never bare `v.optional` (route-errors on a bad link).
