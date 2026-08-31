@@ -1,7 +1,7 @@
 {
   "name": "minsky-core",
   "description": "Minsky org process law, org-authored only. Skills: wrap, ship-issue, verify-package, watch-it-work, harden-slice, db-change, add-vertical, oss-ref-scout, mentor-build. Hooks: wrap-nag (Stop reminder when code changed since last wrap), comment-length (max consecutive comment lines, threshold from repo .claude/comment-policy, default 1). Third-party skills live in minsky-vendored.",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "author": {
     "name": "Minsky"
   }

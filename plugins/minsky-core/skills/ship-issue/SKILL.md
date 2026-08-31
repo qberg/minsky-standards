@@ -162,6 +162,11 @@ Surface deltas to the user before planning.
   fresh-context pattern). Run them against the implementation before ship.
 
 ### 7. Ship
+- Coherence gate, before anything else in this step: if the repo has an ADR lint
+  (`scripts/adr-lint.mjs` or equivalent), it runs green; if an arch-lint exists
+  (dependency-cruiser or equivalent), it runs green. A diff that moves a registry,
+  contract, or enum an ADR names carries the dated ADR amendment in the SAME diff,
+  linked on both records (knowledge law rule 3); without it the slice does not ship.
 - Follow the REPO's commit policy. Default: do NOT commit; the user owns staging and
   commits. Hand back the grouped, gate-green tree and say exactly what to stage,
   calling out unrelated drift to leave out (triage with `scripts/classify-drift.sh`).
@@ -179,7 +184,9 @@ Surface deltas to the user before planning.
 - Close the issue with an HONEST AC status against the gate BASELINE:
   `scripts/baseline.sh compare` makes "no NEW red" mechanical. Tick what is proven,
   mark partial what is written-but-unrun, label inherited red as not-yours with the
-  cite, name the follow-ups (into `docs/agents/debts.md`).
+  cite, name the follow-ups (into `docs/agents/debts.md`). Name the coherence
+  evidence explicitly: which lints ran green, and which ADR amendments (if any)
+  ride in the diff.
 - Always end with a RUNBOOK: copy-pasteable steps the user runs to see what THIS
   session built working. Cover exactly the commands NOT proven headlessly (browser
   flows, OTP/login, UI clicks) plus the read-back that confirms the effect landed.

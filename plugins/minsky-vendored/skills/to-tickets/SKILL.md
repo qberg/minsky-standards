@@ -66,6 +66,8 @@ Work the **frontier**: any ticket whose blockers are all done. For a purely line
 
 Do NOT close or modify any parent issue.
 
+**Context header:** if the source spec defines a context header (a block every ticket inherits: spec link, glossary or context-map row, governing decision records by name, authority chain, standing rules), copy it VERBATIM into every ticket body as its `## Context` section. Never summarize it, never replace it with a link alone: the ticket must stand on its own for an agent that opens nothing else first.
+
 <local-ticket-template>
 
 # <NN> — <Ticket title>
@@ -86,6 +88,10 @@ Do NOT close or modify any parent issue.
 ## Parent
 
 A reference to the parent issue on the tracker (if the source was an existing issue, otherwise omit this section).
+
+## Context
+
+The spec's context header, copied verbatim (omit only if the spec defines none).
 
 ## What to build
 
