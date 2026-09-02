@@ -23,7 +23,10 @@ packages) stays in the repo.
   `next.value !== from`, sound only if the machine has zero self-loops.
 - valibot `check` on an object: extract the object to a named schema, type the
   callback arg as `InferOutput<typeof Schema>`; an inline/narrowed arg trips TS2769
-  under `exactOptionalPropertyTypes`.
+  under `exactOptionalPropertyTypes`. The `~types` brand is INVARIANT, so sharing one
+  predicate across two schemas trips TS2769 even with a named function; fix with
+  explicit params: `check<InferOutput<typeof Schema>, string>(fn, msg)` (one type
+  param alone selects the message-less overload and fails TS2554).
 - valibot `isoTimestamp` admits tz offsets: order-compare via
   `new Date(x).getTime()`, never string comparison.
 - Cross-boundary vocab (enums, roles, permissions) lives in the shared domain-types
@@ -63,6 +66,12 @@ packages) stays in the repo.
 - drizzle-kit emits a DESTRUCTIVE drop/recreate for an enum value rename: read the
   generated SQL, hand-write `ALTER TYPE ... RENAME VALUE`, re-generate to confirm
   clean.
+- Lock queries are join-free: postgres rejects `FOR UPDATE` on the nullable side of
+  an outer join, and drizzle `.for("update")` emits the clause verbatim (runtime
+  error, not compile). And the lock alone does not close an insert race: under READ
+  COMMITTED a blocked waiter re-evaluates the row (EvalPlanQual), a no-longer-matching
+  row vanishes, and the waiter's insert trips the unique index. Catch the 23505 as
+  the retryable outcome (map to 409); it is part of the pattern, not a fallback.
 - TanStack Router form-encodes every search codec's output via URLSearchParams
   (router-core qss), so the wire query is percent-escaped for ANY codec; judge
   codecs on wire length and decoded-display readability, never raw-wire looks.
