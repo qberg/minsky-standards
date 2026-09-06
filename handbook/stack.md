@@ -6,7 +6,8 @@ packages) stays in the repo.
 
 ## The stack
 
-- TypeScript strict, pnpm monorepo (`catalog:` for versions), turbo.
+- TypeScript strict, pnpm monorepo (`catalog:` for versions), turbo. New repos start
+  on TS 7; existing repos move when their tooling clears the 7.1 API gap.
 - Validation = **valibot** (never zod). FSM = **xstate**. IDs = **uuid v7**.
 - DB = Postgres + drizzle. API = Hono + oRPC, contract-first. Auth = better-auth.
 - Async = transactional outbox -> relay -> queue worker. Search = Meilisearch behind
@@ -78,3 +79,26 @@ packages) stays in the repo.
 - Lenient URL codecs (jsurl2: `parse("(broken~")` = `{broken:true}`, no throw) slip
   junk OBJECTS past TR's keep-raw-string catch; every URL-sourced valibot key wraps
   `v.fallback`, never bare `v.optional` (route-errors on a bad link).
+- TypeScript 7 (native Go port, GA 2026-07-08) is a drop-in for a MODERN config: the
+  breaking changes sit at the 5.x -> 6.0 boundary, not 6 -> 7, so a greenfield repo
+  skips the two-step migration entirely. Now hard errors: `baseUrl`, `target: es5`,
+  `downlevelIteration`, `moduleResolution: node/node10/classic`, `module:
+  amd/umd/systemjs/none`, `esModuleInterop: false`. `types` defaults to `[]` (was
+  every @types package), so each package lists what it needs. What BLOCKS adoption is
+  the missing programmatic API until 7.1: typescript-eslint, Vue, Svelte, Astro, MDX,
+  Angular templates, Volar. None of them apply to this stack (biome has no type-aware
+  lint, so typescript-eslint was never in it), and Storybook's TS-API docgen is opt-in
+  (`react-docgen-typescript`, peer `>= 4.3.x`); the default `react-docgen` is
+  babel-based and needs no compiler API. If a dep does need the API, bridge with
+  `@typescript/typescript6` (`tsc6` binary, re-exports the 6.0 API) before reverting
+  the major. Proven greenfield in apm 2026-09-06 (#98). Receipt:
+  https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/
+- `minimumReleaseAge` is 11200 minutes (~7.8 days) in the org pnpm config, so
+  `npm view <pkg> version` is NOT the pin to write: anything published inside that
+  window cannot resolve at all. Pin the newest release older than the cutoff, with a
+  caret so the fresher one lands by itself once it ages in. Sort candidates by SEMVER,
+  never by publish date: a backport to an older line (react 19.0.8 shipped after
+  19.2.8 on the same day) makes a date sort silently pick the older release.
+  `minimumReleaseAgeExclude` carries `@minsky-org/*`, own packages trusted at any age.
+  A sibling repo's catalog block is a snapshot, never a source of truth: copying one
+  verbatim into a new repo shipped nine stale pins and two legacy entries.
