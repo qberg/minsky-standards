@@ -1,8 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.16/schema.json",
   "extends": ["ultracite/biome/core", "ultracite/biome/react"],
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "includes": ["!!dist", "!!node_modules", "!!generated", "!!pnpm-lock.yaml"]
+    // Load-bearing "**": a list whose FIRST entry starts with "!" makes Biome match no files.
+    "includes": ["**", "!!dist", "!!node_modules", "!!generated", "!!pnpm-lock.yaml"]
+  },
+  "css": {
+    // Tailwind v4 is org stack law, so @theme / @source / @apply must parse.
+    "parser": { "tailwindDirectives": true }
   },
   "assist": {
     "actions": {
