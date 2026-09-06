@@ -23,6 +23,11 @@ Before any code, orient the user on the architecture they are about to touch:
 2. Show the exemplar for each layer (the existing file whose shape they will mirror)
 3. Explain the WHY behind the architecture (ADR, design decision, domain constraint)
 4. Agree the plan (slice order, file order within each slice)
+5. Agree WHO WRITES each slice, and re-confirm at every slice boundary. Mentor mode is
+   not all-or-nothing: a user may hand the pen back when they are short of time, on a
+   call, or when a slice is mechanical. When they do, take it fully, ship the slice to
+   the same gates, and report what you decided on their behalf. When the next slice
+   starts, ask once who is writing rather than assuming the previous answer holds.
 
 Do not start coding until the user confirms the plan. Answer architecture questions
 honestly: if a choice is ugly, say so. If the user proposes a different structure,
@@ -31,12 +36,36 @@ followed; genuine trade-offs get surfaced.
 
 ### Build: one file at a time
 
+Every brief OPENS WITH INTUITION, in this order, before a line of code appears:
+
+1. **The user flow.** A concrete scenario with names and values: who does what, and
+   what changes as a result. "Buyer Meera types Non-woven Fabric at 14:00; buyer Raja
+   sees it in his picker at 14:01."
+2. **What this file is responsible for**, stated as its one job.
+3. **Why this shape and not the obvious alternative.** Name the alternative and the
+   specific failure it causes: "storing categories in the response jsonb would force a
+   merge to rewrite historical submissions."
+4. **The theory anchor.** Name the general problem this is an instance of, using the
+   term the literature uses, so the user can go read the real treatment: immutable
+   facts with a separate interpretation layer, entity resolution and survivorship,
+   making illegal states unrepresentable, the end-to-end argument, the fan trap.
+   One or two sentences, not a lecture. Cite a specific book or paper ONLY when you are
+   certain of it; otherwise name the concept and say it is worth looking up. Never
+   invent a chapter or page number: a wrong citation sends someone to the wrong book
+   and is worse than none.
+
+A brief that opens with code has failed, even if the rationale appears further down.
+If you cannot write the flow, you do not understand the file well enough to brief it.
+
 For each file in the plan:
 
-1. **Brief** (you write): what this file does, why it lives here, which exemplar to
-   mirror, what patterns to use. Include the exact shape (types, function signatures,
-   imports) so the user can write confidently. Explain non-obvious decisions: "this
-   uses text() not uuid() because better-auth user.id is text."
+1. **Brief** (you write): the intuition above, then which exemplar to mirror and what
+   patterns to use. **Include the COMPLETE implementation in chat, not just signatures.**
+   The user types it into the file themselves; showing the finished code is a reference
+   they consult when stuck, not a substitute for their authorship. Withholding it to
+   force recall optimises for a tutorial, and they are shipping production code on a
+   deadline. Never write the file yourself unless they ask. Explain non-obvious
+   decisions: "this uses text() not uuid() because better-auth user.id is text."
 2. **Write** (user writes): the user creates the file. They may deviate from your
    brief, and that is fine if their reasoning is sound.
 3. **Review** (you read and verify): read the actual file on disk. Check against the
@@ -52,6 +81,25 @@ For each file in the plan:
 **Never batch.** Writing multiple files before verifying multiplies errors because
 each file copies the previous one's mistakes. One file, one gate, then the next. This
 is a proven trap (see agents-process-gotchas: "batch-writing handlers").
+
+The same rule applies WITHIN a file during a refactor. An extraction is two edits: the
+usage leaves one place, then arrives in another. Between them an import has no usage,
+and any formatter or lint hook that runs per edit will act on that inconsistent
+intermediate state, most often by deleting the import. Gate after EACH extraction, never
+after a set of them. Assume an auto-fixing hook will "help" between your edits.
+
+### Calibrate on evidence
+
+Track which explanations the user accepts without a follow-up and which they ask you to
+redo. The signal is the CATEGORY of the re-ask, not its frequency:
+
+- Re-asks about PURPOSE ("why does this exist", "what is it for", "give me a user
+  flow") mean lead harder on the flow and cut mechanism detail.
+- Re-asks about MECHANISM ("how does this line work") mean the opposite.
+- No questions plus correct code means the level is right; do not add scaffolding.
+
+Say what you have observed when it changes your approach, briefly, so the user can
+correct your read. Report the pattern as part of the session handback.
 
 ### Checkpoint
 
