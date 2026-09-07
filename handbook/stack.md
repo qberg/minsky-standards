@@ -102,3 +102,11 @@ packages) stays in the repo.
   `minimumReleaseAgeExclude` carries `@minsky-org/*`, own packages trusted at any age.
   A sibling repo's catalog block is a snapshot, never a source of truth: copying one
   verbatim into a new repo shipped nine stale pins and two legacy entries.
+- Biome honours `extends` only in the ROOT config: a config that is itself extended
+  never chains further, and nothing is reported. `@minsky-org/biome-config` extended
+  ultracite internally until 0.3.0, so every consumer silently ran on Biome defaults
+  (tabs, trailing commas everywhere, 80 columns) with none of ultracite's rules. The root
+  `biome.jsonc` lists `ultracite/biome/core`, `ultracite/biome/react`, then the org
+  layer, in that order. Verify a formatter claim by reading `JsFormatOptions` from
+  `biome format --log-level=debug`, never by reading the file back: a config error
+  leaves the probe untouched and looks like success. Proven in apm 2026-09-07.
