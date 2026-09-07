@@ -32,7 +32,9 @@
     "rules": {
       "performance": {
         "noBarrelFile": "error",
-        "noNamespaceImport": "off"
+        "noNamespaceImport": "off",
+        // Inline handlers are the React 19 idiom and the compiler memoises them.
+        "noJsxPropsBind": "off"
       },
       "suspicious": { "noConsole": "warn" },
       "style": {

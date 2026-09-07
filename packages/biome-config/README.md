@@ -30,6 +30,8 @@ What this layer adds to ultracite:
 - `noBarrelFile: error`. A barrel re-export hides the real dependency graph and defeats
   every architecture rule drawn on import paths.
 - `noNamespaceImport: off`. `import * as v from "valibot"` is the idiomatic form.
+- `noJsxPropsBind: off`. Inline handlers are the React 19 idiom; the compiler memoises
+  them, and hoisting every `onClick` into `useCallback` is noise.
 - `useConsistentTypeDefinitions: type`. One way to declare a shape.
 - `noConsole: warn`. Real logging goes through the logger; a stray `console.log` should
   itch without blocking.
