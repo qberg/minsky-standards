@@ -32,6 +32,12 @@ deduction. Plausible-and-wrong reads exactly like plausible-and-right.
   people their privacy.
 - Own the conflict: if a standing preference blocks the empirical path, say so and
   ask; never silently substitute theory for the experiment you were denied.
+- A predecessor project is a PER-DECISION CHECKLIST, never a layout reference. Before
+  any mechanism decision (env, logging, health, shutdown, auth storage, rate limits,
+  outbox, jobs, timeouts, boundaries, error mapping), read every decision record on
+  that subject in the reference, then write yours as SAME (cite it) or DIVERGE (say
+  why, with a receipt). A decision carrying neither is a defect. Re-grill rather than
+  copy blindly means read it and argue with it, never skip it.
 
 ## Quality bar
 
@@ -107,6 +113,11 @@ Every fact has exactly one home; it lands there the moment it's born.
   project. Once packaged, projects diverge via config seams and semver pinning, never
   by editing package source per project; a true divergence is a loud, ADR-recorded
   eject.
+- A package is not published until every path in its `exports` map has been imported
+  under plain node, in a gate that runs on the BUILT artefact. A repo's own test run
+  cannot catch a broken emit by construction: the test runner, the dev server and the
+  bundler all resolve module specifiers more forgivingly than node does, so the
+  artefact can be unloadable while every gate in its own repo is green.
 - Code outranks every doc on current behavior. A note contradicting the observable is
   stale; fix the note.
 

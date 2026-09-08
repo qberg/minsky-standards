@@ -128,6 +128,11 @@ Surface deltas to the user before planning.
   the background. If the deliverable is a FILE, run that agent in the FOREGROUND or
   have it RETURN content for the main thread to Write. Confirm a "file written" claim
   by listing the path.
+- A builder subagent NEVER starts a long-running process in the FOREGROUND: it hangs its
+  own shell until the tool timeout and never reads a message, so the main thread has to
+  kill it to get unblocked. Brief it to background the process, record the pid, and kill
+  BY PID before reporting. `pkill -f <pattern>` matches the calling shell's own command
+  line and kills it (exit 144).
 - After ANY subagent: audit the WHOLE git diff, not its named files. Green gates miss a
   disabled guard, an auth bypass, an `if (false)`, a temp log. Verify any "clean" or
   "reverted" claim with an actual `git diff`.

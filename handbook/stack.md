@@ -110,3 +110,14 @@ packages) stays in the repo.
   layer, in that order. Verify a formatter claim by reading `JsFormatOptions` from
   `biome format --log-level=debug`, never by reading the file back: a config error
   leaves the probe untouched and looks like success. Proven in apm 2026-09-07.
+- Publish a workspace package with pnpm, never npm. `npm pack` and `npm publish` ship a
+  `workspace:` dependency verbatim and the tarball then installs nowhere
+  (`EUNSUPPORTEDPROTOCOL`); pnpm rewrites it to the real version. A verification that
+  packs with npm fails and looks like the code is broken when the packing tool is the
+  only thing wrong.
+- `@types/*` for a runtime track its MAJOR line, not the API you want. An API added in a
+  later minor can be typed only on the NEXT major's line. Taking that newer major's
+  types to get one API promises every API of that major to code running on the older
+  one: it compiles clean and throws live. Types track the ENGINES FLOOR, never the dev
+  machine. Verify a "the types have it" claim by unpacking the tarball and grepping it
+  (`npm pack @types/<x>@latest`), never by reading a changelog.
