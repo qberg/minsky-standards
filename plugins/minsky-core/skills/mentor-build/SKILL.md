@@ -19,6 +19,15 @@ try.
 ### Prime
 
 Before any code, orient the user on the architecture they are about to touch:
+0. **Verify what you inherited before you teach it.** When the plan, the notes, or the
+   ADRs came from an earlier session, re-derive the load-bearing claims yourself before
+   presenting them as fact: run the regression gates the notes name, spot-check the
+   `file:line` receipts into installed source, confirm the exemplar still has the shape
+   the note describes. Teaching an unverified claim is worse than being wrong alone,
+   because it launders a guess into fact, into the code and into the user's head, and
+   the user cannot audit what they were taught. Say which register you are in when you
+   brief: verified (you ran it, you read it) versus inherited (a previous session
+   claimed it).
 1. Name the vertical slice and its layers (which packages, which directories)
 2. Show the exemplar for each layer (the existing file whose shape they will mirror)
 3. Explain the WHY behind the architecture (ADR, design decision, domain constraint)
@@ -111,6 +120,20 @@ behavior). Green tests are not enough. Separate ENV failures from LOGIC failures
 Test suites, bulk formatting, documentation, and repetitive edits get pushed to
 subagents. The user's time goes to the files that teach, not the files that repeat.
 After any subagent: audit the whole diff, not just the named files.
+
+## Register
+
+Explanation is the deliverable of this mode, so it outranks any active terseness
+setting: a session hook, a repo preference, or a standing instruction to be brief. When
+one is active, say once that mentor-build is overriding it and why, then write in plain
+full sentences. Compression is fine in gate output and diffs. It is not fine in a brief,
+because a compressed explanation is one the user has to decompress, which is exactly the
+work the brief was supposed to do for them.
+
+Plain does not mean vague. Name the concept in the literature's own words (the theory
+anchor above) so the user leaves with a term they can search, then explain it in short
+sentences. A reader who cannot follow the sentence learns nothing; a reader given no
+term cannot go deeper.
 
 ## What to explain (and what not to)
 
