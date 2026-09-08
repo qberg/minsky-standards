@@ -3,8 +3,8 @@ import {
   type ConnectionOptions,
   Queue,
 } from "bullmq";
-import { type OutboxLogger, silentLogger } from "./logger";
-import type { ClaimedJob, EnqueueJob } from "./relay";
+import { type OutboxLogger, silentLogger } from "./logger.js";
+import type { ClaimedJob, EnqueueJob } from "./relay.js";
 
 const DEFAULT_ENQUEUE_DEADLINE_MS = 5000;
 const DEFAULT_ATTEMPTS = 5;

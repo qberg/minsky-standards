@@ -11,15 +11,15 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import { Meilisearch } from "meilisearch";
 import postgres from "postgres";
 import { afterAll, describe, expect, it } from "vitest";
-import type { FilterAst } from "./ast";
+import type { FilterAst } from "./ast.js";
 import {
   calendarDateToIndexValue,
   indexValueToCalendarDate,
-} from "./calendar-date";
-import { toDrizzleWhere } from "./drizzle";
-import { evalAst } from "./eval";
-import { toMeiliFilter } from "./meili";
-import type { FieldRegistry } from "./registry";
+} from "./calendar-date.js";
+import { toDrizzleWhere } from "./drizzle.js";
+import { evalAst } from "./eval.js";
+import { toMeiliFilter } from "./meili.js";
+import type { FieldRegistry } from "./registry.js";
 
 const registry: FieldRegistry = {
   priority: {

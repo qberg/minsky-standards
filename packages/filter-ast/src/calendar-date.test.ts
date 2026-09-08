@@ -3,7 +3,7 @@ import {
   calendarDateToIndexValue,
   indexValueToCalendarDate,
   isCalendarDate,
-} from "./calendar-date";
+} from "./calendar-date.js";
 
 const EXPECTED_SHAPE_RE = /expected YYYY-MM-DD/;
 const NOT_REAL_DATE_RE = /not a real calendar date/;

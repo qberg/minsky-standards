@@ -5,8 +5,8 @@ import {
   type InferOutput,
   safeParse,
 } from "valibot";
-import { type CacheLogger, silentLogger } from "./logger";
-import type { BoundNode } from "./registry";
+import { type CacheLogger, silentLogger } from "./logger.js";
+import type { BoundNode } from "./registry.js";
 
 export type CacheClient = Pick<
   Redis,

@@ -9,9 +9,9 @@ import {
   MULTI_VALUE_OPERATORS,
   NO_VALUE_OPERATORS,
   RANGE_OPERATORS,
-} from "./ast";
-import { isCalendarDate } from "./calendar-date";
-import type { FieldDef, FieldRegistry } from "./registry";
+} from "./ast.js";
+import { isCalendarDate } from "./calendar-date.js";
+import type { FieldDef, FieldRegistry } from "./registry.js";
 
 export type ValidateIssue =
   | {

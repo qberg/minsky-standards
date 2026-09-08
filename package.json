@@ -3,9 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "pnpm -r build",
+    "build": "pnpm -r build && node scripts/smoke-exports.mjs",
     "typecheck": "pnpm -r typecheck",
     "test": "pnpm -r test",
+    "smoke": "node scripts/smoke-exports.mjs",
     "check": "ultracite check",
     "fix": "ultracite fix"
   },

@@ -1,6 +1,6 @@
 import { and, asc, desc, eq, inArray, isNull, lt, or, sql } from "drizzle-orm";
 import type { PgDatabase, PgQueryResultHKT } from "drizzle-orm/pg-core";
-import type { OutboxTable } from "./table";
+import type { OutboxTable } from "./table.js";
 
 export type RelayDatabase = PgDatabase<PgQueryResultHKT>;
 

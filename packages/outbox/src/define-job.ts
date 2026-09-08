@@ -1,6 +1,6 @@
 import { UnrecoverableError } from "bullmq";
 import * as v from "valibot";
-import { type OutboxLogger, silentLogger } from "./logger";
+import { type OutboxLogger, silentLogger } from "./logger.js";
 
 // BullMQ increments attemptsMade only AFTER the processor settles, and its own retry
 // test is `attemptsMade + 1 < opts.attempts` (bullmq job.js shouldRetryJob), so during

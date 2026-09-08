@@ -1,4 +1,4 @@
-import type { FilterOperator } from "./ast";
+import type { FilterOperator } from "./ast.js";
 
 // `date` = a finite epoch-ms INSTANT; `calendar-date` = a `YYYY-MM-DD` STRING.
 export type FieldType =

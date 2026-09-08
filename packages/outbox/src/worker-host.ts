@@ -1,5 +1,5 @@
 import { type ConnectionOptions, Worker } from "bullmq";
-import type { JobAttempt } from "./define-job";
+import type { JobAttempt } from "./define-job.js";
 
 export type JobHandler = (
   payload: unknown,

@@ -11,7 +11,7 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 import { describe, expect, it } from "vitest";
-import { OUTBOX_STATUS_VALUES, type OutboxTable } from "./table";
+import { OUTBOX_STATUS_VALUES, type OutboxTable } from "./table.js";
 
 const outboxStatus = pgEnum("outbox_status", OUTBOX_STATUS_VALUES);
 

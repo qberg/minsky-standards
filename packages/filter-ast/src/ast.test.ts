@@ -6,7 +6,7 @@ import {
   FilterAstSchema,
   MAX_FILTER_DEPTH,
   MAX_GROUP_CHILDREN,
-} from "./ast";
+} from "./ast.js";
 
 const condition = (field: string) => ({
   field,

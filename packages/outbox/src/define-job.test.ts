@@ -1,8 +1,8 @@
 import { UnrecoverableError } from "bullmq";
 import * as v from "valibot";
 import { describe, expect, it } from "vitest";
-import { createJobFactory, isFinalAttempt, rowOrThrow } from "./define-job";
-import type { OutboxLogEntry } from "./logger";
+import { createJobFactory, isFinalAttempt, rowOrThrow } from "./define-job.js";
+import type { OutboxLogEntry } from "./logger.js";
 
 const PayloadSchema = v.object({ id: v.string() });
 

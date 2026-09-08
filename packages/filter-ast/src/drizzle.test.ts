@@ -9,9 +9,9 @@ import {
   timestamp,
 } from "drizzle-orm/pg-core";
 import { describe, expect, it } from "vitest";
-import type { FilterAst } from "./ast";
-import { toDrizzleWhere } from "./drizzle";
-import type { FieldRegistry } from "./registry";
+import type { FilterAst } from "./ast.js";
+import { toDrizzleWhere } from "./drizzle.js";
+import type { FieldRegistry } from "./registry.js";
 
 const t = pgTable("filter_unit", {
   age: integer("age"),

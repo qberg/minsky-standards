@@ -24,10 +24,10 @@ import {
   NO_VALUE_OPERATORS,
   RANGE_OPERATORS,
   type ScalarFilterOperator,
-} from "./ast";
-import { isCalendarDate } from "./calendar-date";
-import type { FieldDef, FieldRegistry } from "./registry";
-import { assertValidAst } from "./validate";
+} from "./ast.js";
+import { isCalendarDate } from "./calendar-date.js";
+import type { FieldDef, FieldRegistry } from "./registry.js";
+import { assertValidAst } from "./validate.js";
 
 // A field resolves to a plain column or a computed SQL expression (correlated
 // scalar); both are SQLWrapper, accepted by every operator.

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import type { FilterAst } from "./ast";
-import { evalAst } from "./eval";
+import type { FilterAst } from "./ast.js";
+import { evalAst } from "./eval.js";
 
 const row = {
   age: 30,

@@ -1,5 +1,5 @@
-import type { Condition, FilterAst, FilterOperator, Group } from "./ast";
-import { isGroup } from "./ast";
+import type { Condition, FilterAst, FilterOperator, Group } from "./ast.js";
+import { isGroup } from "./ast.js";
 
 const isEmptyValue = (rowValue: unknown): boolean =>
   rowValue === null || rowValue === undefined;

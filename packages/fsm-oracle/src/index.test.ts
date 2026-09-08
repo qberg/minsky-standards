@@ -1,6 +1,6 @@
 import { createMachine } from "xstate";
 import { describe, expect, it } from "vitest";
-import { assertTransition, isLegalTransition } from "./index";
+import { assertTransition, isLegalTransition } from "./index.js";
 
 const machine = createMachine({
   id: "review",

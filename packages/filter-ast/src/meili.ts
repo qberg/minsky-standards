@@ -8,10 +8,10 @@ import {
   NO_VALUE_OPERATORS,
   RANGE_OPERATORS,
   type ScalarFilterOperator,
-} from "./ast";
-import { calendarDateToIndexValue } from "./calendar-date";
-import type { FieldDef, FieldRegistry } from "./registry";
-import { assertValidAst } from "./validate";
+} from "./ast.js";
+import { calendarDateToIndexValue } from "./calendar-date.js";
+import type { FieldDef, FieldRegistry } from "./registry.js";
+import { assertValidAst } from "./validate.js";
 
 function quoteString(value: string): string {
   const escaped = value.replace(/\\/g, "\\\\").replace(/"/g, '\\"');

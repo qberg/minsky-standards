@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { err, isErr, isOk, ok, type Result } from "./index";
+import { err, isErr, isOk, ok, type Result } from "./index.js";
 
 describe("result", () => {
   it("tags a success", () => {

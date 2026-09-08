@@ -1,9 +1,9 @@
 import { isErr, isOk } from "@minsky-org/result";
 import { describe, expect, it } from "vitest";
-import type { FilterAst } from "./ast";
-import { MAX_FILTER_DEPTH } from "./ast";
-import type { FieldRegistry } from "./registry";
-import { assertValidAst, validateAst } from "./validate";
+import type { FilterAst } from "./ast.js";
+import { MAX_FILTER_DEPTH } from "./ast.js";
+import type { FieldRegistry } from "./registry.js";
+import { assertValidAst, validateAst } from "./validate.js";
 
 const registry: FieldRegistry = {
   age: {
