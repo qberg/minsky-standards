@@ -1,48 +1,59 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { resolveAdapter } from "./index";
-
-const nodeEnv = process.env.NODE_ENV;
+import { resetAdapterWarnings, resolveAdapter } from "./index.js";
 
 afterEach(() => {
-  process.env.NODE_ENV = nodeEnv;
+  resetAdapterWarnings();
   vi.restoreAllMocks();
 });
 
-const seam = (name: string, credsPresent: boolean) =>
+const seam = (name: string, credsPresent: boolean, isProduction: boolean) =>
   resolveAdapter({
     seam: name,
     credsPresent,
+    isProduction,
     real: () => "real" as const,
     fake: () => "fake" as const,
   });
 
+const spyOnWarning = () =>
+  vi.spyOn(process, "emitWarning").mockImplementation(() => {
+    return;
+  });
+
 describe("resolveAdapter", () => {
   it("takes the real adapter when creds are present", () => {
-    process.env.NODE_ENV = "production";
-    expect(seam("search", true)).toBe("real");
+    expect(seam("search", true, true)).toBe("real");
   });
 
-  it("refuses the Fake in production", () => {
-    process.env.NODE_ENV = "production";
-    expect(() => seam("storage", false)).toThrow(/refusing the Fake fallback/);
+  it("refuses the fake in production", () => {
+    expect(() => seam("storage", false, true)).toThrow(
+      /refusing the fake fallback/
+    );
   });
 
-  it("falls back to the Fake outside production", () => {
-    process.env.NODE_ENV = "development";
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {
-      return;
-    });
-    expect(seam("stt", false)).toBe("fake");
+  it("falls back to the fake outside production", () => {
+    const warn = spyOnWarning();
+    expect(seam("stt", false, false)).toBe("fake");
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(
+      "[stt] required credentials unset, using the fake",
+      "AdapterFallback"
+    );
+  });
+
+  it("warns once per seam across repeated calls", () => {
+    const warn = spyOnWarning();
+    seam("mail", false, false);
+    seam("mail", false, false);
+    seam("mail", false, false);
     expect(warn).toHaveBeenCalledTimes(1);
   });
 
-  it("warns once per seam", () => {
-    process.env.NODE_ENV = "test";
-    const warn = vi.spyOn(console, "warn").mockImplementation(() => {
-      return;
-    });
-    seam("mail", false);
-    seam("mail", false);
-    expect(warn).toHaveBeenCalledTimes(1);
+  it("warns again after resetAdapterWarnings", () => {
+    const warn = spyOnWarning();
+    seam("mail", false, false);
+    resetAdapterWarnings();
+    seam("mail", false, false);
+    expect(warn).toHaveBeenCalledTimes(2);
   });
 });
