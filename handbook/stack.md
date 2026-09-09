@@ -22,12 +22,25 @@ packages) stays in the repo.
   `transition(machine, snap, ev)` + `machine.resolveState({value})`. NOT the
   `.transition` method (wants actorScope) nor `getNextSnapshot` (deprecated). Legal =
   `next.value !== from`, sound only if the machine has zero self-loops.
-- valibot `check` on an object: extract the object to a named schema, type the
-  callback arg as `InferOutput<typeof Schema>`; an inline/narrowed arg trips TS2769
-  under `exactOptionalPropertyTypes`. The `~types` brand is INVARIANT, so sharing one
-  predicate across two schemas trips TS2769 even with a named function; fix with
-  explicit params: `check<InferOutput<typeof Schema>, string>(fn, msg)` (one type
-  param alone selects the message-less overload and fails TS2554).
+- valibot `check` on an object: extract the object to a named schema and put the check in
+  a `pipe` around it. Then either leave the callback arg BARE (`pipe` types it from the
+  schema, which compiles) or annotate it `InferOutput<typeof Schema>`. Only a HAND-WRITTEN
+  annotation trips TS2769, and the cause is `exactOptionalPropertyTypes`: valibot infers
+  `optional(x)` as `k?: T | undefined`, so a hand-written `k?: T` is rejected. Sharing one
+  predicate across two STRUCTURALLY IDENTICAL named schemas is fine, `InferOutput` carries
+  no brand. TS2769 comes from the output types DIFFERING, from a supertype predicate
+  binding as `TInput`, or from hoisting the `CheckAction` to a const, which freezes
+  `TInput` at construction: hoist the PREDICATE, construct the action per schema. The
+  invariance is real (`T` sits in both the parameter and the return of `~run`), so the fix
+  stands: `check<InferOutput<typeof Schema>, string>(fn, msg)`, both type params always
+  (one alone selects the message-less overload and fails TS2554; a genuinely mismatched
+  predicate still fails TS2345). Two consequences for forms: an object-level `check` issue
+  has `path === undefined`, so a cross-field error cannot be routed to a control by path
+  and every cross-field rule must name its own target field; and an explicitly passed
+  `undefined` is copied to the output, so presence checks use `!== undefined`, never `in`.
+  Corrected 2026-09-09 against valibot 1.4.2, 15 gates in apm
+  `experiments/valibot-variant-compile`; the previous wording had the inline and the
+  shared-predicate clauses backwards.
 - valibot `isoTimestamp` admits tz offsets: order-compare via
   `new Date(x).getTime()`, never string comparison.
 - Cross-boundary vocab (enums, roles, permissions) lives in the shared domain-types
