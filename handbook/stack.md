@@ -12,7 +12,9 @@ packages) stays in the repo.
 - DB = Postgres + drizzle. API = Hono + oRPC, contract-first. Auth = better-auth.
 - Async = transactional outbox -> relay -> queue worker. Search = Meilisearch behind
   a port. Cache = Valkey/ioredis, cache-aside, writer invalidates.
-- FE = React 19; admin SPA on TanStack Router/Query, public on Next; styling =
+- FE = React 19; admin and public SPAs on TanStack Router/Query (apm ADR-0071 replaced
+  "public on Next" 2026-09-11: Next needs the TypeScript programmatic API and doubles
+  every tooling seam; anonymous pages render at publish time to static files); styling =
   Tailwind v4 + tokenized design system (tribune); motion = the motion lib for
   perceptible gestures, CSS for micro-fades.
 
