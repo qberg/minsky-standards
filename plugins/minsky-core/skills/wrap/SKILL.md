@@ -54,6 +54,10 @@ repo lacks them, create the missing file from its sibling's shape.
    edit in the minsky-standards sibling repo, bump the plugin version
    (`scripts/publish.sh patch|minor`), and print the `claude plugin update` commands
    for each consuming repo. If nothing generalizes, skip.
+   **Promotion ledger** (`handbook/framework-charter.md`): ask which mechanism crossed
+   all three signals this session (two contexts, a proof that can fail, a survived
+   refutation). If one did, set `promotion: candidate` on its ADR with the three
+   receipts in the body and run the repo's ADR lint; if none did, say so in one line.
 
 ## Stamp
 

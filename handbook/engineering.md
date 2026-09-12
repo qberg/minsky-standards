@@ -38,6 +38,13 @@ deduction. Plausible-and-wrong reads exactly like plausible-and-right.
   that subject in the reference, then write yours as SAME (cite it) or DIVERGE (say
   why, with a receipt). A decision carrying neither is a defect. Re-grill rather than
   copy blindly means read it and argue with it, never skip it.
+- A STRUCTURAL read is not delegable to a summary. When mirroring or diverging from a
+  reference codebase's LAYOUT, read the tree and the files yourself, or brief the scout
+  to PRINT the tree and QUOTE whole files rather than describe them. A summary of a
+  structure is a claim about a structure and it fails the way every relayed claim
+  fails. Proven in apm 2026-09-09: an accurate one-line summary of the reference's
+  module shape put the drizzle table in the wrong file, and the layout built on it was
+  legal, so no lint would have caught it.
 
 ## Quality bar
 
@@ -112,7 +119,10 @@ Every fact has exactly one home; it lands there the moment it's born.
   proving its shape in production in at least one repo. Until then it lives in its
   project. Once packaged, projects diverge via config seams and semver pinning, never
   by editing package source per project; a true divergence is a loud, ADR-recorded
-  eject.
+  eject. Where that code is going is `handbook/framework-charter.md`; a mechanism is a
+  promotion CANDIDATE only when three signals hold (two contexts, a proof that can fail,
+  a survived refutation), recorded as the ADR frontmatter field
+  `promotion: candidate | promoted` with the receipts in the body.
 - A package is not published until every path in its `exports` map has been imported
   under plain node, in a gate that runs on the BUILT artefact. A repo's own test run
   cannot catch a broken emit by construction: the test runner, the dev server and the
