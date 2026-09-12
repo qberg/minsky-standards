@@ -160,5 +160,11 @@ Every fact has exactly one home; it lands there the moment it's born.
 - Delegate labor, keep judgment: mechanical work to cheap models with exact briefs;
   audit the whole diff after any subagent; distrust subagent provenance claims,
   believe `git status`.
+- Subagents run in WAVES, never a flood: at most four concurrent, the next wave only after
+  the previous one reports, and two writers never share a file. Ten parallel agents exhaust
+  the session budget before the work lands (user word, apm 2026-09-12). Enforced, not hoped for: a
+  PreToolUse hook on the Agent tool refuses the launch when the SubagentStart/Stop ledger
+  shows the wave full (apm `scripts/agent-wave-hook.sh`; promote to the org plugin once a
+  second repo needs it).
 - Sessions close with the wrap ceremony (wrap skill): NOTES, debts, gotchas, ADR
   check, handback.
