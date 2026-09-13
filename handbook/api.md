@@ -205,5 +205,23 @@ parsed.
 - Every project consuming this chapter carries one gate proving that a validation failure
   response contains no submitted value. A rule worth stating twice is worth a hook, and
   this one is worth a running test.
+- Every project whose API sits in front of a third-party auth or validation library carries
+  one gate proving that no identifier or sentence authored by that library reaches a client,
+  run against the library's own registry rather than a copied list so a dependency upgrade
+  fails the gate.
 
 ## Amendments
+
+- 2026-09-13, 1.9 gains a third enforcement line, the vocabulary gate, beside the value-leak
+  one. Reason: 1.2 already said codes are ours and never a third party's, and 1.5 already
+  banned library English, but neither was enforced, so apm shipped better-auth's
+  `INVALID_EMAIL_OR_PASSWORD` and its English to the browser for three slices with every gate
+  green. Proven in apm on 2026-09-13 (#100, ADR-0066): the translation is a closed registry
+  plus one boundary step that REBUILDS the error rather than editing it, and the gate reads
+  the library's live registry (`auth.$ERROR_CODES`) rather than a copied list, which is the
+  part that makes an upgrade fail loudly. Two findings from building it that the wording is
+  chosen to catch: a short-circuit that passed an error through when its code was already one
+  of ours leaked the library's English, because two of our codes are spelled like two of
+  theirs; and a refusal raised before any endpoint never reaches an after hook at all, so a
+  project needs a second catch at its composition root or the gate is passed by a path it
+  never sees.
