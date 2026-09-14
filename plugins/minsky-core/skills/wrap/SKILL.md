@@ -14,16 +14,24 @@ repo lacks them, create the missing file from its sibling's shape.
 
 ## The five checks
 
-1. **State of play** (`docs/agents/NOTES.md`): update every epic line this session
-   touched; add resume-here pointers; DELETE lines for anything that shipped (git
-   history is the record). Respect the file's line cap; prune now, not later.
-2. **Owed work** (`docs/agents/debts.md`): anything left undone that someone must
-   remember: feel-gates, deploys, migrations, reviews, follow-ups. One line each,
-   right section, source cited. If it is already an issue, pointer only.
+1. **State of play** (`docs/agents/NOTES.md`): a capped resume card, loaded into every
+   session, so it holds only per open epic: where it stands, the next step, what to
+   distrust first, pointers. Update every epic line this session touched; DELETE lines
+   for anything that shipped (git history is the record). The session's narrative goes
+   VERBATIM to `docs/agents/sessions/<date>-<slug>.md` (provenance, never law), and every
+   fact in it gets one home down the ladder (decision, trap, debt, build note) before
+   the bullet is cut. A journal wearing the state-of-play name is the failure this
+   guards against (apm 2026-09-14: 874 lines, half superseded, loaded every session).
+2. **Owed work** (`docs/agents/debts/`): anything left undone that someone must
+   remember: feel-gates, deploys, migrations, reviews, follow-ups. One entry each, a
+   priority and a home (`P<0-3> | #issue or ADR-nnnn or none`), in the bucket of the
+   context whose slice PAYS it, source cited. If it is already an issue, pointer only.
+   Ticked items leave the open ledger (the repo's debts tool moves them).
 3. **Traps** (`docs/agents/gotchas/`): a non-obvious failure that cost real time gets
-   an entry in the matching compendium, with its receipt (doc, ADR, URL, or the
-   command that proves it). Second bite of the same trap: promote to a CLAUDE.md line
-   or a hook, shrink the entry to a pointer.
+   one headed entry in the matching compendium, within the cap, its receipt last (doc,
+   ADR, URL, or the command that proves it). Prose never states a registry's size; it
+   points at the registry (a count in prose is stale by construction). Second bite of
+   the same trap: promote to a CLAUDE.md line or a hook, shrink the entry to a pointer.
 4. **Decisions** (`docs/adr/`): did anything get decided this session (client word,
    grill verdict, design ruling) that has no ADR home? Write the amendment or short
    ADR now. A decision living only in the conversation does not exist. Every
@@ -61,7 +69,9 @@ repo lacks them, create the missing file from its sibling's shape.
 
 ## Stamp
 
-Finish by refreshing the ceremony stamp so the reminder hook goes quiet:
+Run the repo's docs lints first (adr, agent-docs, debts, or whatever `pnpm check` chains)
+so the ladder is green before the stamp. Then refresh the ceremony stamp so the reminder
+hook goes quiet:
 
 ```bash
 date +%s > "$(git rev-parse --git-dir)/wrap-stamp"
