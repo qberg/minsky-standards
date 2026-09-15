@@ -20,6 +20,13 @@ if echo "$CMD" | grep -qE '\bgit[[:space:]]+add[[:space:]]+(-A|--all|\.|:/)([[:s
   block "no 'git add -A/.'; stage explicit paths so unrelated drift stays out."
 fi
 
+# A repo-wide stash drops another agent's in-flight edits (engineering law; three apm incidents 2026-09-15).
+if echo "$CMD" | grep -qE '\bgit[[:space:]]+stash([[:space:]]|$)' \
+   && ! echo "$CMD" | grep -qE '\bgit[[:space:]]+stash[[:space:]]+(list|show)\b' \
+   && ! echo "$CMD" | grep -qE '\bgit[[:space:]]+stash[[:space:]]+push\b.*[[:space:]]--[[:space:]]+[^[:space:]]'; then
+  block "no repo-wide 'git stash' on a shared tree; stash explicit paths with 'git stash push -- <path>', or read 'git diff HEAD -- <path>' instead."
+fi
+
 # Branch creation: ship-issue commits to the CURRENT branch (SKILL phase 6).
 if echo "$CMD" | grep -qE '\bgit[[:space:]]+(checkout[[:space:]]+-b|switch[[:space:]]+-c|branch[[:space:]]+[^-])'; then
   block "no new branch; commit to the current branch unless the user asked for one."
