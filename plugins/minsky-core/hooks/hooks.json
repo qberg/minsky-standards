@@ -11,6 +11,17 @@
             "statusMessage": "Checking plugin version bump"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/ship-issue/scripts/guard.sh\"",
+            "timeout": 5,
+            "statusMessage": "Shared-branch guard: no stash, no add -A, no branches"
+          }
+        ]
       }
     ],
     "PostToolUse": [

@@ -70,6 +70,10 @@ packages) stays in the repo.
 - Tailwind v4: off-scale utilities need arbitrary syntax (`z-[45]`, not `z-45`,
   which is silently ignored). Non-color token blocks in `@theme` need
   `@theme static` or v4 prunes unscanned vars.
+- A package `lint` script runs `biome check <paths>`, never `biome lint` alone: `lint` applies rules
+  only, while import sorting and formatting are `check` assists that nothing else runs per package, so
+  a builder's "lint green" leaves drift the editor then flags. Proven in apm 2026-09-16 across six
+  packages after five green handbacks with unsorted imports. Include the app's `index.html` in the paths.
 - biome v2 has no type-aware lint: `noFloatingPromises` off (async fn to `onClick`
   is fine); `noVoid` on (use `| undefined`, not `| void`, in unions); hoist regexes
   module-level.
