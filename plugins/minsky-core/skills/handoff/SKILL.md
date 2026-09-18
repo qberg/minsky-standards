@@ -39,6 +39,16 @@ ceremony deletes the NOTES pointer; the file stays as archive.
 If the user passed arguments, they describe what the next session will focus on: shape sections
 3 and 7 to that focus.
 
+## Lifetime: a handoff dies with its task
+
+A handoff is a frozen OPEN task, so its life is the task's. It lives while NOTES.md points at it;
+when the task closes, the wrap ceremony removes the pointer and DELETES the file (git keeps the
+history; the wrap's session archive holds the narrative). One open task has at most one handoff:
+a later handoff for the same task overwrites the file, never adds a second. A handoff nobody points
+at is stale by definition, and the repo's docs lint fails on it (apm `scripts/agent-docs-lint.mjs`:
+every `sessions/*-handoff.md` must appear in NOTES.md), so the cleanup is enforced, not remembered.
+Left alone the folder would become a second journal, the failure NOTES.md's cap exists to prevent.
+
 ## After writing
 
 - Run the repo's docs lints (agent-docs, debts) so the NOTES pointer is legal.
