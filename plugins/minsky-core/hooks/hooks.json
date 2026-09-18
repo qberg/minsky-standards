@@ -22,6 +22,17 @@
             "statusMessage": "Shared-branch guard: no stash, no add -A, no branches"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/noisy-bash.sh\"",
+            "timeout": 5,
+            "statusMessage": "Quiet gates: bare gate output stays out of the window"
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -45,6 +56,18 @@
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/wrap-nag.sh\"",
             "timeout": 15,
             "statusMessage": "Checking wrap ceremony stamp"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/context-watch.sh\"",
+            "timeout": 10,
+            "statusMessage": "Context watch"
           }
         ]
       }

@@ -14,6 +14,17 @@ command table, the cross-package guard table, and the current flake list. If the
 lacks that file, derive commands from its CLAUDE.md and package.json, and create the
 file as you learn (dated entries; a flake list is only trustworthy with a verify date).
 
+## Quiet gates (the window is the cost)
+
+A gate's value is its verdict; its log is noise that then rides every later turn. Run gates through
+`scripts/gate.sh` next to this file: `gate.sh <pnpm-filter> [gate ...]` runs typecheck, lint, test and
+check:tokens (whichever the package has) and prints PASS or FAIL per gate plus the first fifteen
+telling lines of the first failure; the full log waits in `/tmp/gate/`, grep it only on failure.
+`gate.sh run "<label>" "<command>"` wraps any other command the same way. The plugin's `noisy-bash`
+hook asks before a bare gate command; `# full-log` on the command is the deliberate escape for a
+diagnosis that needs the whole output. Screenshots follow the same law: read a cropped region at 1x,
+the full page at 4x only when the judgment needs it.
+
 ## No-NEW-errors method
 
 1. Before editing: run the scoped typecheck/tests once; record failures (or trust a

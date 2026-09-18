@@ -5,7 +5,8 @@ description: Session closing ceremony. Routes everything learned or left owed th
 
 # wrap
 
-Closing ceremony. One pass, six checks, then stamp. The goal: no fact leaves the
+Closing ceremony. One pass, six checks, then stamp. Mid-task, with the task still open, the
+sibling is the handoff skill: it freezes where the work stands so the session can `/clear`. The goal: no fact leaves the
 session living only in chat or in your head. Skip any check that has nothing; never
 skip the pass.
 
