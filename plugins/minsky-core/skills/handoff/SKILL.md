@@ -1,6 +1,6 @@
 ---
 name: handoff
-description: Freeze an OPEN task into a handoff document so a fresh session can continue it without the chat. Use mid-task when the context is large (the context-watch hook says so above the threshold), before /clear, or when handing work to another agent. Not the closing ceremony: wrap files facts down the ladder at session end; handoff freezes where an unfinished task stands. Triggers: "handoff", "hand off", "freeze this", the hook's nudge, "I am about to /clear".
+description: Freeze an OPEN task into a handoff document so a fresh session can continue it without the chat, whether the freeze is an interruption or a PLANNED boundary cut inside a still-live slice to hand the next session a clean context. Use mid-task when the context is large (the context-watch hook says so above the threshold), before /clear, when handing work to another agent, or when a slice is deliberately paused at a context change so the next session opens with the right skill loaded. Not the closing ceremony: wrap files facts down the ladder at session end; handoff freezes where an unfinished task stands. Triggers: "handoff", "hand off", "freeze this", the hook's nudge, "I am about to /clear".
 ---
 
 # handoff
@@ -20,6 +20,9 @@ ceremony deletes the NOTES pointer; the file stays as archive.
 
 ## What it holds, in this order, each section short
 
+0. **Boundary**: `planned-inside-slice` or `task-frozen`. The first means the slice is live and
+   continues next session; the second means work stopped and may not resume. A
+   `planned-inside-slice` handoff MUST carry section 7's first skill and its "still owes" line.
 1. **Task and its authority**: the issue, ADR or user word the work answers, by path or number.
 2. **Where it stands**: what is built and verified (gate results as one line each), what is
    half-written, in which files (paths with line ranges, never file contents).
@@ -31,8 +34,13 @@ ceremony deletes the NOTES pointer; the file stays as archive.
    A handoff is not a home for a decision.
 6. **What to distrust first**: unverified claims, extrapolated values, in-flight files of other
    agents, anything a subagent reported that git has not confirmed.
-7. **Suggested skills**: which skills the next session should invoke and in what order (`/wrap`,
-   `/verify-package`, `/harden-slice`, a repo skill), one line why each.
+7. **Suggested skills**: which skills the next session invokes and in what order (`/wrap`,
+   `/verify-package`, `/harden-slice`, a repo skill), one line why each. When the handoff is a
+   PLANNED BOUNDARY inside a live slice, this section is REQUIRED to name the FIRST skill and
+   the context the next session must load before touching code (for a surface, the craft skill;
+   for a new directory, the reference read), plus ONE sentence saying what the slice still owes
+   before its checkpoint. A boundary taken to get better context is wasted if the next session
+   does not load that context first.
 8. **Redaction**: no keys, passwords, tokens, personal data. Names of staff in fixtures are fine;
    real people's data is not.
 

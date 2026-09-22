@@ -152,6 +152,15 @@ Every fact has exactly one home; it lands there the moment it's born.
 
 - Vertical tracer-bullet slices, riskiest first, a live checkpoint per slice.
   Never build a horizontal layer in isolation.
+- A SLICE MAY SPAN SESSIONS; A LAYER MAY NOT SHIP ALONE (user word, apm 2026-09-22). The two
+  are different: a slice is unfinished until its live checkpoint passes, so a session boundary
+  inside it is a pause, and only a layer declared DONE with no checkpoint is the forbidden
+  thing. Cut the boundary where the CONTEXT changes, not where the layers do: an agent whose
+  window is full of transaction seams and registries builds a worse surface than a fresh one
+  that opens with the craft skill loaded. The handoff document is the conversation between
+  those sessions, and the next session is named in it, including which skill it loads first.
+  A slice built this way is still ONE slice: one checkpoint, one review, one entry in the
+  build notes.
 - Shared branch, concurrent agents: never `git commit --amend`, never repo-wide
   `git stash`, stage explicit paths, verify HEAD before any history op. Format only
   the paths you touched.
@@ -164,7 +173,7 @@ Every fact has exactly one home; it lands there the moment it's born.
   the previous one reports, and two writers never share a file. Ten parallel agents exhaust
   the session budget before the work lands (user word, apm 2026-09-12). Enforced, not hoped for: a
   PreToolUse hook on the Agent tool refuses the launch when the SubagentStart/Stop ledger
-  shows the wave full (apm `scripts/agent-wave-hook.sh`; promote to the org plugin once a
-  second repo needs it).
+  shows the wave full (minsky-core plugin `agent-wave.sh`, promoted from apm's repo script
+  2026-09-20, cap overridable per repo via `MINSKY_WAVE_MAX`).
 - Sessions close with the wrap ceremony (wrap skill): NOTES, debts, gotchas, ADR
   check, handback.

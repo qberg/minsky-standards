@@ -94,3 +94,4 @@ without one.
 - Anything for the framework that no product needs this week.
 
 ## Amendments
+- 2026-09-14, apm ADR-0078: the kind catalogue gains its client half (route guard, route, query factory, mutation, screen machine, page, module, copy catalogue, contract) and two server kinds (auth endpoint, suggestion); the table still lives in apm ADR-0070 with ADR-0078 s6 holding the client rows, until a second consumer forces it here.
