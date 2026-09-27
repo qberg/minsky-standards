@@ -3,6 +3,8 @@ name: verify-package
 description: Verify a change in any package or app of a monorepo the right way: scoped commands, the no-NEW-errors baseline method, cross-package guard awareness, and the flake protocol. Use before declaring any slice done, when a test fails and you suspect a flake, or when deciding which checks a diff needs. Written for subagents executing scoped work.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Verify a package change
 
 Gate for any slice = **no NEW failures**, never "everything green". A brownfield repo
@@ -56,6 +58,24 @@ to that table before closing; the table is the only memory this class of bug has
   the unbuilt real fix if known.
 - A runtime-only runner (tsx and friends) does not typecheck. A job passing at runtime
   is NOT evidence it compiles; run the typecheck.
+
+## Dead code and duplication (fallow), at close only
+
+fallow runs when a FEATURE closes (the tracker card moving to done), never per edit and never per session:
+a half-built slice is allowed to hold code its next step will import. Proven in apm 2026-09-27, where the
+gate had been skipped for a week and a closing pass found drift from six sessions at once.
+
+- Its findings are QUESTIONS for the agent, never an order to delete. Unused code gets one of three answers:
+  used now; dead (left over or replaced), so delete it after `npx fallow dead-code --trace <file>:<name>`;
+  or kept for a named next step, `/** @expected-unused #<open issue>: <who imports it> */`. fallow reports
+  that tag as stale once something imports it, so a label cannot rot (fallow's own
+  `skills/fallow/references/gotchas.md`, "@expected-unused JSDoc Tag"). A label names an open issue, never
+  "might be useful".
+- Copied code and same-named exports across features are a DESIGN question: two features want one shape.
+  The answer is the shared mechanism, never a rename that hides the match (handbook, "Design the whole").
+- Test files are entry points (fallow's vitest and jest plugins find them). Never put `*.test.*` in
+  `ignorePatterns`: every helper only tests import then reads as dead.
+- The gate is a ratchet: counts may only fall, and a close that leaves it red names the debt that owes it.
 
 ## Reporting contract
 
