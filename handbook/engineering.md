@@ -58,6 +58,14 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
 - Build it right now: no deferring pattern decisions to issue/feature lines. A
   deferral needs a real blocker (missing infra, unbuilt dependency, human gate),
   never "out of this issue's scope". We own the whole stack.
+- Design the whole, build thin. "A layer exists only when the first real slice needs it"
+  is about empty directories and scaffolding, never about design: a shape two features
+  will share is decided across both before either is built, and a feature designed
+  alone against its own issue is local optimisation. Copied code between features is
+  the symptom, so it is answered with the shared mechanism, never a rename. Proven in
+  apm 2026-09-27 (founder's word, "elegance across all the features"): the act seam
+  was retrofitted onto fifteen hand-rolled commands, and a second sign-in pool copied
+  the first pool's audit, ceiling and boundary files.
 - Beauty is a correctness signal. Architecture optimizes elegance, full type-safety,
   declarative extension: single-source-of-truth registries + mapped types so
   completeness is compiler-enforced; no scattered switch; zero `any` (parse `unknown`
@@ -114,7 +122,12 @@ Every fact has exactly one home; it lands there the moment it's born.
   worth stating twice is worth a hook. Enforcement outranks documentation.
 - Proven traps: `docs/agents/gotchas/`. State of play: `docs/agents/NOTES.md`,
   updated at session end (the wrap skill), pruned same-day when things ship.
-- Third-party mechanism facts are never stored, always looked up.
+- Third-party mechanism facts are never stored, always looked up. One exception: a PINNED copy of
+  a vendor's own docs, stored beside the skill that reads it, when an audit must read the same
+  text every run. It carries the upstream commit, the date taken, the version it matches and a
+  refresh rule, and it is the vendor's words verbatim, never our summary of them. Proven in apm
+  2026-09-25: the craft skill's final audit reads six react.dev pages pinned to a commit in
+  `react-docs/`, refreshed when React moves a major.
 - Shared code promotion bar: a mechanism becomes an @minsky-org package only after
   proving its shape in production in at least one repo. Until then it lives in its
   project. Once packaged, projects diverge via config seams and semver pinning, never
