@@ -3,6 +3,8 @@ name: harden-slice
 description: Adversarially review and harden a freshly-built vertical slice (issue/diff) so its architecture is as elegant and correct as possible before it ships. A powerful model plays senior decision-maker: delegates evidence + adversarial review to cheaper agents, judges findings, rebuilds the contract when a design flaw is found, audits the full diff, reconciles docs, and posts an honest AC status. Use after a slice of a larger epic has been built (by the user or an agent) and needs a hardening pass before commit. Triggers: "review and harden this slice", "harden S<n>", "review-and-fix cadence", "make the architecture elegant before shipping", or picking up the review step of a multi-slice epic.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Harden Slice
 
 Take a slice that was just **built** and make its architecture as elegant and correct

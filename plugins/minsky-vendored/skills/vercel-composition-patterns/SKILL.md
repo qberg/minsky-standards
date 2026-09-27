@@ -12,6 +12,8 @@ metadata:
   version: '1.0.0'
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # React Composition Patterns
 
 Composition patterns for building flexible, maintainable React components. Avoid

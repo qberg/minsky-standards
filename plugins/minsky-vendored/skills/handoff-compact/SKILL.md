@@ -4,6 +4,8 @@ description: Compact the current conversation into a throwaway handoff document 
 argument-hint: "What will the next session be used for?"
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 Write a handoff document summarising the current conversation so a fresh agent can continue the work. Save to the temporary directory of the user's OS - not the current workspace.
 
 Include a "suggested skills" section in the document, which suggests skills that the agent should invoke.

@@ -3,6 +3,8 @@ name: wrap
 description: Session closing ceremony. Routes everything learned or left owed this session into its git-tracked home (NOTES.md state of play, debts ledger, gotcha compendia, ADRs), then hands back the tree. Use at the end of a session or epic, when the user says "wrap", "wrap up", "close out", "closing ceremony", or before walking away from a substantial work session.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # wrap
 
 Closing ceremony. One pass, six checks, then stamp. Mid-task, with the task still open, the

@@ -3,6 +3,8 @@ name: db-change
 description: Workflow for any Postgres schema change in a drizzle monorepo: vocab first, schema edit, generate, review the emitted SQL, migrate, downstream sync. Use when adding or altering tables, columns, enums, constraints, or indexes, when writing a migration, or when a schema change must propagate to seeders, caches, or search. Written for executor agents of any size; follow it literally.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # DB change: the one flow
 
 Schema truth lives in the repo's database package schema files (glob-registered by

@@ -3,6 +3,8 @@ name: add-vertical
 description: Layer-by-layer recipe for adding a new endpoint or feature vertical to a modular monolith on the org stack (domain-types vocab, drizzle schema, oRPC contract, handler, FE consumption), with the stack gotchas at their point of use. Use when adding an endpoint, contract, handler, module, or any feature that spans db to api to ui. Written for executor agents of any size; follow it literally.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Add a vertical slice
 
 One slice = one thin path end-to-end, smoke-tested before the next begins. Bucket

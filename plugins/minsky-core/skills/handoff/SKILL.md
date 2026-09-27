@@ -3,6 +3,8 @@ name: handoff
 description: Freeze an OPEN task into a handoff document so a fresh session can continue it without the chat, whether the freeze is an interruption or a PLANNED boundary cut inside a still-live slice to hand the next session a clean context. Use mid-task when the context is large (the context-watch hook says so above the threshold), before /clear, when handing work to another agent, or when a slice is deliberately paused at a context change so the next session opens with the right skill loaded. Not the closing ceremony: wrap files facts down the ladder at session end; handoff freezes where an unfinished task stands. Triggers: "handoff", "hand off", "freeze this", the hook's nudge, "I am about to /clear".
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # handoff
 
 Cost law: every turn re-reads the whole window, so a 500k window costs five times a 100k one

@@ -9,6 +9,8 @@ hooks:
           command: bash "${CLAUDE_PLUGIN_ROOT}/skills/ship-issue/scripts/guard.sh"
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # ship-issue
 
 Spine for taking a tracker issue from ready-for-dev to closed. Claude already knows how
