@@ -63,6 +63,8 @@ Surface deltas to the user before planning.
   explainer (C4 L1 to L3 plus one runtime sequence diagram). Doc HTML stays uncommitted.
 
 ### 2. Plan, vertical and riskiest-first
+- If the repo has `docs/agents/prior-art/README.md`, run the prior-art skill FIRST, once per
+  slice; the plan cites the read's Pick and never re-decides it.
 - Cut the work into vertical tracer-bullet slices by demoable behavior, never by layer.
   See `references/slicing.md`.
 - Slice A is a walking skeleton: the thinnest path through every layer that yields
@@ -184,6 +186,15 @@ Surface deltas to the user before planning.
   Co-Authored-By lines. No em-dashes anywhere. Then RE-RUN the gates at the committed
   HEAD: staging is where a file lands in the wrong commit or gets left behind. Never
   `--amend` on a shared branch.
+- Granular commits, labour delegated (founder's word 2026-09-29): one commit per logical
+  unit (a contract row, a command, a component, a gate, a doc line), never one commit per
+  slice. The MAIN THREAD writes the commit plan: ordered groups, each an explicit path list
+  and a message whose body says WHY, dependency order first, the prior-art read committed
+  before the code it planned. A CHEAP subagent (the smallest model) executes the plan
+  literally: verify HEAD, `git add <paths>` per group, commit, stop at the first surprise
+  (a path already staged, a hook refusal, HEAD moved) and report rather than improvise. It
+  never groups, renames, or edits a file. The main thread then reads
+  `git log --stat <start>..HEAD` against the plan, and re-runs the gates at HEAD.
 - Append an entry to `docs/agents/build-notes.md`: what was actually built: schema
   shapes, API contracts, component interfaces, deviations from spec, and what the next
   consumer needs to know. This is how you tell downstream agents and humans what

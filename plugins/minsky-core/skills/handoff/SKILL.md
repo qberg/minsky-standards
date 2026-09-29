@@ -32,6 +32,8 @@ ceremony deletes the NOTES pointer; the file stays as archive.
 4. **Decisions made this session that are already recorded**: ADR lines, study sections, commits,
    by path or hash. Reference, never restate: a handoff that copies an ADR goes stale the day the
    ADR is amended.
+   The slice's prior-art read, when one exists, is cited here by path; the next session never
+   redoes it.
 5. **Decisions made but NOT yet recorded**: record them now, down the ladder, then reference them.
    A handoff is not a home for a decision.
 6. **What to distrust first**: unverified claims, extrapolated values, in-flight files of other

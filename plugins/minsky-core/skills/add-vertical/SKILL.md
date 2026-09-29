@@ -19,6 +19,9 @@ exemplar and create the file as you learn.
 
 ## Layer walk (in this order)
 
+If the repo has `docs/agents/prior-art/README.md`, the slice's prior-art read comes first; walk
+only the layers its Already built table does not already answer, through the homes it names.
+
 ### 1. Vocab: the shared domain-types package
 - Values: `X_VALUES = [...] as const satisfies readonly X[]`, feeding valibot
   `picklist()`.
