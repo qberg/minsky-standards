@@ -64,7 +64,7 @@ Surface deltas to the user before planning.
 
 ### 2. Plan, vertical and riskiest-first
 - If the repo has `docs/agents/prior-art/README.md`, run the prior-art skill FIRST, once per
-  slice; the plan cites the read's Pick and never re-decides it.
+  slice; the plan cites the read's case (section 7) and never re-decides it.
 - Cut the work into vertical tracer-bullet slices by demoable behavior, never by layer.
   See `references/slicing.md`.
 - Slice A is a walking skeleton: the thinnest path through every layer that yields

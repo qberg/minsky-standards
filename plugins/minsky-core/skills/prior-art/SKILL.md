@@ -23,7 +23,7 @@ the repo's hook refuses a new source file its read does not list.
 ## Steps
 
 1. **Name the need** in five lines: the person, the act, the authority (ADR line, user word).
-2. **Brief a FRESH-CONTEXT agent** to write sections 2 to 8 of the format. The brief names every
+2. **Brief a FRESH-CONTEXT agent** to write sections 2 to 6 and 8 of the format. The brief names every
    lookup file by path, because a file the brief omits is a file the agent skips (the first read
    missed the silhouette list for exactly this reason). The repo's README lists them; in apm:
    the mental model, `docs/agents/silhouettes.md`, `docs/agents/design-language.md`,
@@ -32,8 +32,8 @@ the repo's hook refuses a new source file its read does not list.
 3. **Judge it in the main thread.** Distrust its provenance: spot-check three receipts yourself.
    Place the need on the primitives yourself too; a tension (fits none, fits two) is the most
    valuable line in the file and is never smoothed.
-4. **Decide from the numbers.** The criteria are fixed before the pick: rules with two homes,
-   concepts added, files touched, compiler-enforced completeness. The pick names its criterion.
+4. **Make the case** (section 7): for every `new`, `generalise` or `replace` verdict, run the
+   `make-the-case` skill; its criteria are fixed before the pick, and the pick names what decided it.
 5. **Write the file** at `docs/agents/prior-art/<issue>-<slice>.md`. The main thread writes its
    first section, In plain words, for the founder: the core idea, the named person's walk, what is
    reused and what is new in product words, and the choices that are theirs, each with a pick. No

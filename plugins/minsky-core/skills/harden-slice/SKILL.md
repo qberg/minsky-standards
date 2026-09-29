@@ -107,7 +107,7 @@ already delegated.
 ### 6. Cross-slice coherence (only for a slice in an epic)
 
 If the slice has a prior-art read (`docs/agents/prior-art/<issue>-<slice>.md`), hold the diff
-against it first: files promised against files created, the Pick against what was built, every
+against it first: files promised against files created, the case's pick against what was built, every
 `generalise` or `replace` verdict carried to all its callers. A gap is a finding.
 
 A slice can be internally correct and still wrong for the epic. Check it against the
