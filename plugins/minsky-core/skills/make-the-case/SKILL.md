@@ -59,6 +59,9 @@ Diagram rules: every element has a name, a type, a technology where it has one, 
 description; arrows are one way and labelled with a verb; under 20 elements; one level per
 diagram; always a title; no emoji. A diagram is never committed until it draws.
 
+The founder reads the repo's docs in Obsidian, which draws Mermaid in place, so a case needs no
+separate review artifact (founder's word 2026-09-29: tokens go where they matter most).
+
 ## Steps
 
 1. State the question in one line and write both designs as code at every use site.
