@@ -42,8 +42,10 @@ loss is accepted. Row 9 is never skipped. Every row carries a receipt or `no rec
     You did not design this. Your job is to break it. Design: [the pick, as code at its use sites].
     The alternative was: [runner-up]. Context: [paths]. Find the strongest reason the pick is
     wrong: a scenario it fails, an edge case, a rule it duplicates, a law it strains, a product or
-    open-source precedent against it. Quote path:line for every claim; mark read or inferred. If
-    you cannot break it, say what you tried. Edit nothing.
+    open-source precedent against it. Quote path:line for every claim; mark read or inferred. Tag
+    every finding SETTLED BY READING or NEEDS A RUN; for a run, name the gated test that would
+    prove it and the number that would decide it. If you cannot break it, say what you tried.
+    Edit nothing.
 
 ## The pictures
 
@@ -71,6 +73,9 @@ colour. The repo's lint renders every block with `d2 -` and fails one that does 
    10 when a claim needs a run.
 4. Draft the pick, then brief the refutation (row 9) with the fixed text. Fold its findings: a
    finding that breaks the pick changes the pick, never the case's wording.
+   A HIGH or MEDIUM finding tagged NEEDS A RUN is never folded by reasoning: its gated experiment
+   (row 10) runs first, in the next wave, and its numbers keep or change the pick. The refuter
+   finds; the run settles.
    A changed pick is refuted again, briefed with the findings it answers, before any build.
    Stop when a round finds nothing HIGH against the pick itself. A defect it finds in code that
    already ships is fixed and committed on its own, with its tests, never folded into the case.
@@ -89,3 +94,4 @@ Every entry says what a case missed and what the skill now does about it. This l
 | 2026-09-29 | apm's first C4 map drawn with Mermaid `C4Context` and `C4Container` rendered as overlapping labels in Obsidian | C4 levels are drawn as `flowchart`; C4 names the zoom, not the syntax |
 | 2026-09-29 | apm #294 R1, round 2: the refutation of the revised pick found a second live hole (an empty role or a future grant hid a self-edit) | A stop rule (no HIGH against the pick) and shipped defects fixed on their own |
 | 2026-09-29 | Mermaid flowcharts still read as a mess at C4 scale; the founder asked for the most capable tool | D2 with ELK, checked by rendering; quote labels holding a newline |
+| 2026-09-29 | apm #296 V1: a reader flagged a cookie trap as UNVERIFIABLE and a debt called the same slide "may"; a gated run proved the opposite and two live auth defects (0 ms against +3,660,004 ms). Refuters' PLAUSIBLE findings were being folded by reasoning | Founder's word: refutation and experiment run alongside. The brief tags each finding SETTLED BY READING or NEEDS A RUN and names the test; a HIGH or MEDIUM needing a run is settled by its run before the fold (step 4) |
