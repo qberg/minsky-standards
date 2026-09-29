@@ -72,6 +72,8 @@ separate review artifact (founder's word 2026-09-29: tokens go where they matter
 4. Draft the pick, then brief the refutation (row 9) with the fixed text. Fold its findings: a
    finding that breaks the pick changes the pick, never the case's wording.
    A changed pick is refuted again, briefed with the findings it answers, before any build.
+   Stop when a round finds nothing HIGH against the pick itself. A defect it finds in code that
+   already ships is fixed and committed on its own, with its tests, never folded into the case.
 5. Draw the two pictures.
 6. Write it where it lives (a prior-art read's case section, or the ADR), plain words first: the
    core idea, an everyday picture, the named person's example, then the table. A person reads it
@@ -85,3 +87,4 @@ Every entry says what a case missed and what the skill now does about it. This l
 | --- | --- | --- |
 | 2026-09-29 | apm #294 R1, the first case: the refutation broke the pick three ways and found a live hole (a role edit judged only the new keys) | A changed pick is refuted again before build (step 4) |
 | 2026-09-29 | apm's first C4 map drawn with Mermaid `C4Context` and `C4Container` rendered as overlapping labels in Obsidian | C4 levels are drawn as `flowchart`; C4 names the zoom, not the syntax |
+| 2026-09-29 | apm #294 R1, round 2: the refutation of the revised pick found a second live hole (an empty role or a future grant hid a self-edit) | A stop rule (no HIGH against the pick) and shipped defects fixed on their own |
