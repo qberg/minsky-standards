@@ -1,7 +1,7 @@
 {
   "name": "minsky-core",
   "description": "Minsky org process law, org-authored only. Skills: wrap, handoff, ship-issue, prior-art, make-the-case, verify-package, watch-it-work, harden-slice, db-change, add-vertical, oss-ref-scout, mentor-build. Hooks: wrap-nag (Stop reminder when code changed since last wrap), context-watch (UserPromptSubmit nudge to /handoff above MINSKY_HANDOFF_AT tokens, default 400000), noisy-bash (PreToolUse ask on a bare gate command; use verify-package's gate.sh or a pipe), comment-length (max consecutive comment lines, threshold from repo .claude/comment-policy, default 1), agent-wave (PreToolUse/SubagentStart/SubagentStop cap on live subagents, default 4, override MINSKY_WAVE_MAX), browser-run (PreToolUse ask before an agent-browser run, honours a `.git/browser-grant` expiry). Third-party skills live in minsky-vendored.",
-  "version": "0.18.1",
+  "version": "0.18.2",
   "author": {
     "name": "Minsky"
   }
