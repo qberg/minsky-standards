@@ -48,7 +48,9 @@ the repo's hook refuses a new source file its read does not list.
 A read dies with its card, as a handoff dies with its task. At Done every lesson has moved to its
 home (ADR, silhouette and word rows, the mental model's log, Refinements below); the read is
 committed, the build note cites `git show <hash>:<path>`, and the wrap deletes it. The repo's lint
-enforces the deletion.
+enforces the deletion. Before Done, the case's level 3 picture of what was actually built is merged
+into the repo's component map (`docs/architecture/c4-components-<area>.md`, the slice named beside
+it), so the architecture map grows slice by slice instead of dying with each read.
 
 ## Refinements
 
