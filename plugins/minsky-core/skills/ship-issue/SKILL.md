@@ -191,7 +191,8 @@ Surface deltas to the user before planning.
   slice. The MAIN THREAD writes the commit plan: ordered groups, each an explicit path list
   and a message whose body says WHY, dependency order first, the prior-art read committed
   before the code it planned. A CHEAP subagent (the smallest model) executes the plan
-  literally: verify HEAD, `git add <paths>` per group, commit, stop at the first surprise
+  literally: verify HEAD, `git add <paths>` per group, confirm `git diff --name-only -- <paths>`
+  is EMPTY (a path staged earlier, a rename say, keeps later edits unstaged), commit, stop at the first surprise
   (a path already staged, a hook refusal, HEAD moved) and report rather than improvise. It
   never groups, renames, or edits a file. The main thread then reads
   `git log --stat <start>..HEAD` against the plan, and re-runs the gates at HEAD.
