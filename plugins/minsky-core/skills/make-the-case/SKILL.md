@@ -50,9 +50,10 @@ loss is accepted. Row 9 is never skipped. Every row carries a receipt or `no rec
 Two per case, Mermaid, written so an agent reads the text and a person reads the drawing:
 
 1. **C4 level 3, before and after**: a `flowchart` in C4 style (the containers and the homes the
-   change touches; new homes and changed homes marked by class, never raw colour). Mermaid's C4
-   syntax is experimental, so levels 3 and dynamic use `flowchart` and `sequenceDiagram`; the
-   repo's one-time level 1 and 2 map may use `C4Context` and `C4Container`.
+   change touches; new homes and changed homes marked by class, never raw colour). Every level,
+   the one-time level 1 and 2 map included, is drawn with `flowchart`, never Mermaid's C4
+   syntax: that syntax places boxes in fixed rows with no layout, and its labels overlap
+   (founder's screenshots 2026-09-29). C4 is the zoom discipline, not the drawing syntax.
 2. **The walk**: a `sequenceDiagram` of the named person's act, one `alt` branch per edge case.
 
 Diagram rules: every element has a name, a type, a technology where it has one, and a short
@@ -83,3 +84,4 @@ Every entry says what a case missed and what the skill now does about it. This l
 | Date | Miss | Change |
 | --- | --- | --- |
 | 2026-09-29 | apm #294 R1, the first case: the refutation broke the pick three ways and found a live hole (a role edit judged only the new keys) | A changed pick is refuted again before build (step 4) |
+| 2026-09-29 | apm's first C4 map drawn with Mermaid `C4Context` and `C4Container` rendered as overlapping labels in Obsidian | C4 levels are drawn as `flowchart`; C4 names the zoom, not the syntax |
