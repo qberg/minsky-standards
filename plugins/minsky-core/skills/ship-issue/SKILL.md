@@ -196,6 +196,11 @@ Surface deltas to the user before planning.
   (a path already staged, a hook refusal, HEAD moved) and report rather than improvise. It
   never groups, renames, or edits a file. The main thread then reads
   `git log --stat <start>..HEAD` against the plan, and re-runs the gates at HEAD.
+- The index is shared (founder's word 2026-09-29, apm #296: two commits carried other work under
+  the wrong message). While a commit subagent runs, the main thread commits only with
+  `git commit -m ... -- <paths>`, which commits those paths whatever else is staged. Before staging
+  a file other sessions also write (build notes, NOTES, debts, a generated index), read its
+  `git diff` for hunks that are not yours; commit only your own, or tell the other session first.
 - Append an entry to `docs/agents/build-notes.md`: what was actually built: schema
   shapes, API contracts, component interfaces, deviations from spec, and what the next
   consumer needs to know. This is how you tell downstream agents and humans what
