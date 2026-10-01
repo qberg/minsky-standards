@@ -3,18 +3,23 @@ import type { OutboxTable } from "./table.js";
 
 export type OutboxWriter = Pick<PgDatabase<PgQueryResultHKT>, "insert">;
 
-// Stage N rows for one queue INSIDE the caller's business transaction: the job and the
-// state change it describes commit together or not at all. The single insert site.
+export type StageBatch = {
+  readonly queue: string;
+  readonly payloads: readonly unknown[];
+  // The relay claims `priority desc, created_at asc`, so a higher row skips any backlog.
+  readonly priority?: number;
+};
+
+// Staged inside the caller's transaction, so the job and its state change commit together.
 export async function stageJobs(
   db: OutboxWriter,
   table: OutboxTable,
-  queue: string,
-  payloads: readonly unknown[]
+  { queue, payloads, priority = 0 }: StageBatch
 ): Promise<void> {
   if (payloads.length === 0) {
     return;
   }
   await db
     .insert(table)
-    .values(payloads.map((payload) => ({ queue, payload })));
+    .values(payloads.map((payload) => ({ queue, payload, priority })));
 }

@@ -41,7 +41,7 @@ created_at`. Without it the relay table-scans under load.
 ```ts
 await db.transaction(async (tx) => {
   await tx.update(orders).set({ status: "paid" }).where(eq(orders.id, id));
-  await stageJobs(tx, outboxJobs, "order.receipt", [{ orderId: id }]);
+  await stageJobs(tx, outboxJobs, { queue: "order.receipt", payloads: [{ orderId: id }] });
 });
 ```
 
