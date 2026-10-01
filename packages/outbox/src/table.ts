@@ -24,3 +24,8 @@ export type OutboxTable = PgTable & {
   readonly errorMessage: PgColumn;
   readonly createdAt: PgColumn;
 };
+
+// A queue whose rows coalesce carries one more nullable column; see README "Coalesce".
+export type CoalescingOutboxTable = OutboxTable & {
+  readonly coalesceKey: PgColumn;
+};
