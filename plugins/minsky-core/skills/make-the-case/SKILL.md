@@ -24,8 +24,8 @@ Score both designs on every row that applies; a row that does not apply says why
 | # | Foundation | The question | Evidence |
 |---|---|---|---|
 | 1 | Model fit | Does it sit on the repo's primitives and laws, or strain them? | the repo's mental model, cited by section |
-| 2 | Coherence | Rules with two homes, concepts added, silhouette rows reused or new | the silhouette and word lists, grep |
-| 3 | Numbers | Files, callers moved, duplication counts, and timings when speed matters | lint, fallow, a gated run |
+| 2 | Developer and agent elegance | Rows D1 to D6 and A1 to A3 of the handbook's "Elegance and delight, defined", plus silhouette rows reused or new | the silhouette and word lists, grep, fallow; for a foundation block, a gated elegance experiment |
+| 3 | End-user delight | Rows U1 to U5 of the same section, with timings when speed matters | a gated run for U1 and U3; U4 and U5 are the founder's feel-gate |
 | 4 | Compiler proof | What becomes impossible to get wrong | a type, a registry, a `.type-test.ts` |
 | 5 | Scenarios | Named people through the ordinary, the rare and the hostile case | the walk, written |
 | 6 | Edge cases | Two acts at once, stale reads, the privileged row, self-reference, other locales, the phone | a checklist, per shape |
@@ -95,3 +95,4 @@ Every entry says what a case missed and what the skill now does about it. This l
 | 2026-09-29 | apm #294 R1, round 2: the refutation of the revised pick found a second live hole (an empty role or a future grant hid a self-edit) | A stop rule (no HIGH against the pick) and shipped defects fixed on their own |
 | 2026-09-29 | Mermaid flowcharts still read as a mess at C4 scale; the founder asked for the most capable tool | D2 with ELK, checked by rendering; quote labels holding a newline |
 | 2026-09-29 | apm #296 V1: a reader flagged a cookie trap as UNVERIFIABLE and a debt called the same slide "may"; a gated run proved the opposite and two live auth defects (0 ms against +3,660,004 ms). Refuters' PLAUSIBLE findings were being folded by reasoning | Founder's word: refutation and experiment run alongside. The brief tags each finding SETTLED BY READING or NEEDS A RUN and names the test; a HIGH or MEDIUM needing a run is settled by its run before the fold (step 4) |
+| 2026-10-01 | apm #298: rows 2 and 3 asked for "coherence" and "numbers" with no yardstick, so each case invented its own, and two elegance experiments each copied the same six metrics | Rows 2 and 3 score the handbook's counted definition (D1 to D6, A1 to A3, U1 to U5); a foundation block runs an experiment with pass marks fixed before design code |

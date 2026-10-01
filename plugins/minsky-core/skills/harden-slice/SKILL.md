@@ -95,6 +95,8 @@ pure mechanical fixes, use the cheaper tiers instead.
 Prefer the **elegant, order-independent, single-source-of-truth** design over the one
 that merely passes the AC. The org rule is build it right now: no deferring the
 correct abstraction to a later issue.
+Elegant means the handbook's counted rows ("Elegance and delight, defined": D1 to D6, A1 to
+A3, U1 to U5); a finding names the row it fails.
 
 ### 5. Full-diff audit (do not delegate)
 

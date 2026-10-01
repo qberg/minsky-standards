@@ -11,6 +11,8 @@ Founder's word 2026-09-29 (apm #294): every change should leave the whole system
 only the issue. The failure it stops was measured the same day: a Roles page proposal made before
 the code was read had four shapes wrong, and the read found three more the second proposal still
 missed. A proposal made before the read is a guess; after it, asking twice gives the same answer.
+"More elegant" is counted, never felt: the handbook's "Elegance and delight, defined" (D1 to D6,
+A1 to A3, U1 to U5) is what sections 6 and 7 measure.
 
 The repo's `docs/agents/prior-art/README.md` is the format and the switch. No README, no step.
 
