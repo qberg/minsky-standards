@@ -84,6 +84,46 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
   client word > finalized design > ADR > issue text; when a higher authority
   overrides, reconcile the docs.
 
+## Elegance and delight, defined
+
+Founder's word (apm #298, 2026-10-01): "elegance" and "delight" were words each agent filled in
+for itself, so they are defined here once, as things that can be counted or tested. A design is
+elegant when the next one to extend it, human or agent, cannot get it wrong; it is a delight when
+the person using it never waits, never gets lost, and never loses their place. The make-the-case
+skill scores every design on these rows; a foundation block (a shape many features will use) is
+scored by a gated experiment whose pass marks are written before its first line of design code.
+The metrics were first proven, as copies, in apm `experiments/forms-answer-elegance` and
+`experiments/reference-elegance`; this section is now their one home.
+
+Developer, a human or an agent extending the code:
+
+| # | Name | Counted | Pass |
+| --- | --- | --- | --- |
+| D1 | One step | files and lines touched to add the next instance (a list, a field, an act) | one declaration plus its use |
+| D2 | Cannot forget | of the rules a new instance must follow, how many a compile error or a gate catches | every one (a probe per rule) |
+| D3 | One home | rules written in more than one place | zero |
+| D4 | Few words | new named concepts a reader must learn | the fewest that pass D1 to D3 |
+| D5 | Change cost | files and lines touched for each realistic later change | the lowest among the designs compared |
+| D6 | Errors teach | a failing compile or gate message names the fix | every probe's message does |
+
+Agent, the same code read by a model with a limited window:
+
+| # | Name | Counted | Pass |
+| --- | --- | --- | --- |
+| A1 | Findable | grepping the noun finds its one home | the first hit |
+| A2 | Small to read | context needed to make one change | under the repo's builder budget |
+| A3 | Self-describing | the registry row says everything an extension needs, with no prose to read | yes or no |
+
+End user, one named person on a phone and a desktop:
+
+| # | Name | Measured | Pass |
+| --- | --- | --- | --- |
+| U1 | Instant | p95 from a press to visible feedback; from another person's change to this screen | under 100 ms local; a remote budget stated per surface |
+| U2 | Never lost | every error and empty state has a named message and a next step | the repo's error UX law, enumerated per surface |
+| U3 | Keeps their place | a refresh never drops typed text, focus, scroll, or a highlighted row without a visible reason | a gated test per surface |
+| U4 | Same bar everywhere | phone and desktop judged side by side | the founder's feel-gate |
+| U5 | Calm | motion within the repo's motion law; nothing flashes on a refresh | the founder's feel-gate |
+
 ## Writing law
 
 - No em-dashes, no emojis, no decorative punctuation, in repo files, commits, docs,
