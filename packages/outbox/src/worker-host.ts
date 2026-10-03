@@ -1,4 +1,4 @@
-import { type ConnectionOptions, Worker } from "bullmq";
+import { type ConnectionOptions, Queue, Worker } from "bullmq";
 import type { JobAttempt } from "./define-job.js";
 
 export type JobHandler = (
@@ -25,12 +25,36 @@ export type StartWorkersArgs = {
   readonly handlers: HandlerRegistry;
   readonly connection: ConnectionOptions;
   readonly concurrency?: Readonly<Record<string, number>>;
+  // One limit across every host; a queue left out has its stored limit removed.
+  readonly globalConcurrency?: Readonly<Record<string, number>>;
   readonly prefix?: string;
 };
 
+// The limit lives in the queue's meta hash and every Worker reads it per fetch
+// (bullmq queue.js setGlobalConcurrency), so it must land before a Worker exists.
+async function applyGlobalConcurrency(
+  queueName: string,
+  args: StartWorkersArgs
+): Promise<void> {
+  const queue = new Queue(queueName, {
+    connection: args.connection,
+    ...(args.prefix ? { prefix: args.prefix } : {}),
+  });
+  try {
+    const limit = args.globalConcurrency?.[queueName];
+    await (limit === undefined
+      ? queue.removeGlobalConcurrency()
+      : queue.setGlobalConcurrency(limit));
+  } finally {
+    await queue.close();
+  }
+}
+
 // `prefix` must mirror createQueueRegistry's: a Worker only sees jobs from a
 // same-prefix Queue (bullmq WorkerOptions extends QueueBaseOptions.prefix).
-export function startWorkers(args: StartWorkersArgs): Worker[] {
+export async function startWorkers(args: StartWorkersArgs): Promise<Worker[]> {
+  const queues = Object.keys(args.handlers);
+  await Promise.all(queues.map((queue) => applyGlobalConcurrency(queue, args)));
   return Object.entries(args.handlers).map(
     ([queue, handler]) =>
       new Worker(queue, (job) => handler(job.data, attemptOf(job)), {
