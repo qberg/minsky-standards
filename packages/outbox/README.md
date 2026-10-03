@@ -117,6 +117,9 @@ await startWorkers({ handlers: { "order.receipt": (p, a) => sendReceipt(deps, p,
 Redis before any Worker starts; a queue left out has its stored limit removed, so the config
 stays the only source. Use it where two jobs for one entity must never interleave (a search
 remove and an index), since a per-Worker limit stops holding the moment a second host runs.
+The apply races `applyDeadlineMs` (default 5000), so an unreachable Redis fails the boot
+instead of hanging it. The limit counts BullMQ's active list: a job stalled past its lock can
+run twice, so a job that must stay correct re-reads its source of truth (a claim check).
 
 Poison policy: a payload that fails its schema, or a row that no longer exists, throws
 `UnrecoverableError` and dead-letters on attempt one. It will never parse or appear, so

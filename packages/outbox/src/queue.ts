@@ -3,6 +3,7 @@ import {
   type ConnectionOptions,
   Queue,
 } from "bullmq";
+import { withDeadline } from "./deadline.js";
 import { type OutboxLogger, silentLogger } from "./logger.js";
 import type { ClaimedJob, EnqueueJob } from "./relay.js";
 
@@ -27,27 +28,6 @@ export type QueueRegistry = {
   list(): Queue[];
   close(): Promise<void>;
 };
-
-// `queue.add` awaits a one-shot connect promise that settles only on ready or end
-// (bullmq redis-connection.js waitUntilReady), which is unbounded, so race it.
-async function withDeadline<T>(
-  op: Promise<T>,
-  label: string,
-  deadlineMs: number
-): Promise<T> {
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  const deadline = new Promise<never>((_resolve, reject) => {
-    timer = setTimeout(
-      () => reject(new Error(`${label} exceeded ${deadlineMs}ms`)),
-      deadlineMs
-    );
-  });
-  try {
-    return await Promise.race([op, deadline]);
-  } finally {
-    clearTimeout(timer);
-  }
-}
 
 // A Queue re-emits its connection's errors (bullmq queue-base.js) and an unlistened
 // 'error' is rethrown by EventEmitter, so one blip would kill the process.

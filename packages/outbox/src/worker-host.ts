@@ -1,5 +1,6 @@
 import { type ConnectionOptions, Queue, Worker } from "bullmq";
 import type { JobAttempt } from "./define-job.js";
+import { withDeadline } from "./deadline.js";
 
 export type JobHandler = (
   payload: unknown,
@@ -11,6 +12,7 @@ export type JobHandler = (
 export type HandlerRegistry = Record<string, JobHandler>;
 
 const DEFAULT_CONCURRENCY = 1;
+const DEFAULT_APPLY_DEADLINE_MS = 5000;
 const SINGLE_ATTEMPT = 1;
 
 const attemptOf = (job: {
@@ -27,6 +29,7 @@ export type StartWorkersArgs = {
   readonly concurrency?: Readonly<Record<string, number>>;
   // One limit across every host; a queue left out has its stored limit removed.
   readonly globalConcurrency?: Readonly<Record<string, number>>;
+  readonly applyDeadlineMs?: number;
   readonly prefix?: string;
 };
 
@@ -42,9 +45,15 @@ async function applyGlobalConcurrency(
   });
   try {
     const limit = args.globalConcurrency?.[queueName];
-    await (limit === undefined
-      ? queue.removeGlobalConcurrency()
-      : queue.setGlobalConcurrency(limit));
+    const applied =
+      limit === undefined
+        ? queue.removeGlobalConcurrency()
+        : queue.setGlobalConcurrency(limit);
+    await withDeadline(
+      applied,
+      `global concurrency ${queueName}`,
+      args.applyDeadlineMs ?? DEFAULT_APPLY_DEADLINE_MS
+    );
   } finally {
     await queue.close();
   }

@@ -35,6 +35,30 @@ const probeHandler = (probe: Probe) => async (): Promise<void> => {
   probe.done += 1;
 };
 
+const UNREACHABLE_PORT = 1;
+const APPLY_DEADLINE_MS = 200;
+const UNREACHABLE_TEST_TIMEOUT_MS = 5000;
+
+describe("startWorkers with Redis unreachable", () => {
+  it(
+    "rejects at the apply deadline instead of hanging",
+    async () => {
+      await expect(
+        startWorkers({
+          handlers: { [QUEUE]: async (): Promise<void> => undefined },
+          connection: {
+            host: "127.0.0.1",
+            port: UNREACHABLE_PORT,
+            maxRetriesPerRequest: null,
+          },
+          applyDeadlineMs: APPLY_DEADLINE_MS,
+        })
+      ).rejects.toThrow(/exceeded 200ms/);
+    },
+    UNREACHABLE_TEST_TIMEOUT_MS
+  );
+});
+
 describe.skipIf(!REDIS_URL)("startWorkers global concurrency across hosts", () => {
   const workers: Worker[] = [];
   const queues: Queue[] = [];
