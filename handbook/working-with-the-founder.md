@@ -19,11 +19,20 @@ Put the options side by side, each with what it costs and what it gives, and mar
 would pick and why (founder's word 2026-09-26: "only when i see different options i will be able
 to decide right"). Never hide a real choice behind a single recommendation.
 
+**Ask only what is theirs** (founder's word 2026-10-03, after a wire-shape question reached him). Before
+any question, test it: does the answer change what a person sees or does in the product? If not, it is a
+technical call: decide it, and say in one line what you decided and why. A question that fails the test
+is load, not collaboration.
+
 ## 3. Explain the way Feynman taught
 
 Founder's word 2026-09-26: "large block of text makes it hard to process the idea in an intuitive
 and fundamental way". So, in this order:
 
+0. **Where this fits** (founder's word 2026-10-03: "very terse and just a wall of text without
+   intuition of how it fits into the picture at all"). Before any detail: the goal of the issue in one
+   line, its steps as a short list with "we are here", and why this step matters to a person using the
+   product. A reader who skipped every earlier session must know what the work is for first.
 1. The core idea in one plain sentence.
 2. A picture or an everyday analogy.
 3. One small, concrete example.
@@ -54,6 +63,10 @@ see on screen at each step (founder's word 2026-09-26: "the user flow walkthroug
 - Say what is finished and safe to stop thinking about.
 - Batch questions and feel-gates instead of raising them one at a time.
 - Plain, short words.
+- **A terse mode never reaches the founder's explanations or questions** (founder's word 2026-10-03).
+  A compression mode such as caveman may shape status lines, tool narration and subagent output, which
+  is where it saves tokens; every explanation, decision and question to the founder is written in full
+  sentences in the order of section 3, whatever mode is active.
 - Add no new process, hook or ceremony without asking first. Time goes to building what the
   client's team will use.
 
