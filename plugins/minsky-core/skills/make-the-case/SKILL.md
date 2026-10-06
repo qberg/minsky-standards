@@ -43,7 +43,8 @@ loss is accepted. Row 9 is never skipped. Every row carries a receipt or `no rec
     The alternative was: [runner-up]. Context: [paths]. Find the strongest reason the pick is
     wrong: a scenario it fails, an edge case, a rule it duplicates, a law it strains, a product or
     open-source precedent against it. Quote path:line for every claim; mark read or inferred. Tag
-    every finding SETTLED BY READING or NEEDS A RUN; for a run, name the gated test that would
+    every finding SHAPE (the pick must be redrawn) or RULE (a guard or case inside the same
+    shape), and SETTLED BY READING or NEEDS A RUN; for a run, name the gated test that would
     prove it and the number that would decide it. If you cannot break it, say what you tried.
     Edit nothing.
 
@@ -77,8 +78,14 @@ colour. The repo's lint renders every block with `d2 -` and fails one that does 
    (row 10) runs first, in the next wave, and its numbers keep or change the pick. The refuter
    finds; the run settles.
    A changed pick is refuted again, briefed with the findings it answers, before any build.
-   Stop when a round finds nothing HIGH against the pick itself. A defect it finds in code that
-   already ships is fixed and committed on its own, with its tests, never folded into the case.
+   Each finding is tagged SHAPE or RULE. SHAPE breaks the pick's shape: its tables, its homes,
+   its boundaries, or what a person sees, so the pick must be redrawn. RULE adds or fixes a
+   guard, an order, a refusal or a case inside an unchanged shape.
+   Stop after the first round with no SHAPE finding. Its RULE findings become the build's tests
+   and the harden-slice checklist, written into the case as a list, never another round. A
+   mechanism still open goes to a gated run (row 10), never to a reading round. A fourth
+   refutation round needs the founder's yes. A defect it finds in code that already ships is
+   fixed and committed on its own, with its tests, never folded into the case.
 5. Draw the two pictures.
 6. Write it where it lives (a prior-art read's case section, or the ADR), plain words first: the
    core idea, an everyday picture, the named person's example, then the table. A person reads it
@@ -97,3 +104,4 @@ Every entry says what a case missed and what the skill now does about it. This l
 | 2026-09-29 | apm #296 V1: a reader flagged a cookie trap as UNVERIFIABLE and a debt called the same slide "may"; a gated run proved the opposite and two live auth defects (0 ms against +3,660,004 ms). Refuters' PLAUSIBLE findings were being folded by reasoning | Founder's word: refutation and experiment run alongside. The brief tags each finding SETTLED BY READING or NEEDS A RUN and names the test; a HIGH or MEDIUM needing a run is settled by its run before the fold (step 4) |
 | 2026-10-01 | apm #298: rows 2 and 3 asked for "coherence" and "numbers" with no yardstick, so each case invented its own, and two elegance experiments each copied the same six metrics | Rows 2 and 3 score the handbook's counted definition (D1 to D6, A1 to A3, U1 to U5); a foundation block runs an experiment with pass marks fixed before design code |
 | 2026-10-01 | apm #307: the case picked a fading highlight that no benchmark product ships; row 7 was scored but never blocked the pick, so six refutation rounds hardened a design the founder then dropped on asking "premium or regression?" | A pick that no product in row 7 ships says so in the core idea, before the table, and the founder sees that fork first; row 7 is read before rows 9 and 10 are paid for |
+| 2026-10-07 | apm, five tracks measured: ten of eleven reads stopped changing shape by round 4 (most by 2 or 3), yet ran up to 9 rounds, each later round adding rules a test or a run would have found; the read that ran zero rounds and one gated experiment (189-sort) reached a buildable pick fastest. One exception: 319-grammar's round 8 broke the shape after four quiet rounds | Founder's word: findings are tagged SHAPE or RULE; stop after the first round with no SHAPE finding, RULE findings become build tests, open mechanisms go to a run, a fourth round needs the founder's yes (step 4) |
