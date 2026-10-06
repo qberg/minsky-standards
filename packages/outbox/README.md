@@ -41,12 +41,43 @@ created_at`. Without it the relay table-scans under load.
 ```ts
 await db.transaction(async (tx) => {
   await tx.update(orders).set({ status: "paid" }).where(eq(orders.id, id));
-  await stageJobs(tx, outboxJobs, "order.receipt", [{ orderId: id }]);
+  await stageJobs(tx, outboxJobs, { queue: "order.receipt", payloads: [{ orderId: id }] });
 });
 ```
 
 Payloads are claim checks (`{ entityId }`), never snapshots. A retry that reorders
 would otherwise write stale data over newer state.
+
+## Coalesce
+
+A queue whose rows only announce "something changed" (a live poke) can coalesce: a row whose
+twin is still waiting does not add a second row. Add one nullable column and one partial unique
+index, and stage with `stageCoalescingJobs`:
+
+```sql
+alter table outbox_jobs add column coalesce_key text;
+create unique index outbox_jobs_coalesce_idx on outbox_jobs (queue, coalesce_key)
+  where coalesce_key is not null and status = 'pending' and attempts = 0;
+```
+
+```ts
+await stageCoalescingJobs(tx, outboxJobs, {
+  queue: "live.publish",
+  payloads: [{ list: "roles" }],
+  coalesceKeyOf: (payload) => JSON.stringify(payload),
+});
+```
+
+- The twin is row-locked until the caller commits, never skipped. The relay's `SKIP LOCKED` claim
+  passes over it until then, so it is published only after the change it announces is visible.
+  Skipping (`do nothing`) lets the relay publish the twin before the caller commits, and the
+  reader refetches without the change.
+- Only a `pending` row with no attempts is a twin: a claimed, completed, or requeued row never
+  absorbs a new one, and a requeue can never collide with a fresh twin.
+- Two callers coalescing onto one twin take turns from the stage to their commit.
+- The key must leave out anything stamped per row (a trace id, an enqueue time), or no two rows
+  ever match.
+- Measured in apm `experiments/live-lists-edges/round3` (C1 to C11, 2026-10-01).
 
 ## Relay
 
@@ -79,8 +110,16 @@ export const sendReceipt = defineJob({
   logMessage: "receipt sent",
 });
 
-startWorkers({ handlers: { "order.receipt": (p, a) => sendReceipt(deps, p, a) }, connection });
+await startWorkers({ handlers: { "order.receipt": (p, a) => sendReceipt(deps, p, a) }, connection });
 ```
+
+`concurrency` caps one Worker. `globalConcurrency` caps a queue across every host, stored in
+Redis before any Worker starts; a queue left out has its stored limit removed, so the config
+stays the only source. Use it where two jobs for one entity must never interleave (a search
+remove and an index), since a per-Worker limit stops holding the moment a second host runs.
+The apply races `applyDeadlineMs` (default 5000), so an unreachable Redis fails the boot
+instead of hanging it. The limit counts BullMQ's active list: a job stalled past its lock can
+run twice, so a job that must stay correct re-reads its source of truth (a claim check).
 
 Poison policy: a payload that fails its schema, or a row that no longer exists, throws
 `UnrecoverableError` and dead-letters on attempt one. It will never parse or appear, so

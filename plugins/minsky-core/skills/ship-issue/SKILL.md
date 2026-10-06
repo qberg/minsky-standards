@@ -9,6 +9,8 @@ hooks:
           command: bash "${CLAUDE_PLUGIN_ROOT}/skills/ship-issue/scripts/guard.sh"
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # ship-issue
 
 Spine for taking a tracker issue from ready-for-dev to closed. Claude already knows how
@@ -61,6 +63,8 @@ Surface deltas to the user before planning.
   explainer (C4 L1 to L3 plus one runtime sequence diagram). Doc HTML stays uncommitted.
 
 ### 2. Plan, vertical and riskiest-first
+- If the repo has `docs/agents/prior-art/README.md`, run the prior-art skill FIRST, once per
+  slice; the plan cites the read's case (section 7) and never re-decides it.
 - Cut the work into vertical tracer-bullet slices by demoable behavior, never by layer.
   See `references/slicing.md`.
 - Slice A is a walking skeleton: the thinnest path through every layer that yields
@@ -182,6 +186,21 @@ Surface deltas to the user before planning.
   Co-Authored-By lines. No em-dashes anywhere. Then RE-RUN the gates at the committed
   HEAD: staging is where a file lands in the wrong commit or gets left behind. Never
   `--amend` on a shared branch.
+- Granular commits, labour delegated (founder's word 2026-09-29): one commit per logical
+  unit (a contract row, a command, a component, a gate, a doc line), never one commit per
+  slice. The MAIN THREAD writes the commit plan: ordered groups, each an explicit path list
+  and a message whose body says WHY, dependency order first, the prior-art read committed
+  before the code it planned. A CHEAP subagent (the smallest model) executes the plan
+  literally: verify HEAD, `git add <paths>` per group, confirm `git diff --name-only -- <paths>`
+  is EMPTY (a path staged earlier, a rename say, keeps later edits unstaged), commit, stop at the first surprise
+  (a path already staged, a hook refusal, HEAD moved) and report rather than improvise. It
+  never groups, renames, or edits a file. The main thread then reads
+  `git log --stat <start>..HEAD` against the plan, and re-runs the gates at HEAD.
+- The index is shared (founder's word 2026-09-29, apm #296: two commits carried other work under
+  the wrong message). While a commit subagent runs, the main thread commits only with
+  `git commit -m ... -- <paths>`, which commits those paths whatever else is staged. Before staging
+  a file other sessions also write (build notes, NOTES, debts, a generated index), read its
+  `git diff` for hunks that are not yours; commit only your own, or tell the other session first.
 - Append an entry to `docs/agents/build-notes.md`: what was actually built: schema
   shapes, API contracts, component interfaces, deviations from spec, and what the next
   consumer needs to know. This is how you tell downstream agents and humans what

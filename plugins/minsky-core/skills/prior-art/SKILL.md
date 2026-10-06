@@ -1,0 +1,96 @@
+---
+name: prior-art
+description: Before any architecture proposal for a slice, read what the repo already built and write it down as one file with a fixed shape: the need placed on the repo's primitives, every existing home with path:line and a verdict (reuse, generalise, replace, new), the traps, two designs written at their use sites, criteria with numbers, the pick, the silhouette rows the slice changes, and at close what the read missed. Use when planning a slice or issue, before add-vertical's layer walk, before a craft round's anatomy, when a new file or folder is about to appear, or when the user asks "is this already built", "are we rebuilding something", "is this the right shape for the whole system". Runs only in a repo that has docs/agents/prior-art/README.md.
+---
+
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
+# prior-art
+
+Founder's word 2026-09-29 (apm #294): every change should leave the whole system more elegant, not
+only the issue. The failure it stops was measured the same day: a Roles page proposal made before
+the code was read had four shapes wrong, and the read found three more the second proposal still
+missed. A proposal made before the read is a guess; after it, asking twice gives the same answer.
+"More elegant" is counted, never felt: the handbook's "Elegance and delight, defined" (D1 to D6,
+A1 to A3, U1 to U5) is what sections 6 and 7 measure.
+
+The repo's `docs/agents/prior-art/README.md` is the format and the switch. No README, no step.
+
+## When
+
+Between orienting and planning, once per slice, before any design is shown to the founder. A slice
+that grows a new need extends its read in the same change. The read is never skipped for "small":
+the repo's hook refuses a new source file its read does not list.
+
+## Steps
+
+1. **Name the need** in five lines: the person, the act, the authority (ADR line, user word).
+2. **Brief a FRESH-CONTEXT agent** to write sections 2 to 6 and 8 of the format. The brief names every
+   lookup file by path, because a file the brief omits is a file the agent skips (the first read
+   missed the silhouette list for exactly this reason). The repo's README lists them; in apm:
+   the mental model, `docs/agents/silhouettes.md`, `docs/agents/design-language.md`,
+   `docs/agents/seams.md`, the ADRs the need cites. The agent reads code, quotes `path:line`, marks
+   every claim read or inferred, and edits nothing.
+3. **Judge it in the main thread.** Distrust its provenance: spot-check three receipts yourself.
+   Place the need on the primitives yourself too; a tension (fits none, fits two) is the most
+   valuable line in the file and is never smoothed.
+4. **Make the case** (section 7): for every `new`, `generalise` or `replace` verdict, run the
+   `make-the-case` skill; its criteria are fixed before the pick, and the pick names what decided it.
+5. **Write the file** at `docs/agents/prior-art/<issue>-<slice>.md`. The main thread writes its
+   first section, In plain words, for the founder: the core idea, the named person's walk, what is
+   reused and what is new in product words, and the choices that are theirs, each with a pick. No
+   `path:line`, no code: a person reads it before any agent does (founder's word 2026-09-29).
+   Run the repo's lint, then bring the proposal, which is that section.
+6. **At close, write Missed**: what the build, the review or the live gate found that the read did
+   not, or `nothing` with the reason. Each real miss becomes a dated line under Refinements below,
+   in this file, in the same change. The repo's board refuses Done while Missed is unwritten.
+
+## Lifetime
+
+A read dies with its card, as a handoff dies with its task. At Done every lesson has moved to its
+home (ADR, silhouette and word rows, the mental model's log, Refinements below); the read is
+committed, the build note cites `git show <hash>:<path>`, and the wrap deletes it. The repo's lint
+enforces the deletion. Before Done, the case's level 3 picture of what was actually built is merged
+into the repo's component map (`docs/architecture/c4-components-<area>.md`, the slice named beside
+it), so the architecture map grows slice by slice instead of dying with each read.
+
+## Refinements
+
+Every entry says what the read missed and what the process now does about it. This log grows; it is
+never rewritten (founder's word 2026-09-29: a rule is refined by many sessions with different cases).
+
+| Date | Miss | Change |
+| --- | --- | --- |
+| 2026-09-29 | apm #294 R1: the brief did not name the silhouette list, so the first table cited no silhouette row, and eight pointers in the list had drifted unseen | Step 2 names every lookup file by path; the repo lint resolves the list's pointers by symbol |
+| 2026-09-29 | apm #294 R1: the need was not placed on the mental model's primitives, so "is a role a Record or a Definition" surfaced only when the founder asked | Section 2, Primitives, with tensions written out, feeding the mental model's refinement log |
+| 2026-09-29 | apm #294 R1: the read was written for agents only; the founder, who decides from it, got tables of `path:line` | Section 0, In plain words, first, written by the main thread for a human reader |
+| 2026-09-29 | apm #294 R1: building step 1 moved the code the read cited, so its receipts failed the lint the hook depends on | `stage: reading` then `building`: receipts are judged while reading, history after |
+| 2026-09-29 | apm #294 R1: the read listed `jobOfKeys`'s one code caller, not the rpc test that reaches it through the door; changing it broke that test | Callers include tests; the build runs the suites that reach a generalised home |
+| 2026-09-30 | apm #294 door and record door, the same miss twice: section 3 named each command's checks but not their order against its locks, so five Acts locking before refusing (door) and grant create locking the person before judging keys (record door) were found by a gate, not the read | When the need is about ORDER (refuse before any lock, judge before read), section 3 quotes each existing home's first read and first lock in sequence, never only its name |
+| 2026-09-30 | apm #296 V1b: the read picked a gate wrapped around every call site (a faked mutation under a view) and never listed what each caller does AFTER its act settles, so three screens stuck (a title spinning forever, a draft stuck at sending), found by the cold review | When a design wraps many call sites, section 3 lists each caller's settle path (the success and refusal handlers, the reducer states it moves through) beside the wrapper, and section 5 shows what the wrapper does to each |
+| 2026-09-30 | apm #296 V1b: the read counted the exits by their registries (the menu, the palette) and missed the same act as a button on two pages, where a press signed the keyboard out entirely | Section 3 counts every surface an act appears on (grep the act's hook and its callers), never only the registries that list it |
+| 2026-10-02 | apm #189 field authoring: the brief named ADRs, maps and silhouettes but not the research index, so two spreadsheet studies no ADR cited (the properties study and the agentic state of the art) were skipped until the founder asked "did you read them?" | Step 2's brief names the repo's research index and every study whose title matches the need's nouns; the main thread reads the ones no ADR cites yet, because an uncited study is exactly what a records-only read walks past |
+| 2026-10-04 | apm #319 byline 2 and 3: the read placed the new run's moves (open, claim, settle) but not the unit of work each one runs in, so the worker's claim wrote outside any transaction, which the repo's ambient db refuses, and every draft job would have thrown (found by the cold review) | Section 3 names, for every write the slice adds, where it runs (inside an Act, a worker step, a request) and quotes the repo's rule for writes outside an Act |
+| 2026-10-04 | apm #319 byline 2 and 3: a new row keyed to an Act was inserted inside the Act's body, before the Act row exists, and the read never asked when the key is checked (found by the test round) | Section 4 states, for every new key to an Act or audit row, whether the row is written before the Act row, and cites the repo's deferred-key rule or gate |
+| 2026-10-04 | apm #319 byline 2 and 3: the read said how a run starts but not every act that must END it, so a run over a name the person then typed stayed "failed" forever (found by the cold review) | For every new state with a lifetime, section 3 lists every act that must end it, by grepping the writers of the same subject, not only the job that owns it |
+| 2026-10-04 | apm #319 byline 2 and 3: the read listed Keep's gate but never ran Keep on each kind, so Keep on a list name had refused every draft since the previous slice (found by a builder) | When a need widens an act to more kinds, section 3 traces or tests the act once per kind end to end, never only its gate |
+| 2026-10-04 | apm #319 byline 2 and 3: the read missed a home a peer session had built but not committed (the day word), so the first build made a second "today" (found by the cold review and the peer) | The seam check asks each peer which uncommitted homes touch the need's nouns, and section 3 lists them as homes |
+| 2026-10-04 | apm #319 byline 2 and 3: a review fix hung on "any change re-stages the job" without listing which Acts re-stage it, so a reorder would have restarted Marvin mid-call (found by the re-review) | Section 5 lists every trigger of an effect or hook a design reacts to, by grep, beside each design |
+| 2026-10-05 | apm #332 slice 3: the read classed 71 reads by how their code handled `error`, never asked what an expired session draws, so a 401 became a failure sentence under the re-auth overlay and a whole query family never opened the overlay (found by the cold review) | When a need adds a state shape over a shared mechanism, section 3 walks each auth outcome (signed in, expired, refused, offline) through the existing funnel and says what each draws today |
+| 2026-10-05 | apm #332 slice 3: consumers read facts off the raw query object (placeholder rows, the answer's time, a next page's failure) that the planned shape dropped, so builders peeked the cache to get them back | When a design replaces a library result with our own shape, section 3 greps every field consumers read off the old result and the shape either carries each one or names why it is gone |
+| 2026-10-05 | apm #332 slice 3: "try again" was one helper, though retrying the failure shown and reading again are two acts; one re-asked healthy reads, the other went dead offline (found by test rounds) | Section 5 names, for every press a design offers, exactly which reads it re-asks in each state, offline included |
+| 2026-10-05 | apm #331 asked tier: the reader's receipts pointed past the end of three files, real symbols at wrong lines, and the main thread's spot-check passed them until the lint ran | Step 3 runs the repo's read lint before the spot-check, so a receipt that does not resolve is judged a fault of the read, never trusted |
+| 2026-10-05 | apm #331 asked tier: the read placed a patch in a feature that imports another feature, and the repo's layer wall refused the first wiring | Section 3 names the layer of every home it cites and of the proposed new one, and checks the import direction against the repo's wall before the design |
+| 2026-10-05 | apm #331 asked tier: the design changed a field on a shared row without listing who reads that field as a write's base, so the cold review found a mismatched id | When a design changes a field on a shared row or record, section 3 greps every reader of that field, writes and their bases included, and section 5 shows what each reads |
+| 2026-10-05 | apm #331 asked tier: the main thread showed the founder two designs before any read, the second citing industry practice yet rebuilding a mechanism the repo had; the hook guarded new files only, so an edit to shared code passed | apm's hook now also refuses an edit to a shared home no read lists under `touches:`; a repo adopting this skill gives its hook the same rule |
+| 2026-10-06 | apm #307 s4 path line: the read named the line's look but not what a screen reader and a copy read, so CSS-drawn separators would be spoken as "slash" and copied as "Chennai hub2 changes" (found by the cold review) | When a need adds visible text or marks drawn by CSS, section 3 says what assistive tech and the clipboard read from it |
+| 2026-10-06 | apm #307 s4 path line: the read claimed "a rename redraws past entries" from an inferred chain (edit, search reindex, poke) and never listed which live pokes refetch the read, so the direct poke was missing (found by the cold review) | When a design claims a refresh, section 5 lists by grep every live poke or invalidation that reaches the read, never an inferred chain |
+| 2026-10-06 | apm #307 s4 path line: the line was designed for the list feed and never walked on the record's own page, where every entry is the same record and it repeated (found by the cold review) | When a shape is drawn on several places, section 5 walks it on each place and says what it tells the person there |
+| 2026-10-06 | apm #322 6b calls per page: the read planned to check each page state by its URL after load, and never asked how a state is entered and spent, so a page that clears its URL word in an effect failed a valid state, three dialogs that open only for a person at another stage could not be reached, and public pages under a signed-in visitor silently counted Home (found by the measuring runs and the builder) | When a need checks or drives a page's states, section 3 lists for each state how it is entered and how it is spent: effects that rewrite the URL, records that must be at a given stage, visitors a route redirects |
+| 2026-10-06 | apm #322 6b calls per page: the design declared a `rows` field on every budget row and nothing asserted it, so a grid that drew no rows would have passed the per-row check vacuously (found by the cold review) | Section 5 shows, for every field a new registry row declares, the check that reads it; a field nothing asserts is removed or given its check before the pick |
+| 2026-10-07 | apm #169 evals run 1: the read flagged that an unreached read leaves no Fact but never said how a 4xx refusal would be SCORED (as a void, then as a refused true letter), so the first pass reported every new kind at 100 percent false alarm | When a run counts voids or refusals, section 5 lists every transport outcome (success, refusal, timeout, empty) and says which rate each one lands in, before the run |
+| 2026-10-07 | apm #169 evals run 1: the read counted the planted set and the held-out set but never asked what language the EXPECTED value of a text fact is written in, so Tamil letters were listed with English grounds (12 refusals) | When a need compares text across locales, section 3 names the language of every expected value beside the language of what it is compared to |
+| 2026-10-07 | apm #169 evals run 1: the read named `normalise` as the number-word home but never asked whether the date parser knew the Tamil months or the dashed dd-mm-yyyy form; both sat unexported in `words.ts` and `letters.ts` | Section 3 lists every parser or format a kind must read, by grep of the fixture forms, and the home for each, exported or not |
+| 2026-10-07 | apm #169 evals run 1: the read never tested the judge's three-read decision on a tie, and the first build broke ties by read order (cold review HIGH) | When a design picks one outcome from several readings or votes, section 5 states the tie rule and a probe asserts it |
+| 2026-10-07 | apm #169 evals run 1: the read's section 3 called the suite's `sealedParaphrase` kind a planted wrong kind; it is a disclosure, not a listed fact, and sat in DEV as four always-missed letters | Section 3 classes every fixture kind by what the check under design can decide about it, and a kind the check cannot decide is removed from the set or listed as out of scope before the pick |
+| 2026-10-07 | apm #169 evals run 1: the read assumed the claude CLI's `total_cost_usd` is a spend; on a subscription it is nominal, and the ceiling tripped on it | When a design reads a cost or quota from a tool, section 3 cites the tool's doc for what the number measures under the account the run uses, never its name |

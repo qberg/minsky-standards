@@ -58,6 +58,14 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
 - Build it right now: no deferring pattern decisions to issue/feature lines. A
   deferral needs a real blocker (missing infra, unbuilt dependency, human gate),
   never "out of this issue's scope". We own the whole stack.
+- Design the whole, build thin. "A layer exists only when the first real slice needs it"
+  is about empty directories and scaffolding, never about design: a shape two features
+  will share is decided across both before either is built, and a feature designed
+  alone against its own issue is local optimisation. Copied code between features is
+  the symptom, so it is answered with the shared mechanism, never a rename. Proven in
+  apm 2026-09-27 (founder's word, "elegance across all the features"): the act seam
+  was retrofitted onto fifteen hand-rolled commands, and a second sign-in pool copied
+  the first pool's audit, ceiling and boundary files.
 - Beauty is a correctness signal. Architecture optimizes elegance, full type-safety,
   declarative extension: single-source-of-truth registries + mapped types so
   completeness is compiler-enforced; no scattered switch; zero `any` (parse `unknown`
@@ -75,6 +83,46 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
   ambiguity, stop and ask ONE crisp question; never guess. Authority chain: direct
   client word > finalized design > ADR > issue text; when a higher authority
   overrides, reconcile the docs.
+
+## Elegance and delight, defined
+
+Founder's word (apm #298, 2026-10-01): "elegance" and "delight" were words each agent filled in
+for itself, so they are defined here once, as things that can be counted or tested. A design is
+elegant when the next one to extend it, human or agent, cannot get it wrong; it is a delight when
+the person using it never waits, never gets lost, and never loses their place. The make-the-case
+skill scores every design on these rows; a foundation block (a shape many features will use) is
+scored by a gated experiment whose pass marks are written before its first line of design code.
+The metrics were first proven, as copies, in apm `experiments/forms-answer-elegance` and
+`experiments/reference-elegance`; this section is now their one home.
+
+Developer, a human or an agent extending the code:
+
+| # | Name | Counted | Pass |
+| --- | --- | --- | --- |
+| D1 | One step | files and lines touched to add the next instance (a list, a field, an act) | one declaration plus its use |
+| D2 | Cannot forget | of the rules a new instance must follow, how many a compile error or a gate catches | every one (a probe per rule) |
+| D3 | One home | rules written in more than one place | zero |
+| D4 | Few words | new named concepts a reader must learn | the fewest that pass D1 to D3 |
+| D5 | Change cost | files and lines touched for each realistic later change | the lowest among the designs compared |
+| D6 | Errors teach | a failing compile or gate message names the fix | every probe's message does |
+
+Agent, the same code read by a model with a limited window:
+
+| # | Name | Counted | Pass |
+| --- | --- | --- | --- |
+| A1 | Findable | grepping the noun finds its one home | the first hit |
+| A2 | Small to read | context needed to make one change | under the repo's builder budget |
+| A3 | Self-describing | the registry row says everything an extension needs, with no prose to read | yes or no |
+
+End user, one named person on a phone and a desktop:
+
+| # | Name | Measured | Pass |
+| --- | --- | --- | --- |
+| U1 | Instant | p95 from a press to visible feedback; from another person's change to this screen | under 100 ms local; a remote budget stated per surface |
+| U2 | Never lost | every error and empty state has a named message and a next step | the repo's error UX law, enumerated per surface |
+| U3 | Keeps their place | a refresh never drops typed text, focus, scroll, or a highlighted row without a visible reason | a gated test per surface |
+| U4 | Same bar everywhere | phone and desktop judged side by side | the founder's feel-gate |
+| U5 | Calm | motion within the repo's motion law; nothing flashes on a refresh | the founder's feel-gate |
 
 ## Writing law
 
@@ -114,7 +162,12 @@ Every fact has exactly one home; it lands there the moment it's born.
   worth stating twice is worth a hook. Enforcement outranks documentation.
 - Proven traps: `docs/agents/gotchas/`. State of play: `docs/agents/NOTES.md`,
   updated at session end (the wrap skill), pruned same-day when things ship.
-- Third-party mechanism facts are never stored, always looked up.
+- Third-party mechanism facts are never stored, always looked up. One exception: a PINNED copy of
+  a vendor's own docs, stored beside the skill that reads it, when an audit must read the same
+  text every run. It carries the upstream commit, the date taken, the version it matches and a
+  refresh rule, and it is the vendor's words verbatim, never our summary of them. Proven in apm
+  2026-09-25: the craft skill's final audit reads six react.dev pages pinned to a commit in
+  `react-docs/`, refreshed when React moves a major.
 - Shared code promotion bar: a mechanism becomes an @minsky-org package only after
   proving its shape in production in at least one repo. Until then it lives in its
   project. Once packaged, projects diverge via config seams and semver pinning, never
@@ -152,6 +205,15 @@ Every fact has exactly one home; it lands there the moment it's born.
 
 - Vertical tracer-bullet slices, riskiest first, a live checkpoint per slice.
   Never build a horizontal layer in isolation.
+- A SLICE MAY SPAN SESSIONS; A LAYER MAY NOT SHIP ALONE (user word, apm 2026-09-22). The two
+  are different: a slice is unfinished until its live checkpoint passes, so a session boundary
+  inside it is a pause, and only a layer declared DONE with no checkpoint is the forbidden
+  thing. Cut the boundary where the CONTEXT changes, not where the layers do: an agent whose
+  window is full of transaction seams and registries builds a worse surface than a fresh one
+  that opens with the craft skill loaded. The handoff document is the conversation between
+  those sessions, and the next session is named in it, including which skill it loads first.
+  A slice built this way is still ONE slice: one checkpoint, one review, one entry in the
+  build notes.
 - Shared branch, concurrent agents: never `git commit --amend`, never repo-wide
   `git stash`, stage explicit paths, verify HEAD before any history op. Format only
   the paths you touched.
@@ -164,7 +226,7 @@ Every fact has exactly one home; it lands there the moment it's born.
   the previous one reports, and two writers never share a file. Ten parallel agents exhaust
   the session budget before the work lands (user word, apm 2026-09-12). Enforced, not hoped for: a
   PreToolUse hook on the Agent tool refuses the launch when the SubagentStart/Stop ledger
-  shows the wave full (apm `scripts/agent-wave-hook.sh`; promote to the org plugin once a
-  second repo needs it).
+  shows the wave full (minsky-core plugin `agent-wave.sh`, promoted from apm's repo script
+  2026-09-20, cap overridable per repo via `MINSKY_WAVE_MAX`).
 - Sessions close with the wrap ceremony (wrap skill): NOTES, debts, gotchas, ADR
   check, handback.

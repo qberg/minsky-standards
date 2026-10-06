@@ -3,6 +3,8 @@ name: tribune-component
 description: Build a new tribune design-system component, or adopt a raw one to the org standard. Drives the two-gate workflow (API proposal, then token map, then build, then Figma parity), enforces 3-tier tokens, cva-for-variants/data-attrs-for-state, and the no-raw-color rule. Use when the user says "new tribune component", "build the X component", "adopt X", "formalize X", or a feature needs a DS primitive that doesn't exist yet.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # tribune-component
 
 Spine for taking a design-system component from "needed" to "adopted", pixel-faithful

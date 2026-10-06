@@ -3,6 +3,8 @@ name: watch-it-work
 description: Drive a cross-process feature end-to-end on real local infra and watch one correlation id propagate across every process's logs — to VERIFY a feature actually works across the seams (green tests aren't enough) or to DEBUG a full integration flow by localizing a fault to a layer. Use when the user says "watch it work", "verify end to end", "run the full integration", "trace the flow live", "does this actually work across processes", after building a feature that spans multiple apps/services, or when a cross-process flow is misbehaving and unit tests pass.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Watch It Work
 
 Green tests prove the *parts*. This proves the *seams* — the gap between "each piece works" and "the pieces work together", where the bugs that survive unit tests live. The deliverable is **one correlation id traced, in order, across N independent process logs, ending in the far-side effect**.

@@ -3,6 +3,8 @@ name: add-vertical
 description: Layer-by-layer recipe for adding a new endpoint or feature vertical to a modular monolith on the org stack (domain-types vocab, drizzle schema, oRPC contract, handler, FE consumption), with the stack gotchas at their point of use. Use when adding an endpoint, contract, handler, module, or any feature that spans db to api to ui. Written for executor agents of any size; follow it literally.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Add a vertical slice
 
 One slice = one thin path end-to-end, smoke-tested before the next begins. Bucket
@@ -16,6 +18,9 @@ CLAUDE.md chain. If the repo lacks the file, locate the best existing vertical a
 exemplar and create the file as you learn.
 
 ## Layer walk (in this order)
+
+If the repo has `docs/agents/prior-art/README.md`, the slice's prior-art read comes first; walk
+only the layers its Already built table does not already answer, through the homes it names.
 
 ### 1. Vocab: the shared domain-types package
 - Values: `X_VALUES = [...] as const satisfies readonly X[]`, feeding valibot

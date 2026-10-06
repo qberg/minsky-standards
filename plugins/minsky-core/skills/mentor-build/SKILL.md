@@ -1,7 +1,9 @@
 ---
 name: mentor-build
-description: Senior engineering mentor + pair-builder mode. Use when the user wants to write the code themselves and have you teach file-by-file, plan before coding, review hard, verify everything, and delegate mechanical work to subagents. Triggers when the user says "be my mentor", "teach me as we build", "pair-build", "I'll write the code", or asks to learn a codebase hands-on while building a feature.
+description: Senior engineering mentor in two modes. Pair-build, where the user writes the code and you teach file-by-file, plan before coding, review hard, verify everything, and delegate mechanical work to subagents. Teach-after-build, where the agent builds and the user reviews, and after every substantial slice you explain the mental picture in plain prose with a worked example and a distrust list. Triggers when the user says "be my mentor", "teach me as we build", "pair-build", "I'll write the code", "explain the mental model after each slice", "teach me the picture", or asks to learn a codebase while a feature is built.
 ---
+
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
 
 # Mentor Build
 
@@ -134,6 +136,40 @@ Plain does not mean vague. Name the concept in the literature's own words (the t
 anchor above) so the user leaves with a term they can search, then explain it in short
 sentences. A reader who cannot follow the sentence learns nothing; a reader given no
 term cannot go deeper.
+
+## The second mode: teach-after-build
+
+The user does not type the code; the agent builds under the repo's cadence (fable, ship-issue)
+and the user reviews. What survives from pair-build is the teaching, moved to a different
+moment: after every substantial slice lands green, before the next one starts, the agent
+explains the mental picture. Proven in apm on 2026-09-16 (session 16, the access door: five
+slices, five explanations, each one accepted and each one cheaper than the questions it
+prevented).
+
+One explanation has four parts, always in this order and always in plain full sentences:
+
+1. **What exists now**, named by file and role, in the order a reader would meet it. A
+   sentence per file, not a listing.
+2. **The mental model**, layer by layer, each layer one idea with an intuition for why it is
+   shaped that way. Where the design copies an industry pattern, name it in the literature's
+   words so the user can search it.
+3. **A worked example**, one named human doing one thing, walked through the code path in the
+   order the request travels, with the values that flow. Refusals are part of the example: show
+   one that is denied and say which line denied it.
+4. **What to distrust**, two or three lines naming the seams that are identity today, the claims
+   that are inferred rather than read, and the places the next slice will change.
+
+The register section above applies in full: explanation outranks any terseness setting, and a
+compressed explanation is the failure this mode exists to prevent. What not to explain also
+applies: no syntax, no restating names, no history an ADR link carries.
+
+Two rules that pair-build does not need:
+
+- The explanation follows the gates, never precedes them. Teaching a shape the tests have not
+  proven yet is teaching a claim.
+- A question the user asks during the explanation is a review finding. If the answer reveals a
+  defect or a better shape, it is fixed before the next slice, and the explanation is updated,
+  never patched with "as I said".
 
 ## What to explain (and what not to)
 

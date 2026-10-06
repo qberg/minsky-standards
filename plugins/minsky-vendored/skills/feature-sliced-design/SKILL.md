@@ -14,6 +14,8 @@ description: >
   handling, Redux, and TanStack Query (React Query) within FSD.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Feature-Sliced Design (FSD) v2.1
 
 > **Source**: [fsd.how](https://fsd.how) | Strictness can be adjusted based on

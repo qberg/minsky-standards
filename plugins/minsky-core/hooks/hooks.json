@@ -11,6 +11,48 @@
             "statusMessage": "Checking plugin version bump"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/skills/ship-issue/scripts/guard.sh\"",
+            "timeout": 5,
+            "statusMessage": "Shared-branch guard: no stash, no add -A, no branches"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/noisy-bash.sh\"",
+            "timeout": 5,
+            "statusMessage": "Quiet gates: bare gate output stays out of the window"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/agent-wave.sh\"",
+            "timeout": 5,
+            "statusMessage": "Subagent wave check"
+          }
+        ]
+      },
+      {
+        "matcher": "Skill|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/browser-run.sh\""
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -34,6 +76,40 @@
             "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/wrap-nag.sh\"",
             "timeout": 15,
             "statusMessage": "Checking wrap ceremony stamp"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/context-watch.sh\"",
+            "timeout": 10,
+            "statusMessage": "Context watch"
+          }
+        ]
+      }
+    ],
+    "SubagentStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/agent-wave.sh\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"${CLAUDE_PLUGIN_ROOT}/hooks/agent-wave.sh\"",
+            "timeout": 5
           }
         ]
       }

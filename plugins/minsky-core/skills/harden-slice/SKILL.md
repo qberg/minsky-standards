@@ -3,6 +3,8 @@ name: harden-slice
 description: Adversarially review and harden a freshly-built vertical slice (issue/diff) so its architecture is as elegant and correct as possible before it ships. A powerful model plays senior decision-maker: delegates evidence + adversarial review to cheaper agents, judges findings, rebuilds the contract when a design flaw is found, audits the full diff, reconciles docs, and posts an honest AC status. Use after a slice of a larger epic has been built (by the user or an agent) and needs a hardening pass before commit. Triggers: "review and harden this slice", "harden S<n>", "review-and-fix cadence", "make the architecture elegant before shipping", or picking up the review step of a multi-slice epic.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Harden Slice
 
 Take a slice that was just **built** and make its architecture as elegant and correct
@@ -93,6 +95,8 @@ pure mechanical fixes, use the cheaper tiers instead.
 Prefer the **elegant, order-independent, single-source-of-truth** design over the one
 that merely passes the AC. The org rule is build it right now: no deferring the
 correct abstraction to a later issue.
+Elegant means the handbook's counted rows ("Elegance and delight, defined": D1 to D6, A1 to
+A3, U1 to U5); a finding names the row it fails.
 
 ### 5. Full-diff audit (do not delegate)
 
@@ -103,6 +107,10 @@ one or two direct fixes where delegating costs more than the edit. Everything el
 already delegated.
 
 ### 6. Cross-slice coherence (only for a slice in an epic)
+
+If the slice has a prior-art read (`docs/agents/prior-art/<issue>-<slice>.md`), hold the diff
+against it first: files promised against files created, the case's pick against what was built, every
+`generalise` or `replace` verdict carried to all its callers. A gap is a finding.
 
 A slice can be internally correct and still wrong for the epic. Check it against the
 shared design: does it reuse the shared infra the epic committed to (not fork a

@@ -3,6 +3,8 @@ name: diagnose
 description: Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → read the docs → hypothesise → instrument → fix → regression-test. Use when user says "diagnose this" / "debug this", reports a bug, says something is broken/throwing/failing, or describes a performance regression — AND whenever a bug is reported as a QUESTION rather than a command ("is this the expected flow?", "should it do this?", "why does it…", a screenshot of wrong behaviour, "did you mean for X to happen?"). Surprise at observed behaviour IS a bug report; answering it from code-reading alone is the failure this skill exists to prevent.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # Diagnose
 
 A discipline for hard bugs. Skip phases only when explicitly justified.

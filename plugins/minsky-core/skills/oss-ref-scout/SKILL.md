@@ -3,6 +3,8 @@ name: oss-ref-scout
 description: Discover, vet, and shallow-clone open-source repos relevant to a domain or epic into ../open-source-refs (sibling of the repo), maintaining its REFS.md manifest. Use when entering a new problem domain, starting an epic, when the user asks "what OSS exists for X", when charting a wayfinder map in an unfamiliar domain (add a research ticket that invokes this skill), or when a study needs references the current set lacks. NOT per-issue — discovery is epic-scoped.
 ---
 
+> Talking to the founder: follow `handbook/working-with-the-founder.md` (For you: first, real options side by side with a pick, core idea then analogy then example then detail, walkthroughs as a named person, friendly and honest).
+
 # OSS Ref Scout
 
 Curates `../open-source-refs/` (sibling of the current repo) — the org's pattern-reference
