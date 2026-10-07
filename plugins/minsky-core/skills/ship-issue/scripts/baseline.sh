@@ -7,7 +7,8 @@
 # SCOPE IT. Root gates in a monorepo are often ALL red, and compare only fires on a
 # PASS->FAIL flip: zero PASS gates = a compare that cannot fail = no gate at all.
 # Pass the packages you will touch (baseline.sh capture @pm/worker @pm/ai) to get a
-# gate with real resolution. The scope is recorded, so compare re-runs the same set.
+# gate with real resolution; a scoped capture skips the root gates entirely. The scope
+# is recorded, so compare re-runs the same set.
 set -uo pipefail
 ROOT="$(git rev-parse --show-toplevel)" || exit 1
 SNAP="$ROOT/.git/ship-issue-baseline.txt"   # under .git, so never committed
@@ -18,12 +19,16 @@ run_gate() {
   if (cd "$ROOT" && "$@") >/dev/null 2>&1; then echo "$label PASS"; else echo "$label FAIL"; fi
 }
 
+# A scoped capture runs ONLY the named packages, one at a time: the root `pnpm test` starts every
+# package's suite at once, and on a shared box beside peer sessions that memory pressure got the
+# whole tmux scope, agent included, killed by systemd-oomd (apm 2026-10-07, twice in one day).
 snapshot() {
-  run_gate typecheck pnpm typecheck
-  run_gate lint      pnpm check
-  run_gate test      pnpm test
-  # Per-package gates: the only ones with enough resolution to separate YOUR red
-  # from inherited red when the root gates are already failing.
+  if [ "$#" -eq 0 ]; then
+    run_gate typecheck pnpm typecheck
+    run_gate lint      pnpm check
+    run_gate test      pnpm test
+    return
+  fi
   local pkg
   for pkg in "$@"; do
     run_gate "typecheck:$pkg" pnpm -F "$pkg" exec tsc --noEmit
