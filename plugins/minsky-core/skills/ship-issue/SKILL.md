@@ -80,6 +80,8 @@ Surface deltas to the user before planning.
 - Decompose each slice into bite-sized steps that each end on a readable signal (gate,
   test, or live run) within 2 to 5 minutes; keep every step vertical, riskiest signal
   first. See `references/slicing.md`.
+- Once the slice's contract is fixed, mark each unit's file set and edges; units sharing no
+  file and no open decision run as parallel builders. See `references/parallel.md`.
 - The plan is EXACT: real paths, real commands, expected signals, no "add validation" /
   "TODO" / "similar to slice A" placeholders. Self-review it once (AC coverage,
   placeholder scan, name/type consistency) before writing code.
@@ -224,6 +226,7 @@ Surface deltas to the user before planning.
 - `references/slicing.md`: vertical tracer-bullet rules, when horizontal is acceptable
 - `references/verification.md`: per-slice live-checkpoint patterns, runbook format
 - `references/shipping.md`: exclude-drift, close-honest handback recipe
+- `references/parallel.md`: which units of one slice run side by side, the brief, the nevers
 
 ## Scripts
 - `scripts/baseline.sh capture|compare`: snapshot inherited gate red, diff for NEW red
