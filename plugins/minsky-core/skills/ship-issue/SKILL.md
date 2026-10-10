@@ -168,9 +168,21 @@ Surface deltas to the user before planning.
   build-it-right-now, and say why when you skip one. If a fix touches shipped code,
   RE-RUN gates and RE-VERIFY live before ship. Record the review outcome in the close
   notes.
-- If the repo has integration test infra and the feature has 3+ endpoints or a state
-  machine, spawn a fresh agent to write tests from contracts only (tdd skill,
-  fresh-context pattern). Run them against the implementation before ship.
+- Test map, before every commit: list each changed source file beside what proves it, one
+  of: a behaviour test (path, case name), a gate, or the compile line that refuses a
+  missing row (`satisfies Record<...>`). A file holding logic that can be wrong (branches,
+  ordering, rules, an error path) with none of the three is a GAP: a fresh agent writes
+  the test from the contract only (tdd skill, fresh-context pattern), run before ship.
+  The map goes in the build note. Proven in apm 2026-10-10: a git audit flagged 18 of 141
+  commits; seven were real gaps, every one logic inside a screen or a small fix that the
+  old "3+ endpoints" trigger never reached.
+- Test value: a test earns its place when it fails for a reason a person would notice
+  and stays green through a change nobody would. Write behaviour through the public door
+  (an rpc case, a refusal, a race, a sight or leak gate, a statement ceiling, pure logic
+  with branches). Never write a test that restates what the compiler already refuses,
+  a byte-for-byte DOM snapshot, a render-only component test, or a pin of copy wording:
+  these fail on harmless change and teach everyone to ignore red (Software Engineering
+  at Google ch. 12, "change-detector tests"; cited from memory, not re-read).
 
 ### 7. Ship
 - Coherence gate, before anything else in this step: if the repo has an ADR lint
