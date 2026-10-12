@@ -24,6 +24,16 @@ any question, test it: does the answer change what a person sees or does in the 
 technical call: decide it, and say in one line what you decided and why. A question that fails the test
 is load, not collaboration.
 
+**A question carries its pick, and the session proceeds on it** (founder's word 2026-10-08, after a day of
+five sessions each waiting on his yes: "each session waiting on my yes for many things seems painful").
+Every question that passes the test above is written with the options side by side and the pick marked,
+and the session BUILDS ON THE PICK when it reaches the point that needs the answer and none has come. The
+founder can reverse later: a reversal is an Undo, an amendment or a rewrite of the slice, never lost work.
+The exceptions that still wait for his word are one-way doors: a migration that drops data, anything that
+reaches a client or the public, money, and a feel-gate (his by the engineering handbook's "never
+self-bless craft"). Say "proceeding on (a) unless you say otherwise" in the question itself, so he knows
+silence is not a blocker.
+
 ## 3. Explain the way Feynman taught
 
 Founder's word 2026-09-26: "large block of text makes it hard to process the idea in an intuitive

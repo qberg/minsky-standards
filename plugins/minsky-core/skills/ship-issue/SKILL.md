@@ -80,6 +80,8 @@ Surface deltas to the user before planning.
 - Decompose each slice into bite-sized steps that each end on a readable signal (gate,
   test, or live run) within 2 to 5 minutes; keep every step vertical, riskiest signal
   first. See `references/slicing.md`.
+- Once the slice's contract is fixed, mark each unit's file set and edges; units sharing no
+  file and no open decision run as parallel builders. See `references/parallel.md`.
 - The plan is EXACT: real paths, real commands, expected signals, no "add validation" /
   "TODO" / "similar to slice A" placeholders. Self-review it once (AC coverage,
   placeholder scan, name/type consistency) before writing code.
@@ -121,6 +123,15 @@ Surface deltas to the user before planning.
   concluding anything.
 
 ### 5. Delegate, then audit
+- THE MAIN THREAD IS THE ARCHITECT (founder's word, apm 2026-10-12). It holds the slice's
+  contract, its seams to other tracks and the repo's rules for the whole slice; once the
+  contract is committed it writes NO product code, only contracts, briefs, rulings and
+  audits. Builders get one unit each. The role is measured: marks O1 to O8 in
+  `references/parallel.md`, recorded per slice in the build note.
+- A builder knows only its brief. Every brief carries the RULES CARD: the contract text,
+  the code rules that bind this unit, the proven traps of the area it touches, each quoted,
+  never a path to read. A skill the unit needs is inlined as steps when the agent type has
+  no Skill tool.
 - Push heavy or mechanical work (test suites, explainers, bulk edits, read-only sweeps,
   doc lookups) to subagents with EXACT targets plus the verification commands they must
   run.
@@ -166,9 +177,21 @@ Surface deltas to the user before planning.
   build-it-right-now, and say why when you skip one. If a fix touches shipped code,
   RE-RUN gates and RE-VERIFY live before ship. Record the review outcome in the close
   notes.
-- If the repo has integration test infra and the feature has 3+ endpoints or a state
-  machine, spawn a fresh agent to write tests from contracts only (tdd skill,
-  fresh-context pattern). Run them against the implementation before ship.
+- Test map, before every commit: list each changed source file beside what proves it, one
+  of: a behaviour test (path, case name), a gate, or the compile line that refuses a
+  missing row (`satisfies Record<...>`). A file holding logic that can be wrong (branches,
+  ordering, rules, an error path) with none of the three is a GAP: a fresh agent writes
+  the test from the contract only (tdd skill, fresh-context pattern), run before ship.
+  The map goes in the build note. Proven in apm 2026-10-10: a git audit flagged 18 of 141
+  commits; seven were real gaps, every one logic inside a screen or a small fix that the
+  old "3+ endpoints" trigger never reached.
+- Test value: a test earns its place when it fails for a reason a person would notice
+  and stays green through a change nobody would. Write behaviour through the public door
+  (an rpc case, a refusal, a race, a sight or leak gate, a statement ceiling, pure logic
+  with branches). Never write a test that restates what the compiler already refuses,
+  a byte-for-byte DOM snapshot, a render-only component test, or a pin of copy wording:
+  these fail on harmless change and teach everyone to ignore red (Software Engineering
+  at Google ch. 12, "change-detector tests"; cited from memory, not re-read).
 
 ### 7. Ship
 - Coherence gate, before anything else in this step: if the repo has an ADR lint
@@ -224,6 +247,7 @@ Surface deltas to the user before planning.
 - `references/slicing.md`: vertical tracer-bullet rules, when horizontal is acceptable
 - `references/verification.md`: per-slice live-checkpoint patterns, runbook format
 - `references/shipping.md`: exclude-drift, close-honest handback recipe
+- `references/parallel.md`: which units of one slice run side by side, the brief, the nevers
 
 ## Scripts
 - `scripts/baseline.sh capture|compare`: snapshot inherited gate red, diff for NEW red
