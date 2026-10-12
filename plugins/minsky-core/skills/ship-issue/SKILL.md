@@ -123,6 +123,15 @@ Surface deltas to the user before planning.
   concluding anything.
 
 ### 5. Delegate, then audit
+- THE MAIN THREAD IS THE ARCHITECT (founder's word, apm 2026-10-12). It holds the slice's
+  contract, its seams to other tracks and the repo's rules for the whole slice; once the
+  contract is committed it writes NO product code, only contracts, briefs, rulings and
+  audits. Builders get one unit each. The role is measured: marks O1 to O8 in
+  `references/parallel.md`, recorded per slice in the build note.
+- A builder knows only its brief. Every brief carries the RULES CARD: the contract text,
+  the code rules that bind this unit, the proven traps of the area it touches, each quoted,
+  never a path to read. A skill the unit needs is inlined as steps when the agent type has
+  no Skill tool.
 - Push heavy or mechanical work (test suites, explainers, bulk edits, read-only sweeps,
   doc lookups) to subagents with EXACT targets plus the verification commands they must
   run.

@@ -25,6 +25,77 @@ PLAN phase applies them, so a slice's wall time drops without its quality droppi
 - Any agent that runs a database suite gets a PRIVATE test database named in its brief, never the
   shared one (a shared test database truncates other sessions' rows mid-run).
 
+## How much to fan out (decided in the plan, written beside it)
+
+Agents judge effort badly, so the scale is a table and not a feeling (Anthropic's lesson 3, "Scale
+effort to query complexity", same post as below). READS fan out wide, WRITES fan out narrow: a
+subagent's strength is reading a lot and handing back a little, and code has fewer truly parallel
+units than research (the post's own limit). Tokens are the cost: the post measures a multi-agent
+run at about 15 times a chat's tokens, so a builder is spent only where the table says.
+
+| The slice has | Scouts (read-only) | Builders | Always |
+| --- | --- | --- | --- |
+| one unit, or units that share a file or an open decision | up to 4 for the prior-art read | 0: the main thread builds it | test writer and cold reviewer |
+| 2 to 4 units, disjoint files, contract committed | up to 4 | one per unit, one wave | test writer and cold reviewer |
+| more than 4 disjoint units | up to 4 per wave | waves of at most 4, audit between | test writer and cold reviewer |
+
+## The rules card (part of every brief)
+
+A builder starts with none of the main thread's context, so a rule it was not handed is a rule it
+will break. The card is written once per slice and pasted into every brief of that slice:
+
+- The contract text verbatim (types, registry rows, refusal codes, the procedure row).
+- The rules that bind this unit and that NO GATE CATCHES, quoted from the handbook and the repo
+  CLAUDE.md with one line of why each (one home for a rule, the surface's error states, the
+  vocabulary a person reads, which registry a new row joins), never "follow the repo rules". A rule
+  a compiler or lint already refuses (no `any`, complexity, no ternary in JSX) is named in one line
+  with its gate command and not explained: the gate teaches it, and the card stays inside O3. The
+  post's finding is the reason for the why: good heuristics steer an agent better than a bare list
+  of rigid rules.
+- The traps of the area: the matching `docs/agents/gotchas/` entries, quoted.
+- The four parts every brief has: the goal in one sentence, the files in bounds and the files out
+  of bounds (other live agents' files named as forbidden), the return format, and the observable
+  check that means done. Same four as Anthropic's lead agent gives its subagents (an objective, an
+  output format, guidance on tools and sources, clear task boundaries;
+  https://www.anthropic.com/engineering/multi-agent-research-system, section "Teach the
+  orchestrator how to delegate").
+- A recipe the unit must follow, inlined as numbered steps when the agent type has no Skill tool.
+- The return is a pointer, never the work retold: a builder's code is already in the tree, so it
+  returns files, ranges, gate results and punts in at most 20 lines; a scout whose findings exceed
+  its return contract writes them to the slice's prior-art file and returns the section name (the
+  post's appendix: output to a filesystem "to minimize the game of telephone").
+- Every return ends with one line: what the brief lacked or got wrong. That line is the cheapest
+  source of card fixes (the post's lesson 5, agents diagnose their own prompts).
+
+The audit judges the END STATE (the diff against the contract and the gates), never the builder's
+account of how it got there; a builder may take any path to a correct diff (the post's appendix,
+end-state evaluation). When the audit finds a defect, classify it: the card stated the rule (the builder's miss) or the
+card did not (the card's miss). A card's miss is fixed in the card before the next wave.
+
+## The marks (recorded per slice in the build note)
+
+| # | Mark | Pass | Read from |
+| --- | --- | --- | --- |
+| O1 | Contract first | types, registry rows and refusal codes are committed before any builder starts | `git log` order |
+| O2 | The main thread stays light | under 250k tokens of context at slice end | the repo's usage read |
+| O3 | A builder reads little | under 60k tokens per builder | the repo's usage read |
+| O4 | Share of labour | in a slice the table above fans out, helpers make at least 60 percent of the edit steps | the repo's usage read |
+| O5 | No collisions | no two builders of one wave touch one file | the plan's file sets against `git diff` |
+| O6 | Every wave audited | the whole diff is read before the next wave starts | one line per wave in the build note |
+| O7 | Quality holds | the cold review finds no more per slice than before the rule | review counts in build notes |
+| O8 | The card is complete | audit defects whose rule the card did not state: 0 by the slice's last wave | the audit's classification |
+
+O7 is the guard: the rule exists for quality and wall time together, so more findings per slice
+means the rule failed, whatever the other marks say. O2 and O4 are thresholds proposed in apm on
+2026-10-12 from one day's figures (main thread 239k per step, helpers 27 percent of reading, median
+session peak 356k); move them with a receipt. Not every slice fans out: coding has fewer truly
+parallel units than research (same Anthropic post), so a slice with one unit skips O4 and O5 and
+says so, and that is a pass.
+
+Start small (the post: about 20 real cases showed the effect of a change, no need to wait for a
+large eval): the first five slices built under this rule record all eight marks; the thresholds
+are reviewed on those five, and a mark nobody could read from the tools is dropped or given a tool.
+
 ## How a unit ends
 
 - On its own scoped gate PLUS a proof that its own module ran. "Tests green" alone lets a unit that
