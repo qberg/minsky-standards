@@ -42,7 +42,9 @@ run at about 15 times a chat's tokens, so a builder is spent only where the tabl
 ## The rules card (part of every brief)
 
 A builder starts with none of the main thread's context, so a rule it was not handed is a rule it
-will break. The card is written once per slice and pasted into every brief of that slice:
+will break. The card is written once per slice and pasted into every brief of that slice. Its
+source is the slice's prior-art read (the `prior-art` skill, step 6): the card is cut from that
+file, so what the repo already built reaches every builder and nothing is found twice.
 
 - The contract text verbatim (types, registry rows, refusal codes, the procedure row).
 - The rules that bind this unit and that NO GATE CATCHES, quoted from the handbook and the repo
@@ -52,7 +54,9 @@ will break. The card is written once per slice and pasted into every brief of th
   with its gate command and not explained: the gate teaches it, and the card stays inside O3. The
   post's finding is the reason for the why: good heuristics steer an agent better than a bare list
   of rigid rules.
-- The traps of the area: the matching `docs/agents/gotchas/` entries, quoted.
+- The homes to build through: each silhouette row and existing home the read gave a `reuse` or
+  `generalise` verdict, with its path, so a builder extends the one home and never writes a twin.
+- The traps of the area: the read's Traps and the matching `docs/agents/gotchas/` entries, quoted.
 - The four parts every brief has: the goal in one sentence, the files in bounds and the files out
   of bounds (other live agents' files named as forbidden), the return format, and the observable
   check that means done. Same four as Anthropic's lead agent gives its subagents (an objective, an

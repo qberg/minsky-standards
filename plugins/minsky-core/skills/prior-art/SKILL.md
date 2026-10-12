@@ -30,7 +30,11 @@ the repo's hook refuses a new source file its read does not list.
    missed the silhouette list for exactly this reason). The repo's README lists them; in apm:
    the mental model, `docs/agents/silhouettes.md`, `docs/agents/design-language.md`,
    `docs/agents/seams.md`, the ADRs the need cites. The agent reads code, quotes `path:line`, marks
-   every claim read or inferred, and edits nothing.
+   every claim read or inferred, and edits nothing but the read's own file. One agent is the
+   default. When the lookup list is more than one agent can read inside the builder budget
+   (ship-issue `references/parallel.md`, mark O3), split it into at most four scouts by lookup file,
+   each writing its own section of the read and returning the section name; the merge is the main
+   thread's step 3, never a fifth agent's.
 3. **Judge it in the main thread.** Distrust its provenance: spot-check three receipts yourself.
    Place the need on the primitives yourself too; a tension (fits none, fits two) is the most
    valuable line in the file and is never smoothed.
@@ -41,7 +45,13 @@ the repo's hook refuses a new source file its read does not list.
    reused and what is new in product words, and the choices that are theirs, each with a pick. No
    `path:line`, no code: a person reads it before any agent does (founder's word 2026-09-29).
    Run the repo's lint, then bring the proposal, which is that section.
-6. **At close, write Missed**: what the build, the review or the live gate found that the read did
+6. **The read is the builders' rules card.** When ship-issue fans a slice out, the card pasted into
+   every brief is CUT from this file and never re-derived: the contract from the case's pick, "build
+   through this home" lines from Already built and its silhouette rows, the traps from Traps, the
+   words from the word rows. A fact a builder needed that is in the read but not on the card is the
+   card's miss (ship-issue mark O8); one that is not in the read at all is this read's miss and goes
+   under Missed.
+7. **At close, write Missed**: what the build, the review or the live gate found that the read did
    not, or `nothing` with the reason. Each real miss becomes a dated line under Refinements below,
    in this file, in the same change. The repo's board refuses Done while Missed is unwritten.
 
