@@ -214,6 +214,27 @@ Every fact has exactly one home; it lands there the moment it's born.
   those sessions, and the next session is named in it, including which skill it loads first.
   A slice built this way is still ONE slice: one checkpoint, one review, one entry in the
   build notes.
+- THE FEEL LOOP (founder's word, apm 2026-10-13: "you build the most elegant and coherent thin
+  slice which i can feel gate as the end user and the next steps will use that feedback rather
+  than building based on prose"). The founder's look as the end user is an INPUT to the build,
+  never only a check at its end. Six rules, and none of them loosens another law in this file:
+  1. Cut to a screen. A slice with a screen is cut so its first unit ends at a real screen: one
+     named person, one path, working end to end on the real interface.
+  2. Thin, never rough. One path at full depth with the right abstraction ("design the whole,
+     build thin"); a mock, a patch or a shortcut is not a thin slice.
+  3. Serve at once. The screen is served the moment it is on a commit, with a numbered runbook.
+  4. His words plan the next unit. The verdict is written word for word in the slice's own file,
+     and the next unit's plan cites it line by line: what he said, what it changes. A verdict
+     about a shared part (the kit, a copy rule, a layout) is written once in that part's home
+     and told on its seam, so no second track asks for the same look or builds against it.
+  5. About a day at most without a look. Work with no screen of its own (an engine, a
+     migration, a model check) is cut to land behind the nearest screen that shows it, or is
+     reported as a gate result with its numbers; it is never a reason for a silent week.
+  6. No review is cut. Cold reviews and hardening land before the slice CLOSES and before any
+     staging deploy; a look judges feel, never correctness, and never replaces a gate.
+  Looks are batched for him (working-with-the-founder s5): each open handoff's header says its
+  last look and its next, and the session-start card lists the looks that are ready and the
+  tracks past a day, so he sees one list and no session waits in silence.
 - Shared branch, concurrent agents: never `git commit --amend`, never repo-wide
   `git stash`, stage explicit paths, verify HEAD before any history op. Format only
   the paths you touched.
