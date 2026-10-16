@@ -103,6 +103,8 @@ Tool preference:
 
 **Tag every debug log** with a unique prefix, e.g. `[DEBUG-a4f2]`. Cleanup at the end becomes a single grep. Untagged logs survive; tagged logs die.
 
+**A refuted hypothesis takes its edits with it.** When evidence refutes a hypothesis, revert the edits it motivated before testing the next one. After two fixes on one premise fail the same check, write the premise down and test the premise itself before a third fix (pstack bug-fix, attack-the-premise; apm 2026-10-16).
+
 **Perf branch.** For performance regressions, logs are usually wrong. Instead: establish a baseline measurement (timing harness, `performance.now()`, profiler, query plan), then bisect. Measure first, fix second.
 
 ## Phase 6 — Fix + regression test

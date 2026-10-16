@@ -59,6 +59,12 @@ to that table before closing; the table is the only memory this class of bug has
 - A runtime-only runner (tsx and friends) does not typecheck. A job passing at runtime
   is NOT evidence it compiles; run the typecheck.
 
+## Timing claims
+
+A claim that one side is faster or within a mark is run at least 5 times, alternating sides,
+with errors counted; report the median and the range. A range that overlaps the mark is
+inconclusive, never a pass (pstack benchmark-checklist; apm 2026-10-16, blind reviews of one slice).
+
 ## Dead code and duplication (fallow), at close only
 
 fallow runs when a FEATURE closes (the tracker card moving to done), never per edit and never per session:

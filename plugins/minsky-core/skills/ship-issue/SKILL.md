@@ -157,21 +157,40 @@ Surface deltas to the user before planning.
   reported failure: re-run the gate yourself.
 
 ### 6. Review, fresh-context and adversarial
-- Once gate-green and live-checkpointed but BEFORE ship, hand the diff to a
-  FRESH-CONTEXT reviewer subagent on the strongest model. Fresh context is the point:
-  the builder is blind to its own assumptions. The main thread reviewing its own work
-  is theatre.
-- Run it in the FOREGROUND so you can triage findings before shipping. Read-only.
+- Once gate-green and live-checkpointed but BEFORE ship, hand the diff to TWO
+  FRESH-CONTEXT reviewer subagents on different models (the strongest Opus and a Sonnet),
+  same brief, in parallel. Fresh context is the point: the builder is blind to its own
+  assumptions. The main thread reviewing its own work is theatre. A finding both raise
+  is the strongest signal; a lone finding is verified against source before it counts.
+  Each single reviewer missed something another caught (apm 2026-10-16, four recipes
+  blind on one slice; Sonnet found the view-as empty answer an Opus review missed).
+- Run them in the FOREGROUND so you can triage findings before shipping. Read-only.
 - Brief it EXACTLY: the issue's intent; the precise file list (which HUNKS are this
   issue's when the tree carries drift); the rule sources (CLAUDE.md chain, relevant
   ADRs, the sibling EXEMPLAR the code mirrors); the surrounding code it must study.
   Tell it to verify external-API claims against installed types, and to separate
-  CONFIRMED bugs from PLAUSIBLE concerns.
-- Demand four lanes in priority order: (1) correctness bugs with a concrete failure
+  CONFIRMED bugs from PLAUSIBLE concerns. Severity is the repo's debts scale (P0 to P3),
+  quoted in the brief, and the brief carries the repo's open debts for the issue so owed
+  items are not re-found; a finding on a known debt says what pushed it past its ceiling.
+- The brief never carries a previous review's findings. Send that list only after the
+  independent report is in, to verify each was fixed: fresh eyes first (Thermos).
+- Demand five lanes in priority order: (1) correctness bugs with a concrete failure
   scenario; (2) rule/layering violations with the cite; (3) anti-idiomatic drift vs the
-  exemplar; (4) architecture improvements that leave the codebase MORE elegant than
-  found. Lane 4 hard constraint: an industry-solved pattern gets NAMED and recommended
-  over any bespoke reinvention.
+  exemplar; (4) structure: a restructuring that deletes branches or layers ("code
+  judo"), a dispatch over variants that fails OPEN when a new variant arrives, a copied
+  mechanism that has a canonical home, a file pushed past 1000 lines; and an
+  industry-solved pattern gets NAMED and recommended over any bespoke reinvention
+  (apm 2026-10-16, only Thermos found `failedSights` wiring one arm per shape, so a new
+  shape was never judged); (5) the dev loop: a change the founder's running dev server
+  needs a restart for, a change that turns peer sessions' gates red, the dev database,
+  compose.
+- Lane 1 checklist, each one a miss from that run (apm 2026-10-16, #189 Track B unit 3):
+  a judge that passes on an empty set (`every` over `[]`); a count or "more" figure taken
+  inside a capped window; a filter that reads only a conversation's newest row; a yes/no
+  or aggregate computed over the page shown rather than the whole match; a
+  calendar-impossible date accepted at a boundary (valibot `isoTimestamp` takes
+  2026-02-31); every door a view-as reader can reach, answered for an EMPTY result as
+  well as a full one.
 - Then TRIAGE, do not obey. Audit each finding against source; fresh reviewers also
   hallucinate. Fix correctness and rule violations; weigh elegance refactors under
   build-it-right-now, and say why when you skip one. If a fix touches shipped code,

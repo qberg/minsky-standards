@@ -28,12 +28,13 @@ Ask: "What's the public interface, and which seams should we test?"
 ## Anti-patterns
 
 - **Implementation-coupled** — mocks internal collaborators, tests private methods, or verifies through a side channel (querying the database instead of using the interface). The tell: the test breaks when you refactor but behavior hasn't changed.
-- **Tautological** — the assertion recomputes the expected value the way the code does (`expect(add(a, b)).toBe(a + b)`, a snapshot derived by hand the same way, a constant asserted equal to itself), so it passes by construction and can never disagree with the code. Expected values must come from an independent source of truth — a known-good literal, a worked example, the spec.
+- **Tautological** — the assertion recomputes the expected value the way the code does (`expect(add(a, b)).toBe(a + b)`, a snapshot derived by hand the same way, a constant asserted equal to itself), so it passes by construction and can never disagree with the code. Expected values must come from an independent source of truth — a known-good literal, a worked example, the spec. The same holds for a test of a restated constant and a test asserting data the test built itself: it proves nothing (pstack test-behavior-not-implementation; apm gotcha `ui-and-motion`: a jsdom test passed four days on a moved token).
 - **Horizontal slicing** — writing all tests first, then all implementation. Bulk tests verify _imagined_ behavior: you test the _shape_ of things rather than user-facing behavior, the tests go insensitive to real changes, and you commit to test structure before understanding the implementation. Work in **vertical slices** instead — one test → one implementation → repeat, each test a **tracer bullet** that responds to what the last cycle taught you.
 
 ## Rules of the loop
 
 - **Red before green.** Write the failing test first, then only enough code to pass it. Don't anticipate future tests or add speculative features.
+- **Red for the right reason.** The red must fail for the intended reason: the missing behaviour, not an import error, a typo or a broken fixture. A wrong-reason red is corrected before going green (pstack tdd; apm 2026-10-16).
 - **One slice at a time.** One seam, one test, one minimal implementation per cycle.
 - **Refactoring is not part of the loop.** It belongs to the review stage (see the `code-review` skill), not the red → green implementation cycle.
 
@@ -58,6 +59,7 @@ Give the fresh agent exactly:
 3. One existing test file as the exemplar (test infra patterns, fixtures, seam shape)
 4. The handler imports (what to call)
 5. The verification command (`npx vitest run <path>`)
+6. The return format: one row per test file, "broke <symbol>, went red at <file:line>", so each test is shown to fail when the thing it guards breaks (pstack tdd; apm 2026-10-16)
 
 Do NOT give it: implementation files, commands, queries, repos, domain logic. The
 agent must derive expected behavior from the contract and the ADR alone.

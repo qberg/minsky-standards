@@ -27,7 +27,9 @@ ceremony deletes the NOTES pointer; the file stays as archive.
    `planned-inside-slice` handoff MUST carry section 7's first skill and its "still owes" line.
 1. **Task and its authority**: the issue, ADR or user word the work answers, by path or number.
 2. **Where it stands**: what is built and verified (gate results as one line each), what is
-   half-written, in which files (paths with line ranges, never file contents).
+   half-written, in which files (paths with line ranges, never file contents). The Look line
+   names the commit the founder judged; a look is stale once the slice's paths changed after
+   that commit, so it is owed again (pstack orchestrate ledger: a new head voids the verdict).
 3. **The exact next step**: the first action the next session takes, then the two after it.
 4. **Decisions made this session that are already recorded**: ADR lines, study sections, commits,
    by path or hash. Reference, never restate: a handoff that copies an ADR goes stale the day the

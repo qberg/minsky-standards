@@ -49,6 +49,10 @@ derive from its database package and CLAUDE.md, and create the file as you learn
   or committed yet unapplied. The final report states both facts explicitly per env
   ("migration 00XX: committed, applied local, NOT applied staging").
 - **Never edit an already-applied migration.** New migration on top, always.
+- **A data step runs twice safely.** DML in a migration or a backfill leaves the
+  database unchanged when it runs a second time, runs green on a database holding the
+  oldest test-database shape, and a crash halfway leaves state the next run recognises
+  (pstack make-operations-idempotent; apm 2026-10-16, blind reviews of one slice).
 - **Async side-effects are transactional.** Any async consequence of a write (search
   sync, notification) is staged into the outbox INSIDE the same business transaction.
 - **Timestamps:** ISO strings admit tz offsets; order-compare via

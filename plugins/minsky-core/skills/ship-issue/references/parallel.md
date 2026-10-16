@@ -68,8 +68,12 @@ file, so what the repo already built reaches every builder and nothing is found 
   returns files, ranges, gate results and punts in at most 20 lines; a scout whose findings exceed
   its return contract writes them to the slice's prior-art file and returns the section name (the
   post's appendix: output to a filesystem "to minimize the game of telephone").
-- Every return ends with one line: what the brief lacked or got wrong. That line is the cheapest
-  source of card fixes (the post's lesson 5, agents diagnose their own prompts).
+- Every return ends with two lines: what the brief lacked or got wrong, and "Not checked: <what
+  was not read or run>". The first is the cheapest source of card fixes (the post's lesson 5,
+  agents diagnose their own prompts); the second keeps a silent gap from reading as a clean pass
+  (Ponytail; apm 2026-10-16, blind reviews of one slice).
+- Every brief states a budget and says "on reaching it, return what you have, marked partial", so
+  a helper that runs long hands back its work instead of nothing (pstack TIMEBOX).
 
 The audit judges the END STATE (the diff against the contract and the gates), never the builder's
 account of how it got there; a builder may take any path to a correct diff (the post's appendix,

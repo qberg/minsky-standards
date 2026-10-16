@@ -65,11 +65,14 @@ Spawn two agents concurrently (one message, two tool calls):
 - **Strong tier: adversarial seam review.** Find real defects, no praise, no style
   nits unless they change behavior. Every finding: `file:line`, severity, a
   **concrete failure scenario** (inputs/state to wrong outcome), one-line fix
-  direction. Verify each by reading the actual code path; no speculation. Point it at
-  the highest-value seams for the slice's domain: concurrency/retry/reorder,
-  transactional boundaries, idempotency, cache/index freshness, auth scope resolution,
-  cross-process contracts, secrets/deploy. If a prior review flagged items, ask it to
-  verify each was fixed (fixed/not-fixed table).
+  direction. Verify each by reading the actual code path; no speculation. The two
+  models, the five lanes, the lane 1 checklist and the severity scale are ship-issue
+  phase 6; brief from there, never a copy here. Point it at the highest-value seams for
+  the slice's domain: concurrency/retry/reorder, transactional boundaries, idempotency,
+  cache/index freshness, auth scope resolution, cross-process contracts, secrets/deploy.
+- **After the independent report is in:** if a prior review flagged items, send that
+  list and ask it to verify each was fixed (fixed/not-fixed table). Never in the first
+  brief: fresh eyes first (ship-issue phase 6).
 
 Give the adversarial reviewer the governing ADRs as authority so it judges against
 intended design, not just local correctness.
