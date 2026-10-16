@@ -7,10 +7,14 @@
 set -uo pipefail
 mkdir -p /tmp/gate
 TELL='error|Error|FAIL|×|✗|violation|RED|failed|Cannot|not found'
+# A PASS names how much ran, so a run that loaded fewer files than usual reads as smaller, not green (apm 2026-10-12).
+ran_of() {
+  grep -aE '^ *Test Files |^ *Tests |^ℹ (tests|pass) ' "$1" | tr -s ' ' | paste -sd ';' - | cut -c1-90
+}
 summarise() {
   local label="$1" code="$2" secs="$3" log="$4"
   if [ "$code" -eq 0 ]; then
-    printf 'PASS  %-28s %3ss\n' "$label" "$secs"
+    printf 'PASS  %-28s %3ss  %s\n' "$label" "$secs" "$(ran_of "$log")"
   else
     printf 'FAIL  %-28s %3ss  (log: %s)\n' "$label" "$secs" "$log"
   fi
@@ -25,7 +29,7 @@ run_one() {
   if [ "$code" -ne 0 ] && [ -z "${SHOWN:-}" ]; then
     SHOWN=1
     echo "----- first telling lines of $label"
-    (grep -E "$TELL" "$log" | head -15; [ "$(grep -cE "$TELL" "$log")" -eq 0 ] && tail -15 "$log") | cut -c1-200
+    (grep -aE "$TELL" "$log" | head -15; [ "$(grep -acE "$TELL" "$log")" -eq 0 ] && tail -15 "$log") | cut -c1-200
     echo "-----"
   fi
   return "$code"
