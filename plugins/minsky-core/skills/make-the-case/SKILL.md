@@ -32,7 +32,7 @@ Score both designs on every row that applies; a row that does not apply says why
 | 7 | Premium products | How three or four shipped products do it | the repo's product studies and research index |
 | 8 | Open source | How real code does it, read at source | the OSS refs, `oss-ref-scout` |
 | 9 | Refutation | The strongest attack on the pick, and the answer | a fresh-context agent, brief below |
-| 10 | Experiment | Any claim reading cannot settle | a gated run with its numbers |
+| 10 | Experiment | Any claim reading cannot settle | a gated run with its numbers; before its first line it writes its pass marks and its stop rule (cheapest arm first, a cap on tuning rounds and on spend, what ends it), and it ends when more tokens would not change the pick (founder's word, apm #341, 2026-10-18); cold reviews are never cut |
 
 The rule: the pick wins or ties every scored row. Where it loses one, the case says so and why the
 loss is accepted. Row 9 is never skipped. Every row carries a receipt or `no receipt:` and why.

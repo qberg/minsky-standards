@@ -109,7 +109,7 @@ Surface deltas to the user before planning.
   source confirms or denies (typically whether two independently-documented features
   COMPOSE), stop reading and design an experiment: a gated `smoke:*` script
   (`describe.skipIf(!process.env.X_SMOKE)`) that never runs in CI and stays as the
-  regression check for that exact claim.
+  regression check for that exact claim. Its stop rule is written first (make-the-case row 10).
 - To let the user hand-write for learning, invoke mentor-build; otherwise write it
   yourself. Either way, review each unit before the next.
 - Watch the repo's own edit hazards: `docs/agents/gotchas/` the CLAUDE.md chain and `.claude/rules/`.
