@@ -129,7 +129,7 @@ Code and docs drift the moment a design changes in review. Update every doc that
 lies:
 - The governing **ADR**: amend in place, marking the amendment and why (supersede the
   old sketch, don't delete the reasoning).
-- **CLAUDE.md** (root + app): the invariant/gotcha bullets.
+- **CLAUDE.md** (root + app) and `.claude/rules/`: the invariant/gotcha bullets.
 - Any **architecture doc** or diagram (sequence flows, slice status, risk notes).
 - Context glossaries if a term's meaning moved.
 

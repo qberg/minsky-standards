@@ -78,7 +78,7 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
   for a human check. Extrapolated, untested, or skipped = flagged explicitly. Honest
   status over false green.
 - Each product surface gets a named tier with a named bar; none undefined. The tier
-  table lives in the repo's CLAUDE.md.
+  table lives in the repo's CLAUDE.md or a path-scoped rule it names (`.claude/rules/`).
 - Cadence: non-trivial slices open with an architecture proposal, not code. On
   ambiguity, stop and ask ONE crisp question; never guess. Authority chain: direct
   client word > finalized design > ADR > issue text; when a higher authority

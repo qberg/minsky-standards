@@ -28,7 +28,7 @@ and reference it by name here; do not thicken this file.
 Repo parameters (never assume, read them from the repo): the package-scoped gate
 command, the commit policy (default: hand back, user commits; a repo opts into
 agent-committing in its CLAUDE.md), and the repo's own hazards. All live in the repo's
-CLAUDE.md chain and `docs/agents/`.
+CLAUDE.md chain, `.claude/rules/` and `docs/agents/`.
 
 ## Prime directive: code is truth, prose is intent
 
@@ -112,7 +112,7 @@ Surface deltas to the user before planning.
   regression check for that exact claim.
 - To let the user hand-write for learning, invoke mentor-build; otherwise write it
   yourself. Either way, review each unit before the next.
-- Watch the repo's own edit hazards: `docs/agents/gotchas/` and the CLAUDE.md chain.
+- Watch the repo's own edit hazards: `docs/agents/gotchas/` the CLAUDE.md chain and `.claude/rules/`.
 
 ### 4. Checkpoint, verify live per slice
 - End each slice by running the real app and observing the behavior, not just green
@@ -166,7 +166,7 @@ Surface deltas to the user before planning.
   blind on one slice; Sonnet found the view-as empty answer an Opus review missed).
 - Run them in the FOREGROUND so you can triage findings before shipping. Read-only.
 - Brief it EXACTLY: the issue's intent; the precise file list (which HUNKS are this
-  issue's when the tree carries drift); the rule sources (CLAUDE.md chain, relevant
+  issue's when the tree carries drift); the rule sources (CLAUDE.md chain and `.claude/rules/`,
   ADRs, the sibling EXEMPLAR the code mirrors); the surrounding code it must study.
   Tell it to verify external-API claims against installed types, and to separate
   CONFIRMED bugs from PLAUSIBLE concerns. Severity is the repo's debts scale (P0 to P3),
