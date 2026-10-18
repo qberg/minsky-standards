@@ -29,7 +29,9 @@ the repo's hook refuses a new source file its read does not list.
    lookup file by path, because a file the brief omits is a file the agent skips (the first read
    missed the silhouette list for exactly this reason). The repo's README lists them; in apm:
    the mental model, `docs/agents/silhouettes.md`, `docs/agents/design-language.md`,
-   `docs/agents/seams.md`, the ADRs the need cites. The agent reads code, quotes `path:line`, marks
+   `docs/wayfinder/grid-grammar.md`, `docs/agents/seams.md`, the rulings page of every seam whose
+   paths the slice touches and of the slice's own track (`docs/agents/rulings/<id>.md`, in force
+   rules only), the ADRs the need cites. The agent reads code, quotes `path:line`, marks
    every claim read or inferred, and edits nothing but the read's own file. One agent is the
    default. When the lookup list is more than one agent can read inside the builder budget
    (ship-issue `references/parallel.md`, mark O3), split it into at most four scouts by lookup file,
@@ -44,11 +46,13 @@ the repo's hook refuses a new source file its read does not list.
    first section, In plain words, for the founder: the core idea, the named person's walk, what is
    reused and what is new in product words, and the choices that are theirs, each with a pick. No
    `path:line`, no code: a person reads it before any agent does (founder's word 2026-09-29).
-   Run the repo's lint, then bring the proposal, which is that section.
+   Run the repo's lint, then bring the proposal, which is that section. The read moves to its
+   building stage in the change that writes the slice's first code file, never later: the owed rows
+   are checked from that stage, and a read left at reading hides them.
 6. **The read is the builders' rules card.** When ship-issue fans a slice out, the card pasted into
    every brief is CUT from this file and never re-derived: the contract from the case's pick, "build
-   through this home" lines from Already built and its silhouette rows, the traps from Traps, the
-   words from the word rows. A fact a builder needed that is in the read but not on the card is the
+   through this home" lines from Already built and its silhouette rows, the in force rulings of the
+   touched seams by id, the traps from Traps, the words from the word rows. A fact a builder needed that is in the read but not on the card is the
    card's miss (ship-issue mark O8); one that is not in the read at all is this read's miss and goes
    under Missed.
 7. **At close, write Missed**: what the build, the review or the live gate found that the read did
@@ -131,3 +135,4 @@ never rewritten (founder's word 2026-09-29: a rule is refined by many sessions w
 | 2026-10-11 | apm #189 slice 3 birth step: the read named the two homes of a rule it unified (an offer the draft showed and the server refused) but not the writer path behind them, so a many-answer column still crashed the writer (found by the cold review) | When a slice makes one home for a rule two sides disagreed on, section 3 traces each value the rule admits through to the writer, per cardinality |
 | 2026-10-11 | apm #320 sc: the read inferred a converter bug from code and never ran each caller-closed output schema through the converter, so the first build found 23 red tests; it also filed every 4xx as our config fault, and the cold review found a 408 that should retry | When a need passes data through a converter or a status table, section 3 runs every existing caller's input through it once and lists each status code with its retry meaning, never a class of codes |
 | 2026-10-11 | apm #320 cl: the design added a due-aware sleep and a cancel read, and the cold review found the sleep polled every 25 ms when the runner was full, and a cancel landing mid-call still waited out its backoff, because the cancel lived in one read and not in the park every wait passes through | When a design adds a wait, a sleep or a cancel, section 5 walks it at full capacity and with a cancel arriving at each step, and places the rule in the one home every path passes (the park), never in one caller |
+| 2026-10-18 | apm silhouette audit: #341 and #336 built 57 and 39 files under reads still at reading, so their owed silhouette rows went unchecked and two copies shipped (a fourth lease shape, a hand-copied capped worker); the reads never saw #169's rulings, which lived only in a diary handoff, and grid-grammar.md was not on the lookup list | Step 2 names grid-grammar and the touched seams' rulings pages; step 5 moves the read to building with the first code file; step 6 puts the in force rulings on the builders' card |
