@@ -196,6 +196,11 @@ Surface deltas to the user before planning.
   build-it-right-now, and say why when you skip one. If a fix touches shipped code,
   RE-RUN gates and RE-VERIFY live before ship. Record the review outcome in the close
   notes.
+- Review rounds on a built slice follow make-the-case's stop rule (stop after the first
+  round with no SHAPE finding; a fourth needs the founder's yes). A round that reverses an
+  earlier ruling stops the loop: measure the user's cost before another round (apm
+  2026-10-18, #189 B ran ten rounds; the last two chased rare writings while 17 of 21
+  hidden lines were innocent).
 - Test map, before every commit: list each changed source file beside what proves it, one
   of: a behaviour test (path, case name), a gate, or the compile line that refuses a
   missing row (`satisfies Record<...>`). A file holding logic that can be wrong (branches,
