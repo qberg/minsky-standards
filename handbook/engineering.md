@@ -89,7 +89,8 @@ compromise, not sequencing. Phasing scope is fine; phasing quality never is.
 Founder's word (apm #298, 2026-10-01): "elegance" and "delight" were words each agent filled in
 for itself, so they are defined here once, as things that can be counted or tested. A design is
 elegant when the next one to extend it, human or agent, cannot get it wrong; it is a delight when
-the person using it never waits, never gets lost, and never loses their place. The make-the-case
+the person using it never waits, never gets lost, never loses their place, and is given something no
+other product gave them. The make-the-case
 skill scores every design on these rows; a foundation block (a shape many features will use) is
 scored by a gated experiment whose pass marks are written before its first line of design code.
 The metrics were first proven, as copies, in apm `experiments/forms-answer-elegance` and
@@ -123,6 +124,7 @@ End user, one named person on a phone and a desktop:
 | U3 | Keeps their place | a refresh never drops typed text, focus, scroll, or a highlighted row without a visible reason | a gated test per surface |
 | U4 | Same bar everywhere | phone and desktop judged side by side | the founder's feel-gate |
 | U5 | Calm | motion within the repo's motion law; nothing flashes on a refresh | the founder's feel-gate |
+| U6 | Gifts | the surface names every thing the person gets that no reference product gives them, as many as earn their place and at least one, each drawn from what only this product knows (its records, their history, the assistant), each with the moment in their flow it serves; a gift no one would miss is cut, and two gifts never compete for one moment | the founder's feel-gate judges each named gift; a surface with none named fails (founder's word, apm 2026-10-23: "all of our pixels should be novel and well thought out and should serve a delightful purpose to the end user"; widened apm 2026-10-30: "why only one gift it should be as many as we can right?") |
 
 ## Writing law
 
