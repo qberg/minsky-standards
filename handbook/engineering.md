@@ -162,17 +162,9 @@ Every fact has exactly one home; it lands there the moment it's born.
 - Work items and status: the issue tracker. Owed work: `docs/agents/debts.md`.
 - Procedures: skills (the minsky marketplace). Mechanical rules: hooks/lint; a rule
   worth stating twice is worth a hook. Enforcement outranks documentation.
-- A skill earns its place, because every installed skill's description sits in every prompt
-  whether it is used or not (about 100 tokens each, Anthropic's Agent Skills overview). A
-  repeated job becomes a skill only when all five hold: it recurred in 3 or more sessions within
-  14 days; code was ruled out first (files that always change together are a one-step fix in the
-  code, never a skill teaching the workaround); its tokens saved per week exceed its standing
-  cost per week; a small test set shows it loads on its cases and stays quiet on look-alikes;
-  and it overlaps no existing skill. A skill no session loaded in 14 days, or whose job's tokens
-  did not fall after it landed, is proposed for removal at the next review, and a plugin with
-  no use in a repo is switched off there. The numbers decide admission and the founder sees the
-  list; removal is the founder's. Enforced by a repo's transcript miner, never by this text
-  (founder's word, apm 2026-10-18).
+- Skill admission and removal (the five tests, the 14-day review) live in
+  `handbook/engineering-skills.md`, which a repo loads by path; read it by hand before proposing,
+  adding or removing a skill.
 - Proven traps: `docs/agents/gotchas/`. State of play: `docs/agents/NOTES.md`,
   updated at session end (the wrap skill), pruned same-day when things ship.
 - Third-party mechanism facts are never stored, always looked up. One exception: a PINNED copy of
