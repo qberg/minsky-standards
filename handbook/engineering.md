@@ -165,6 +165,13 @@ Every fact has exactly one home; it lands there the moment it's born.
 - Skill admission and removal (the five tests, the 14-day review) live in
   `handbook/engineering-skills.md`, which a repo loads by path; read it by hand before proposing,
   adding or removing a skill.
+- Law loads by path (a `.claude/rules` file with `paths`) only when the files that need it sit inside
+  its globs. A rule about how code is written (a lock, a violation record, a transaction) is needed
+  wherever that code is written, so it stays always loaded or is globbed to its whole runtime, never
+  to file names: count the files using its key symbol outside the glob before moving it. The core
+  keeps one index line per moved chapter naming its home and when to read it by hand, because a
+  design talk touches no file. Proven in apm 2026-10-31: api.md globbed by file name missed 152 of
+  the 169 files that build a violation, so it stayed core.
 - Proven traps: `docs/agents/gotchas/`. State of play: `docs/agents/NOTES.md`,
   updated at session end (the wrap skill), pruned same-day when things ship.
 - Third-party mechanism facts are never stored, always looked up. One exception: a PINNED copy of
