@@ -10,7 +10,7 @@
     {
       "name": "minsky-web",
       "source": "./plugins/minsky-web",
-      "description": "Design-system and web-surface law: tribune-component two-gate authoring. For repos consuming the tribune DS."
+      "description": "Design-system and web-surface law: tribune-component two-gate authoring; charts and adopt-chart for a visx chart suite (repo parameters in docs/agents/charts.md). For repos consuming the tribune DS or building charts."
     },
     {
       "name": "minsky-vendored",

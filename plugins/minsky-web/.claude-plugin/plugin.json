@@ -1,7 +1,7 @@
 {
   "name": "minsky-web",
-  "description": "Minsky design-system and web-surface law. Skills: tribune-component (two-gate DS component authoring over the org tribune library). Hooks: no-jsx-ternaries (WARN on ternaries inside JSX; hoist branches, && presence is fine). Install in repos that consume the tribune design system.",
-  "version": "0.2.1",
+  "description": "Minsky design-system and web-surface law. Skills: tribune-component (two-gate DS component authoring over the org tribune library); charts (operating manual for a repo's visx chart suite: anatomy, API symmetry, motion, reach, verification, pitfalls; reads docs/agents/charts.md); adopt-chart (steal a reference kit's chart interaction design and rebuild it on the repo's visx suite). Hooks: no-jsx-ternaries (WARN on ternaries inside JSX; hoist branches, && presence is fine). Install in repos that consume the tribune design system or build charts on visx.",
+  "version": "0.3.0",
   "author": {
     "name": "Minsky"
   }

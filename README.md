@@ -32,7 +32,9 @@ petition-management).
   tribune DS. Skill `tribune-component`: two-gate DS authoring (API proposal, token
   map with frame-is-anatomy-not-a-ruler HITL, 3-tier tokens, cva/data-attrs). Org DS
   doctrine: ONE tribune library owns mechanics; a client brand = a token set, never a
-  fork.
+  fork. Skills `charts` and `adopt-chart`: the visx chart suite manual (engine visx 4, the
+  repo's chart component is the one home for hover, tip, keyboard and motion) and the
+  reference-kit port workflow; repo specifics live in the repo's `docs/agents/charts.md`.
 - `plugins/minsky-vendored`: 20 third-party skills vendored byte-identical
   (pruned 2026-08-22: dropped diagnosing-bugs, to-spec, to-tickets, implement,
   prototype, code-review, e2e-testing-patterns, ubiquitous-language as duplicates or
