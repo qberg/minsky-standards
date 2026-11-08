@@ -6,10 +6,11 @@ is_browser=$(jq -r '(.tool_name == "Skill" and .tool_input.skill == "agent-brows
 [ "$is_browser" = "true" ] || exit 0
 
 # A standing grant for one session: `scripts/browser-grant.sh <hours>` writes an expiry epoch under .git/.
-grant_file="$(git -C "${CLAUDE_PROJECT_DIR:-.}" rev-parse --git-dir 2>/dev/null)/browser-grant"
+# Absolute: a relative ".git" resolves against the command's cwd, so a `cd /tmp` missed the grant.
+grant_file="$(git -C "${CLAUDE_PROJECT_DIR:-.}" rev-parse --absolute-git-dir 2>/dev/null)/browser-grant"
 if [ -f "$grant_file" ] && [ "$(cat "$grant_file")" -gt "$(date +%s)" ]; then
   jq -n '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"allow",permissionDecisionReason:"Browser grant active for this session (scripts/browser-grant.sh)."}}'
   exit 0
 fi
 
-jq -n '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"ask",permissionDecisionReason:"Browser runs are the user'"'"'s (CLAUDE.md, user word 2026-09-14): hand them a numbered runbook and wait for what they saw. Open a browser only on their explicit word for this run."}}'
+jq -n '{hookSpecificOutput:{hookEventName:"PreToolUse",permissionDecision:"ask",permissionDecisionReason:"No browser grant is active for this repo. The user grants browser runs with scripts/browser-grant.sh <hours>; until then hand them a numbered runbook, or ask for their word on this run."}}'
